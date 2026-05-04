@@ -1463,7 +1463,7 @@ function render() {
 //  PHASE BUILDERS
 // ══════════════════════════════════════════════════
 function buildPersona(w) {
-  append(w, mk('p', 'eyebrow', '你今天是哪種上班族？'));
+  append(w, mk('p', 'eyebrow', '你今天是哪種心情/狀態？'));
 
   const list = mk('div', 'persona-list');
 
@@ -1471,14 +1471,14 @@ function buildPersona(w) {
     {
       id: 'busy',
       icon: '⚡',
-      name: '忙碌上班族',
+      name: '想簡單吃',
       desc: '時間有限，快速解決最重要',
-      tags: ['超商', '外帶', '快速', '一個人'],
+      tags: ['超商', '外帶', '快速', '輕便'],
     },
     {
       id: 'holiday',
       icon: '🥂',
-      name: '放假上班族',
+      name: '放假可以慢慢選',
       desc: '今天有時間，想吃點不一樣的',
       tags: ['內用', '排隊', '異國', '慢慢享受'],
     },
@@ -1507,8 +1507,8 @@ function buildPersona(w) {
 
 function buildInitial(w) {
   const PERSONA_META = {
-    busy:    { icon: '⚡', name: '忙碌上班族' },
-    holiday: { icon: '🥂', name: '放假上班族' },
+    busy:    { icon: '⚡', name: '想簡單吃' },
+    holiday: { icon: '🥂', name: '放假可以慢慢選' },
   };
   const pm = PERSONA_META[st.persona];
   if (pm) {
