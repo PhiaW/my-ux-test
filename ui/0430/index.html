@@ -24,6 +24,11 @@
       --sh-lg:      0 8px 32px rgba(28,15,10,.13);
       --r:          14px;
       --rs:         10px;
+      --fs-display: 32px;
+      --fs-title:   28px;
+      --fs-body:    18px;
+      --fs-label:   16px;
+      --fs-caption: 14px;
     }
 
     body {
@@ -55,14 +60,14 @@
 
     .app-title {
       font-family: 'Playfair Display', serif;
-      font-size: 30px;
+      font-size: var(--fs-display);
       font-weight: 700;
       letter-spacing: -.5px;
       line-height: 1.15;
     }
 
     .app-sub {
-      font-size: 13px;
+      font-size: var(--fs-label);
       font-weight: 300;
       color: var(--muted);
       letter-spacing: .3px;
@@ -104,7 +109,7 @@
 
     /* ── Shared label ──────────────────────────── */
     .eyebrow {
-      font-size: 15px;
+      font-size: var(--fs-body);
       font-weight: 500;
       letter-spacing: 1.8px;
       text-transform: uppercase;
@@ -136,19 +141,19 @@
 
     .cat-name {
       display: block;
-      font-size: 22px;
+      font-size: var(--fs-title);
       font-weight: 700;
     }
 
     .cat-hint {
       display: block;
-      font-size: 12px;
+      font-size: var(--fs-caption);
       font-weight: 300;
       color: var(--muted);
       margin-top: 3px;
     }
 
-    .cat-arr { font-size: 20px; color: var(--muted); opacity: .45; }
+    .cat-arr { font-size: var(--fs-body); color: var(--muted); opacity: .45; }
 
     /* ── Wheel ─────────────────────────────────── */
     .wheel-section {
@@ -159,7 +164,7 @@
     }
 
     .wheel-subtitle {
-      font-size: 13px;
+      font-size: var(--fs-label);
       color: var(--muted);
       font-weight: 400;
       text-align: center;
@@ -192,7 +197,7 @@
     }
 
     .spin-status {
-      font-size: 13px;
+      font-size: var(--fs-label);
       color: var(--muted);
       font-weight: 300;
       text-align: center;
@@ -224,9 +229,9 @@
     }
 
     .result-emoji { font-size: 44px; }
-    .result-name  { font-size: 30px; font-weight: 700; margin-top: 4px; }
+    .result-name  { font-size: var(--fs-display); font-weight: 700; margin-top: 4px; }
     .result-hint  {
-      font-size: 12px; color: var(--muted);
+      font-size: var(--fs-caption); color: var(--muted);
       font-weight: 300; font-style: italic;
     }
 
@@ -238,7 +243,7 @@
       background: var(--primary);
       color: white;
       border-radius: var(--rs);
-      font-size: 15px;
+      font-size: var(--fs-body);
       font-weight: 500;
       transition: background .2s ease;
       text-align: center;
@@ -251,7 +256,7 @@
       color: var(--muted);
       border: 1.5px solid var(--border);
       border-radius: var(--rs);
-      font-size: 14px;
+      font-size: var(--fs-label);
       font-weight: 400;
       transition: all .2s ease;
       text-align: center;
@@ -261,7 +266,7 @@
 
     /* ── Direction chooser ─────────────────────── */
     .dir-q {
-      font-size: 18px;
+      font-size: var(--fs-body);
       font-weight: 500;
       line-height: 1.55;
       color: var(--text);
@@ -293,8 +298,8 @@
 
     .dir-text { display: flex; flex-direction: column; gap: 2px; }
 
-    .dir-name { font-size: 16px; font-weight: 500; }
-    .dir-desc { font-size: 12px; font-weight: 300; color: var(--muted); }
+    .dir-name { font-size: var(--fs-body); font-weight: 500; }
+    .dir-desc { font-size: var(--fs-caption); font-weight: 300; color: var(--muted); }
 
     /* ── Final result ──────────────────────────── */
     .final-card {
@@ -310,7 +315,7 @@
     }
 
     .final-eyebrow {
-      font-size: 10px;
+      font-size: var(--fs-caption);
       letter-spacing: 2.5px;
       text-transform: uppercase;
       color: rgba(255,255,255,.6);
@@ -319,14 +324,14 @@
     .final-emoji { font-size: 54px; }
 
     .final-name {
-      font-size: 34px;
+      font-size: var(--fs-display);
       font-weight: 700;
       color: white;
       text-align: center;
     }
 
     .final-context {
-      font-size: 13px;
+      font-size: var(--fs-label);
       color: rgba(255,255,255,.7);
       font-weight: 300;
     }
@@ -338,7 +343,7 @@
       color: white;
       border: 1.5px solid rgba(255,255,255,.35);
       border-radius: 100px;
-      font-size: 14px;
+      font-size: var(--fs-label);
       font-weight: 400;
       transition: all .2s ease;
     }
@@ -347,7 +352,7 @@
 
     /* ── Back link ─────────────────────────────── */
     .back-link {
-      font-size: 13px;
+      font-size: var(--fs-label);
       color: var(--muted);
       cursor: pointer;
       width: fit-content;
@@ -360,7 +365,7 @@
     .btn-cantfind {
       padding: 14px 16px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: var(--fs-label);
       font-weight: 400;
       border: 1.5px dashed var(--border);
       border-radius: var(--rs);
@@ -392,14 +397,14 @@
     .cantfind-emoji { font-size: 44px; }
 
     .cantfind-title {
-      font-size: 20px;
+      font-size: var(--fs-title);
       font-weight: 700;
       color: var(--text);
       margin-top: 4px;
     }
 
     .cantfind-msg {
-      font-size: 14px;
+      font-size: var(--fs-label);
       font-weight: 300;
       color: var(--muted);
       line-height: 1.6;
@@ -423,13 +428,13 @@
     .exhausted-emoji { font-size: 52px; }
 
     .exhausted-title {
-      font-size: 22px;
+      font-size: var(--fs-title);
       font-weight: 700;
       color: var(--text);
     }
 
     .exhausted-msg {
-      font-size: 15px;
+      font-size: var(--fs-body);
       font-weight: 300;
       color: var(--muted);
       line-height: 1.7;
@@ -442,7 +447,7 @@
       color: var(--text);
       border: 1.5px solid var(--border);
       border-radius: 100px;
-      font-size: 14px;
+      font-size: var(--fs-label);
       font-weight: 500;
       transition: all .2s ease;
     }
@@ -461,7 +466,7 @@
       color: white;
       border: 1.5px solid rgba(255,255,255,.45);
       border-radius: var(--rs);
-      font-size: 14px;
+      font-size: var(--fs-label);
       font-weight: 500;
       transition: background .2s ease;
     }
@@ -489,7 +494,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .finding-text {
-      font-size: 15px;
+      font-size: var(--fs-body);
       font-weight: 300;
       color: var(--muted);
       text-align: center;
@@ -509,14 +514,14 @@
     }
 
     .nearby-reminder-label {
-      font-size: 12px;
+      font-size: var(--fs-caption);
       font-weight: 400;
       color: var(--muted);
       flex-shrink: 0;
     }
 
     .nearby-reminder-food {
-      font-size: 16px;
+      font-size: var(--fs-body);
       font-weight: 700;
       color: var(--primary);
     }
@@ -560,19 +565,19 @@
     }
 
     .maps-search-title {
-      font-size: 16px;
+      font-size: var(--fs-body);
       font-weight: 600;
       color: var(--text);
     }
 
     .maps-search-sub {
-      font-size: 12px;
+      font-size: var(--fs-caption);
       font-weight: 300;
       color: var(--muted);
     }
 
     .maps-search-arrow {
-      font-size: 20px;
+      font-size: var(--fs-body);
       color: var(--muted);
       flex-shrink: 0;
     }
@@ -835,7 +840,7 @@ function drawWheel(canvas, items, rot) {
     ctx.rotate(a0 + seg / 2);
     ctx.textAlign = 'right';
     ctx.fillStyle = '#2C1810';
-    const fs = Math.max(10, Math.min(13, R * 0.11));
+    const fs = Math.max(12, Math.min(14, R * 0.115));
     ctx.font = `${fs}px 'Noto Sans TC', sans-serif`;
     ctx.fillText(item.name, R - 10, fs / 3);
     ctx.restore();
@@ -864,21 +869,65 @@ function spinWheel(canvas, items, onDone) {
   let delta    = tgtMod - curMod;
   if (delta < 0) delta += Math.PI * 2;
 
-  const extra     = (5 + Math.floor(Math.random() * 4)) * Math.PI * 2;
+  const extra      = (5 + Math.floor(Math.random() * 4)) * Math.PI * 2;
   const totalDelta = extra + delta;
-  const startRot  = wheelRot;
-  const endRot    = wheelRot + totalDelta;
-  const dur       = 3600 + Math.random() * 900;
-  const t0        = performance.now();
+  const startRot   = wheelRot;
+  const endRot     = wheelRot + totalDelta;
+  const dur        = 3600 + Math.random() * 900;
+  const t0         = performance.now();
+
+  let stopRequested = false;
+
+  // Snap to nearest segment then call onDone
+  function snapToNearest() {
+    canvas.style.cursor = '';
+    const TWO_PI     = Math.PI * 2;
+    const nearestIdx = Math.floor((((-wheelRot) % TWO_PI) + TWO_PI) % TWO_PI / segRad) % N;
+    const targetBase = -(nearestIdx + 0.5) * segRad;
+    let snapDelta    = ((targetBase - wheelRot) % TWO_PI + TWO_PI) % TWO_PI;
+    if (snapDelta > Math.PI) snapDelta -= TWO_PI; // take shorter path
+
+    const snapStart = wheelRot;
+    const snapDur   = 450;
+    const snapT0    = performance.now();
+
+    function snapTick(t) {
+      const sp = Math.min((t - snapT0) / snapDur, 1);
+      const se = 1 - Math.pow(1 - sp, 3); // ease-out cubic
+      wheelRot = snapStart + snapDelta * se;
+      drawWheel(canvas, items, wheelRot);
+      if (sp < 1) {
+        wheelRaf = requestAnimationFrame(snapTick);
+      } else {
+        wheelRot = snapStart + snapDelta;
+        onDone(nearestIdx);
+      }
+    }
+    wheelRaf = requestAnimationFrame(snapTick);
+  }
+
+  function handleClick() { stopRequested = true; }
+  canvas.addEventListener('click', handleClick, { once: true });
+  canvas.style.cursor = 'pointer';
 
   function tick(now) {
     const p = Math.min((now - t0) / dur, 1);
+
+    // User clicked and animation is not in its final decel phase
+    if (stopRequested && p < 0.9) {
+      if (wheelRaf) { cancelAnimationFrame(wheelRaf); wheelRaf = null; }
+      snapToNearest();
+      return;
+    }
+
     const e = 1 - Math.pow(1 - p, 4); // ease-out quart
     wheelRot = startRot + totalDelta * e;
     drawWheel(canvas, items, wheelRot);
     if (p < 1) {
       wheelRaf = requestAnimationFrame(tick);
     } else {
+      canvas.removeEventListener('click', handleClick);
+      canvas.style.cursor = '';
       wheelRot = endRot;
       onDone(target);
     }
@@ -990,7 +1039,7 @@ function buildSpin(w, isSecond) {
   frame.appendChild(ptr);
   frame.appendChild(cnv);
 
-  const status = mk('p', 'spin-status', '命運的齒輪正在轉動⋯');
+  const status = mk('p', 'spin-status', '命運的齒輪正在轉動，點一下可停止⋯');
 
   section.appendChild(sub);
   section.appendChild(frame);
