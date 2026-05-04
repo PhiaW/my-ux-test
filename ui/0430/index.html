@@ -500,8 +500,8 @@
     }
 
     .btn-calm {
-      margin-top: 8px;
-      padding: 14px 32px;
+      flex: 1;
+      padding: 14px 16px;
       background: var(--bg);
       color: var(--text);
       border: 1.5px solid var(--border);
@@ -514,6 +514,124 @@
     .btn-calm:hover {
       border-color: var(--primary);
       color: var(--primary);
+    }
+
+    /* ── Exhausted buttons row ──────────────────── */
+    .exhausted-btns {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .btn-blind {
+      flex: 1;
+      padding: 14px 16px;
+      background: var(--primary);
+      color: var(--on-primary);
+      border-radius: 100px;
+      font-size: var(--fs-label);
+      font-weight: 700;
+      transition: all .2s ease;
+    }
+
+    .btn-blind:hover {
+      background: var(--primary-hv);
+      transform: translateY(-2px);
+      box-shadow: var(--sh);
+    }
+
+    /* ── Blind challenge screen ─────────────────── */
+    .blind-title {
+      font-size: var(--fs-title);
+      font-weight: 700;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .blind-sub {
+      font-size: var(--fs-body);
+      font-weight: 300;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .blind-chests {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .blind-chest {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 20px 12px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--r);
+      cursor: pointer;
+      flex: 1;
+      min-width: 0;
+      transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease, opacity .3s ease;
+      user-select: none;
+    }
+
+    .blind-chest:hover:not(.dimmed) {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: var(--sh-lg);
+    }
+
+    .blind-chest.revealed {
+      border-color: var(--primary);
+      background: var(--primary-lt);
+      animation: chest-pop .3s ease;
+    }
+
+    @keyframes chest-pop {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .blind-chest.dimmed {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .chest-icon { font-size: 40px; }
+
+    .chest-q {
+      font-size: var(--fs-label);
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+
+    .chest-name {
+      font-size: var(--fs-caption);
+      font-weight: 700;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .blind-confirm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .blind-confirm-msg {
+      font-size: var(--fs-body);
+      font-weight: 500;
+      color: var(--text);
+      text-align: center;
     }
 
     /* ── Find nearby button (inside final-card) ── */
@@ -1108,6 +1226,7 @@ const S = {
   PERSONA:   'PERSONA',
   INITIAL:   'INITIAL',
   SPIN1:     'SPIN1',
+  BLIND:     'BLIND',
   RESULT1:   'RESULT1',
   ASK_DIR:   'ASK_DIR',
   SPIN2:     'SPIN2',
@@ -1118,7 +1237,7 @@ const S = {
   CANT_FIND:  'CANT_FIND',
 };
 
-const MAX_TANTRUMS = 3;
+const MAX_TANTRUMS = 2;
 
 
 let st = {
@@ -1130,6 +1249,7 @@ let st = {
   result2:      null,
   tantrumCount: 0,
   nearbyResult: null,
+  blindPicks:   null,
 };
 
 // ══════════════════════════════════════════════════
@@ -1293,6 +1413,7 @@ function render() {
     [S.ASK_DIR]:   2, [S.SPIN2]: 2,
     [S.RESULT2]:   3,
     [S.EXHAUSTED]: 0,
+    [S.BLIND]:     0,
     [S.FINDING]:   3,
     [S.NEARBY]:    3,
     [S.CANT_FIND]: st.tantrumCount > 0 ? 2 : 1,
@@ -1326,6 +1447,7 @@ function render() {
     case S.SPIN2:     buildSpin(scene, true);  break;
     case S.RESULT2:   buildResult2(scene);    break;
     case S.EXHAUSTED: buildExhausted(scene);  break;
+    case S.BLIND:     buildBlind(scene);      break;
     case S.FINDING:   buildFinding(scene);    break;
     case S.NEARBY:    buildNearby(scene);     break;
     case S.CANT_FIND: buildCantFind(scene);   break;
@@ -1612,21 +1734,87 @@ function buildResult2(w) {
 
 function buildExhausted(w) {
   const card = mk('div', 'exhausted-card');
-  card.innerHTML = `
+
+  const info = mk('div');
+  info.innerHTML = `
     <div class="exhausted-emoji">😮‍💨</div>
     <div class="exhausted-title">我沒招了</div>
-    <div class="exhausted-msg">你先去冷靜一下<br>再回來選 QQ</div>
-    <button class="btn-calm" id="calm-btn">好⋯我冷靜了</button>`;
+    <div class="exhausted-msg">你先去冷靜一下<br>再回來選 QQ</div>`;
 
+  const btns = mk('div', 'exhausted-btns');
+
+  const calmBtn = mk('button', 'btn-calm', '好⋯我冷靜了');
+  calmBtn.addEventListener('click', () => {
+    st = { phase: S.INITIAL, persona: st.persona, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null, blindPicks: null };
+    wheelRot = 0;
+    render();
+  });
+
+  const blindBtn = mk('button', 'btn-blind', '🎁 盲選挑戰');
+  blindBtn.addEventListener('click', () => {
+    st.blindPicks = null;
+    st.phase = S.BLIND;
+    render();
+  });
+
+  btns.appendChild(calmBtn);
+  btns.appendChild(blindBtn);
+
+  card.appendChild(info);
+  card.appendChild(btns);
   append(w, card);
+}
 
-  afterDraw = () => {
-    document.getElementById('calm-btn')?.addEventListener('click', () => {
-      st = { phase: S.INITIAL, persona: st.persona, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
-      wheelRot = 0;
-      render();
+function buildBlind(w) {
+  const data = currentData();
+  const allItems = Object.values(data).flatMap(cat => cat.items);
+
+  if (!st.blindPicks) {
+    st.blindPicks = [...allItems].sort(() => Math.random() - 0.5).slice(0, 3);
+  }
+  const picks = st.blindPicks;
+
+  const title = mk('div', 'blind-title', '命運三選一');
+  const sub   = mk('div', 'blind-sub', '點開寶箱，就是你的，不准後悔');
+
+  const chests = mk('div', 'blind-chests');
+
+  const confirmArea = mk('div', 'blind-confirm');
+  confirmArea.style.display = 'none';
+  const confirmMsg = mk('div', 'blind-confirm-msg');
+  const goBtn = mk('button', 'btn-main', '命運已定，去吃吧！');
+  confirmArea.appendChild(confirmMsg);
+  confirmArea.appendChild(goBtn);
+
+  picks.forEach(item => {
+    const chest = mk('div', 'blind-chest');
+    chest.innerHTML = `<div class="chest-icon">🎁</div><div class="chest-q">？？？</div>`;
+
+    chest.addEventListener('click', () => {
+      chest.innerHTML = `<div class="chest-icon">${item.emoji}</div><div class="chest-name">${item.name}</div>`;
+      chest.classList.add('revealed');
+
+      chests.querySelectorAll('.blind-chest:not(.revealed)').forEach(c => {
+        c.classList.add('dimmed');
+      });
+
+      st.result2 = item;
+      confirmMsg.textContent = `就決定是「${item.name}」了！`;
+      confirmArea.style.display = 'flex';
+
+      goBtn.onclick = () => {
+        st.phase = S.RESULT2;
+        render();
+      };
     });
-  };
+
+    chests.appendChild(chest);
+  });
+
+  append(w, title);
+  append(w, sub);
+  append(w, chests);
+  append(w, confirmArea);
 }
 
 function buildCantFind(w) {
