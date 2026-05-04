@@ -639,6 +639,109 @@
 
     /* ── Util: stack ───────────────────────────── */
     .stack { display: flex; flex-direction: column; gap: 12px; }
+
+    /* ── Persona selection ─────────────────────── */
+    .persona-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .persona-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 18px;
+      padding: 24px 20px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      text-align: left;
+      transition: all .25s ease;
+    }
+
+    .persona-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: var(--sh-lg);
+    }
+
+    .persona-btn:active { transform: translateY(0); }
+
+    .persona-icon {
+      font-size: 32px;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-lt);
+      border-radius: 16px;
+      flex-shrink: 0;
+    }
+
+    .persona-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .persona-name {
+      font-size: var(--fs-body);
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .persona-desc {
+      font-size: var(--fs-caption);
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .persona-tags {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .persona-tag {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--primary);
+      background: var(--primary-lt);
+      padding: 2px 10px;
+      border-radius: 100px;
+    }
+
+    /* ── Persona indicator bar (INITIAL screen) ── */
+    .persona-indicator {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--primary-lt);
+      border-radius: var(--rs);
+      margin-bottom: 4px;
+    }
+
+    .persona-indicator-icon { font-size: 16px; }
+
+    .persona-indicator-text {
+      font-size: var(--fs-caption);
+      font-weight: 600;
+      color: var(--on-primary);
+    }
+
+    .switch-persona {
+      font-size: var(--fs-caption);
+      color: var(--muted);
+      cursor: pointer;
+      margin-left: auto;
+      transition: color .2s;
+    }
+
+    .switch-persona:hover { color: var(--text); }
   </style>
 </head>
 <body>
@@ -663,164 +766,160 @@
 
 <script>
 // ══════════════════════════════════════════════════
-//  DATA
+//  DATA — 忙碌上班族（超商 / 外帶 / 快速）
 // ══════════════════════════════════════════════════
-const DATA = {
+const DATA_BUSY = {
   午餐: {
-    hint: '中午該吃什麼呢',
+    hint: '快點選快點吃快點回去工作',
     items: [
-      { name:'便當',  emoji:'🍱' }, { name:'乾麵',  emoji:'🍜' },
-      { name:'三明治',emoji:'🥪' }, { name:'炒飯',  emoji:'🍳' },
-      { name:'水餃',  emoji:'🥟' }, { name:'拉麵',  emoji:'🍥' },
-      { name:'滷肉飯',emoji:'🍚' }, { name:'漢堡',  emoji:'🍔' },
+      { name:'便當',   emoji:'🍱' }, { name:'滷肉飯', emoji:'🍚' },
+      { name:'水餃',   emoji:'🥟' }, { name:'三明治', emoji:'🥪' },
+      { name:'乾麵',   emoji:'🍜' }, { name:'漢堡',   emoji:'🍔' },
+      { name:'飯糰',   emoji:'🍙' }, { name:'炒飯',   emoji:'🍳' },
     ],
     dirs: [
       {
-        name:'熱呼呼的', desc:'暖胃、湯湯水水', icon:'☕',
+        name:'5分鐘解決', desc:'超快、不等待', icon:'⚡',
         items:[
-          {name:'湯麵',emoji:'🍜'},{name:'排骨湯飯',emoji:'🍱'},
-          {name:'鍋燒意麵',emoji:'🍜'},{name:'牛肉湯麵',emoji:'🐄'},
-          {name:'廣東粥',emoji:'🥣'},{name:'酸菜魚湯麵',emoji:'🐟'},
-          {name:'雞腿湯飯',emoji:'🍗'},
+          {name:'超商便當',emoji:'🍱'},{name:'飯糰',emoji:'🍙'},
+          {name:'肉包',emoji:'🥟'},{name:'麵包',emoji:'🍞'},
+          {name:'關東煮',emoji:'🍢'},{name:'御飯糰',emoji:'🍙'},
         ]
       },
       {
-        name:'酸辣開胃', desc:'刺激感、夠味', icon:'🌶️',
+        name:'外送到位', desc:'等餐時間繼續工作', icon:'🛵',
         items:[
-          {name:'麻辣燙',emoji:'🌶️'},{name:'酸辣湯麵',emoji:'🥣'},
-          {name:'涼拌米線',emoji:'🍝'},{name:'泰式炒河粉',emoji:'🍜'},
-          {name:'辣雞排飯',emoji:'🍗'},
+          {name:'滷肉飯',emoji:'🍚'},{name:'雞腿便當',emoji:'🍱'},
+          {name:'牛肉麵',emoji:'🍜'},{name:'炒飯',emoji:'🍳'},
+          {name:'日式定食',emoji:'🍱'},{name:'拉麵',emoji:'🍥'},
         ]
       },
       {
-        name:'清爽負擔小', desc:'輕食、不會太撐', icon:'🥗',
-        items:[
-          {name:'沙拉碗',emoji:'🥗'},{name:'清爽涼麵',emoji:'🍜'},
-          {name:'日式定食',emoji:'🍱'},{name:'輕食三明治',emoji:'🥪'},
-          {name:'越式春捲',emoji:'🫔'},{name:'雞肉飯糰',emoji:'🍙'},
-        ]
-      },
-      {
-        name:'飽足感十足', desc:'吃飽才有力氣', icon:'💪',
+        name:'飽足感強', desc:'撐到下班不喊餓', icon:'💪',
         items:[
           {name:'排骨飯',emoji:'🍖'},{name:'控肉飯',emoji:'🍚'},
-          {name:'大份拉麵',emoji:'🍥'},{name:'漢堡排飯',emoji:'🍔'},
-          {name:'肉燥飯',emoji:'🍚'},
+          {name:'大碗乾麵',emoji:'🍜'},{name:'水餃',emoji:'🥟'},
+          {name:'燒肉飯',emoji:'🥩'},
         ]
       },
       {
-        name:'異國風情', desc:'換換口味、出走日常', icon:'🌍',
+        name:'清爽好消化', desc:'下午不昏沉', icon:'🥗',
         items:[
-          {name:'咖哩飯',emoji:'🍛'},{name:'韓式拌飯',emoji:'🍲'},
-          {name:'日式炸豬排飯',emoji:'🍱'},{name:'泰式打拋豬',emoji:'🌶️'},
-          {name:'照燒雞腿飯',emoji:'🍗'},{name:'星洲炒米粉',emoji:'🍜'},
-          {name:'越式法國麵包',emoji:'🥖'},
+          {name:'沙拉碗',emoji:'🥗'},{name:'涼麵',emoji:'🍜'},
+          {name:'日式定食',emoji:'🍱'},{name:'輕食三明治',emoji:'🥪'},
+          {name:'蔬食便當',emoji:'🍱'},
+        ]
+      },
+      {
+        name:'一個人剛好', desc:'不用等位、不尷尬', icon:'🎯',
+        items:[
+          {name:'丼飯',emoji:'🍚'},{name:'乾麵',emoji:'🍜'},
+          {name:'便當',emoji:'🍱'},{name:'滷味',emoji:'🍢'},
+          {name:'麵線',emoji:'🍜'},{name:'咖哩飯',emoji:'🍛'},
         ]
       },
     ],
   },
 
   點心: {
-    hint: '來點什麼小確幸',
+    hint: '補充能量、繼續拼',
     items: [
-      { name:'飯糰',  emoji:'🍙' }, { name:'豆花',  emoji:'🍮' },
-      { name:'雞排',  emoji:'🍗' }, { name:'珍奶',  emoji:'🧋' },
-      { name:'章魚燒',emoji:'🐙' }, { name:'鬆餅',  emoji:'🧇' },
-      { name:'芋圓',  emoji:'🍡' }, { name:'蛋餅',  emoji:'🥚' },
+      { name:'超商咖啡', emoji:'☕' }, { name:'珍奶',   emoji:'🧋' },
+      { name:'飯糰',    emoji:'🍙' }, { name:'雞排',   emoji:'🍗' },
+      { name:'能量棒',  emoji:'🍫' }, { name:'優格',   emoji:'🍶' },
+      { name:'鬆餅',   emoji:'🧇' }, { name:'蘋果派', emoji:'🥧' },
     ],
     dirs: [
       {
-        name:'熱呼呼的', desc:'剛出爐、暖在手', icon:'🔥',
+        name:'咖啡因入場', desc:'馬上清醒繼續戰', icon:'☕',
         items:[
-          {name:'熱湯圓',emoji:'🍡'},{name:'紅豆湯',emoji:'🫘'},
-          {name:'烤番薯',emoji:'🍠'},{name:'煎餅',emoji:'🥞'},
-          {name:'芋泥麻糬',emoji:'🍡'},{name:'地瓜球',emoji:'🟡'},
+          {name:'美式咖啡',emoji:'☕'},{name:'拿鐵',emoji:'☕'},
+          {name:'手沖咖啡',emoji:'☕'},{name:'超商咖啡',emoji:'☕'},
+          {name:'冷萃咖啡',emoji:'🧋'},
         ]
       },
       {
-        name:'酸辣解饞', desc:'重口味、夠刺激', icon:'🌶️',
+        name:'快速補血', desc:'馬上有飽足感', icon:'⚡',
         items:[
-          {name:'鹹酥雞',emoji:'🍗'},{name:'臭豆腐',emoji:'🫘'},
-          {name:'辣味泡麵',emoji:'🍜'},{name:'甜不辣',emoji:'🍢'},
-          {name:'涼拌小菜',emoji:'🥬'},
+          {name:'飯糰',emoji:'🍙'},{name:'三角飯糰',emoji:'🍙'},
+          {name:'麵包',emoji:'🍞'},{name:'肉包',emoji:'🥟'},
+          {name:'能量棒',emoji:'🍫'},{name:'起司蛋糕',emoji:'🍰'},
         ]
       },
       {
-        name:'清爽甜一下', desc:'甜而不膩、消暑', icon:'🧊',
+        name:'甜甜撐下去', desc:'讓大腦快樂一下', icon:'🍬',
         items:[
-          {name:'仙草凍',emoji:'🌿'},{name:'水果切盤',emoji:'🍉'},
-          {name:'檸檬愛玉',emoji:'🍋'},{name:'綠豆湯',emoji:'🍵'},
-          {name:'粉粿',emoji:'🟡'},{name:'椰果奶凍',emoji:'🥥'},
-          {name:'芋圓冰',emoji:'🍡'},
+          {name:'巧克力',emoji:'🍫'},{name:'布丁',emoji:'🍮'},
+          {name:'鬆餅',emoji:'🧇'},{name:'超商蛋糕',emoji:'🍰'},
+          {name:'糖果',emoji:'🍬'},
         ]
       },
       {
-        name:'鹹香酥脆', desc:'解嘴饞、停不下來', icon:'🧂',
+        name:'鹹食解饞', desc:'重口味才夠爽', icon:'🧂',
         items:[
-          {name:'薯條',emoji:'🍟'},{name:'爆米花',emoji:'🍿'},
-          {name:'炸雞塊',emoji:'🍗'},{name:'地瓜球',emoji:'🟡'},
-          {name:'米餅',emoji:'🍘'},{name:'起司薯餅',emoji:'🧀'},
+          {name:'薯條',emoji:'🍟'},{name:'雞排',emoji:'🍗'},
+          {name:'鹹酥雞',emoji:'🍗'},{name:'甜不辣',emoji:'🍢'},
+          {name:'鍋貼',emoji:'🥟'},
         ]
       },
       {
-        name:'甜蜜補糖分', desc:'讓大腦快樂一下', icon:'🍬',
+        name:'健康清爽', desc:'罪惡感低一點', icon:'🌿',
         items:[
-          {name:'甜甜圈',emoji:'🍩'},{name:'泡芙',emoji:'🍮'},
-          {name:'起司蛋糕',emoji:'🍰'},{name:'布丁',emoji:'🍮'},
-          {name:'馬卡龍',emoji:'🌸'},{name:'提拉米蘇',emoji:'☕'},
-          {name:'法式吐司',emoji:'🍞'},
+          {name:'優格',emoji:'🍶'},{name:'水果',emoji:'🍎'},
+          {name:'堅果棒',emoji:'🌰'},{name:'輕食沙拉',emoji:'🥗'},
+          {name:'無糖豆漿',emoji:'🥛'},
         ]
       },
     ],
   },
 
   晚餐: {
-    hint: '今晚要犒賞自己嗎',
+    hint: '下班了！快去吃飯',
     items: [
-      { name:'火鍋',   emoji:'🍲' }, { name:'壽司',   emoji:'🍣' },
-      { name:'牛肉麵', emoji:'🍜' }, { name:'燒烤',   emoji:'🥩' },
-      { name:'韓式料理',emoji:'🫕' }, { name:'義大利麵',emoji:'🍝' },
-      { name:'炸物',   emoji:'🍟' }, { name:'熱炒',   emoji:'🍳' },
+      { name:'便當',   emoji:'🍱' }, { name:'牛肉麵', emoji:'🍜' },
+      { name:'水餃',   emoji:'🥟' }, { name:'雞腿飯', emoji:'🍗' },
+      { name:'炒飯',   emoji:'🍳' }, { name:'麵線',   emoji:'🍜' },
+      { name:'爌肉飯', emoji:'🍚' }, { name:'涼麵',   emoji:'🍜' },
     ],
     dirs: [
       {
-        name:'熱呼呼的', desc:'暖身、圍爐感', icon:'♨️',
+        name:'快快結束回家', desc:'10分鐘搞定', icon:'🏃',
         items:[
-          {name:'火鍋',emoji:'🍲'},{name:'砂鍋',emoji:'🥘'},
-          {name:'薑母鴨',emoji:'🦆'},{name:'羊肉爐',emoji:'🐑'},
-          {name:'燉湯',emoji:'🍵'},
+          {name:'便當',emoji:'🍱'},{name:'水餃',emoji:'🥟'},
+          {name:'麵線',emoji:'🍜'},{name:'滷肉飯',emoji:'🍚'},
+          {name:'涼麵',emoji:'🍜'},{name:'超商便當',emoji:'🍱'},
         ]
       },
       {
-        name:'酸辣有勁', desc:'刺激、夠味', icon:'🌶️',
+        name:'外帶回家', desc:'回家邊看劇邊吃', icon:'🛍️',
         items:[
-          {name:'泰式料理',emoji:'🌶️'},{name:'麻辣鍋',emoji:'🌡️'},
-          {name:'部隊鍋',emoji:'🍲'},{name:'酸辣海鮮',emoji:'🦐'},
-          {name:'椒麻雞',emoji:'🍗'},
+          {name:'炒飯',emoji:'🍳'},{name:'排骨飯',emoji:'🍖'},
+          {name:'牛肉麵',emoji:'🍜'},{name:'雞腿便當',emoji:'🍱'},
+          {name:'控肉飯',emoji:'🍚'},
         ]
       },
       {
-        name:'清爽好消化', desc:'低油、輕盈', icon:'🌿',
+        name:'解壓飽餐', desc:'今天辛苦了，吃飽', icon:'😮‍💨',
         items:[
-          {name:'壽司',emoji:'🍣'},{name:'日式定食',emoji:'🍱'},
-          {name:'清蒸海鮮',emoji:'🐟'},{name:'沙拉吧',emoji:'🥗'},
-          {name:'豆腐料理',emoji:'⬜'},
+          {name:'爌肉飯',emoji:'🍚'},{name:'大碗牛肉麵',emoji:'🍜'},
+          {name:'羊肉爐',emoji:'🐑'},{name:'炸豬排飯',emoji:'🍱'},
+          {name:'燒烤',emoji:'🥩'},
         ]
       },
       {
-        name:'豐盛好享受', desc:'今天值得犒賞自己', icon:'🎉',
+        name:'一個人享受', desc:'不用配合任何人', icon:'🎧',
         items:[
-          {name:'燒烤',emoji:'🥩'},{name:'鐵板燒',emoji:'🥩'},
-          {name:'壽喜燒',emoji:'🫕'},{name:'炭烤牛排',emoji:'🥩'},
-          {name:'生魚片定食',emoji:'🍣'},
+          {name:'拉麵',emoji:'🍥'},{name:'丼飯',emoji:'🍚'},
+          {name:'烏龍麵',emoji:'🍜'},{name:'蛋包飯',emoji:'🍳'},
+          {name:'咖哩飯',emoji:'🍛'},
         ]
       },
       {
-        name:'異國料理', desc:'環遊世界不用出門', icon:'🌍',
+        name:'超商就夠了', desc:'不想出門的選擇', icon:'🏪',
         items:[
-          {name:'義大利料理',emoji:'🍝'},{name:'印度咖哩',emoji:'🍛'},
-          {name:'越南料理',emoji:'🍜'},{name:'西班牙料理',emoji:'🫕'},
-          {name:'墨西哥料理',emoji:'🌮'},
+          {name:'泡麵',emoji:'🍜'},{name:'微波便當',emoji:'🍱'},
+          {name:'關東煮',emoji:'🍢'},{name:'茶葉蛋',emoji:'🥚'},
+          {name:'肉包',emoji:'🥟'},{name:'雞腿',emoji:'🍗'},
         ]
       },
     ],
@@ -828,9 +927,179 @@ const DATA = {
 };
 
 // ══════════════════════════════════════════════════
+//  DATA — 放假上班族（內用 / 排隊 / 異國）
+// ══════════════════════════════════════════════════
+const DATA_HOLIDAY = {
+  午餐: {
+    hint: '今天可以慢慢選，不急',
+    items: [
+      { name:'義大利麵', emoji:'🍝' }, { name:'壽司',   emoji:'🍣' },
+      { name:'咖哩飯',  emoji:'🍛' }, { name:'拉麵',   emoji:'🍥' },
+      { name:'泰式料理',emoji:'🌶️' }, { name:'韓式料理',emoji:'🫕' },
+      { name:'燉飯',   emoji:'🍚' }, { name:'漢堡排',  emoji:'🍔' },
+    ],
+    dirs: [
+      {
+        name:'網美打卡', desc:'環境好看、食物好拍', icon:'📸',
+        items:[
+          {name:'輕食沙拉碗',emoji:'🥗'},{name:'酪梨吐司',emoji:'🥑'},
+          {name:'班尼迪克蛋',emoji:'🍳'},{name:'法式薄餅',emoji:'🥞'},
+          {name:'鬆餅套餐',emoji:'🧇'},{name:'三明治套餐',emoji:'🥪'},
+          {name:'燉飯',emoji:'🍚'},
+        ]
+      },
+      {
+        name:'排隊名店', desc:'值得等的那種好吃', icon:'⏳',
+        items:[
+          {name:'拉麵',emoji:'🍥'},{name:'壽司',emoji:'🍣'},
+          {name:'牛肉麵',emoji:'🍜'},{name:'義大利麵',emoji:'🍝'},
+          {name:'韓式料理',emoji:'🫕'},{name:'港式飲茶',emoji:'🫖'},
+        ]
+      },
+      {
+        name:'異國探索', desc:'環遊世界的感覺', icon:'🌍',
+        items:[
+          {name:'越南料理',emoji:'🍜'},{name:'印度咖哩',emoji:'🍛'},
+          {name:'泰式料理',emoji:'🌶️'},{name:'西班牙料理',emoji:'🫕'},
+          {name:'墨西哥料理',emoji:'🌮'},{name:'土耳其料理',emoji:'🥙'},
+          {name:'地中海料理',emoji:'🫒'},
+        ]
+      },
+      {
+        name:'悠閒慢慢吃', desc:'不趕時間的享受', icon:'☀️',
+        items:[
+          {name:'日式定食',emoji:'🍱'},{name:'韓式石鍋拌飯',emoji:'🍲'},
+          {name:'港式早午餐',emoji:'🍳'},{name:'台式辦桌料理',emoji:'🥘'},
+          {name:'越式法國麵包',emoji:'🥖'},
+        ]
+      },
+      {
+        name:'豐盛大享受', desc:'今天不省錢', icon:'🎉',
+        items:[
+          {name:'鐵板燒',emoji:'🥩'},{name:'和牛套餐',emoji:'🥩'},
+          {name:'海鮮拼盤',emoji:'🦞'},{name:'生魚片定食',emoji:'🍣'},
+          {name:'法式料理',emoji:'🥂'},
+        ]
+      },
+    ],
+  },
+
+  點心: {
+    hint: '今天的點心要認真一點',
+    items: [
+      { name:'甜甜圈', emoji:'🍩' }, { name:'可頌',    emoji:'🥐' },
+      { name:'提拉米蘇',emoji:'☕'},  { name:'馬卡龍',  emoji:'🌸' },
+      { name:'芋泥球', emoji:'🍡' }, { name:'鬆餅',    emoji:'🧇' },
+      { name:'司康',   emoji:'🫖' }, { name:'巴斯克',  emoji:'🍰' },
+    ],
+    dirs: [
+      {
+        name:'網美咖啡廳', desc:'拍完才能吃', icon:'📸',
+        items:[
+          {name:'拉花咖啡',emoji:'☕'},{name:'蛋糕套餐',emoji:'🍰'},
+          {name:'鬆餅疊疊樂',emoji:'🧇'},{name:'甜甜圈',emoji:'🍩'},
+          {name:'冰淇淋杯',emoji:'🍦'},{name:'水果塔',emoji:'🍮'},
+        ]
+      },
+      {
+        name:'日式甜點', desc:'精緻、用料講究', icon:'🎌',
+        items:[
+          {name:'抹茶提拉米蘇',emoji:'🍵'},{name:'和菓子',emoji:'🌸'},
+          {name:'大福',emoji:'🍡'},{name:'芋圓',emoji:'🍡'},
+          {name:'日式戚風',emoji:'🍰'},{name:'草莓大福',emoji:'🍓'},
+          {name:'蕨餅',emoji:'🌿'},
+        ]
+      },
+      {
+        name:'台灣傳統甜點', desc:'古早味最暖心', icon:'🏮',
+        items:[
+          {name:'豆花',emoji:'🍮'},{name:'湯圓',emoji:'🍡'},
+          {name:'仙草奶凍',emoji:'🌿'},{name:'紅豆湯',emoji:'🫘'},
+          {name:'芋泥球',emoji:'🍡'},{name:'粉粿',emoji:'🟡'},
+          {name:'麻糬',emoji:'🍡'},
+        ]
+      },
+      {
+        name:'歐式烘焙', desc:'剛出爐的香氣', icon:'🥐',
+        items:[
+          {name:'可頌',emoji:'🥐'},{name:'司康',emoji:'🫖'},
+          {name:'法式千層',emoji:'🍰'},{name:'泡芙',emoji:'🍮'},
+          {name:'馬卡龍',emoji:'🌸'},{name:'巴斯克乳酪蛋糕',emoji:'🍰'},
+        ]
+      },
+      {
+        name:'排隊名店', desc:'只有今天有時間去', icon:'⏳',
+        items:[
+          {name:'人氣泡芙',emoji:'🍮'},{name:'排隊大福',emoji:'🍡'},
+          {name:'限定蛋糕',emoji:'🎂'},{name:'名店冰淇淋',emoji:'🍦'},
+          {name:'網紅飲料',emoji:'🧋'},
+        ]
+      },
+    ],
+  },
+
+  晚餐: {
+    hint: '今晚要吃得有儀式感',
+    items: [
+      { name:'燒烤',    emoji:'🥩' }, { name:'火鍋',    emoji:'🍲' },
+      { name:'法式料理',emoji:'🥂' }, { name:'壽司',    emoji:'🍣' },
+      { name:'海鮮料理',emoji:'🦞' }, { name:'鐵板燒',  emoji:'🥩' },
+      { name:'義大利料理',emoji:'🍝'},{ name:'印度咖哩', emoji:'🍛' },
+    ],
+    dirs: [
+      {
+        name:'排隊名店', desc:'值得等候的美食', icon:'⏳',
+        items:[
+          {name:'知名壽司店',emoji:'🍣'},{name:'人氣拉麵店',emoji:'🍥'},
+          {name:'排隊火鍋',emoji:'🍲'},{name:'網紅燒肉店',emoji:'🥩'},
+          {name:'限定懷石料理',emoji:'🍱'},
+        ]
+      },
+      {
+        name:'異國探索', desc:'今晚出走日常', icon:'🌍',
+        items:[
+          {name:'法式料理',emoji:'🥂'},{name:'印度咖哩',emoji:'🍛'},
+          {name:'越南料理',emoji:'🍜'},{name:'西班牙料理',emoji:'🫕'},
+          {name:'墨西哥料理',emoji:'🌮'},{name:'土耳其烤肉',emoji:'🥙'},
+        ]
+      },
+      {
+        name:'豐盛犒賞', desc:'今天值得這樣吃', icon:'🎉',
+        items:[
+          {name:'和牛燒烤',emoji:'🥩'},{name:'龍蝦大餐',emoji:'🦞'},
+          {name:'鐵板燒套餐',emoji:'🥩'},{name:'生魚片拼盤',emoji:'🍣'},
+          {name:'法式全套',emoji:'🥂'},
+        ]
+      },
+      {
+        name:'朋友聚餐', desc:'熱鬧、好聊天', icon:'🥂',
+        items:[
+          {name:'麻辣鍋',emoji:'🌶️'},{name:'燒烤',emoji:'🥩'},
+          {name:'韓式部隊鍋',emoji:'🍲'},{name:'熱炒海鮮',emoji:'🦐'},
+          {name:'台式熱炒',emoji:'🍳'},{name:'壽喜燒',emoji:'🫕'},
+        ]
+      },
+      {
+        name:'浪漫氛圍', desc:'讓今晚特別一點', icon:'🕯️',
+        items:[
+          {name:'法式料理',emoji:'🥂'},{name:'義大利麵',emoji:'🍝'},
+          {name:'海鮮拼盤',emoji:'🦞'},{name:'鐵板燒',emoji:'🥩'},
+          {name:'日式懷石',emoji:'🍱'},{name:'地中海料理',emoji:'🫒'},
+        ]
+      },
+    ],
+  },
+};
+
+function currentData() {
+  return st.persona === 'busy' ? DATA_BUSY : DATA_HOLIDAY;
+}
+
+// ══════════════════════════════════════════════════
 //  STATE MACHINE
 // ══════════════════════════════════════════════════
 const S = {
+  PERSONA:   'PERSONA',
   INITIAL:   'INITIAL',
   SPIN1:     'SPIN1',
   RESULT1:   'RESULT1',
@@ -847,7 +1116,8 @@ const MAX_TANTRUMS = 3;
 
 
 let st = {
-  phase:        S.INITIAL,
+  phase:        S.PERSONA,
+  persona:      null,
   category:     null,
   result1:      null,
   direction:    null,
@@ -1010,6 +1280,7 @@ function render() {
 
   // Progress bar
   const stepMap = {
+    [S.PERSONA]:   -1,
     [S.INITIAL]:   0,
     [S.SPIN1]:     1,
     [S.RESULT1]:   st.tantrumCount > 0 ? 2 : 1,
@@ -1021,9 +1292,15 @@ function render() {
     [S.CANT_FIND]: st.tantrumCount > 0 ? 2 : 1,
   };
   const cur = stepMap[st.phase] ?? 0;
-  for (let i = 0; i < 4; i++) {
-    const bar = document.getElementById(`bar-${i}`);
-    bar.className = 'bar' + (i < cur ? ' done' : i === cur ? ' active' : '');
+  const progressEl = document.getElementById('progress');
+  if (cur < 0) {
+    progressEl.style.display = 'none';
+  } else {
+    progressEl.style.display = '';
+    for (let i = 0; i < 4; i++) {
+      const bar = document.getElementById(`bar-${i}`);
+      bar.className = 'bar' + (i < cur ? ' done' : i === cur ? ' active' : '');
+    }
   }
 
   // Stage
@@ -1035,8 +1312,9 @@ function render() {
   scene.className = 'scene';
 
   switch (st.phase) {
-    case S.INITIAL:   buildInitial(scene);    break;
-    case S.SPIN1:     buildSpin(scene, false); break;
+    case S.PERSONA:    buildPersona(scene);    break;
+    case S.INITIAL:    buildInitial(scene);    break;
+    case S.SPIN1:      buildSpin(scene, false); break;
     case S.RESULT1:   buildResult1(scene);    break;
     case S.ASK_DIR:   buildAskDir(scene);     break;
     case S.SPIN2:     buildSpin(scene, true);  break;
@@ -1056,11 +1334,68 @@ function render() {
 // ══════════════════════════════════════════════════
 //  PHASE BUILDERS
 // ══════════════════════════════════════════════════
+function buildPersona(w) {
+  append(w, mk('p', 'eyebrow', '你今天是哪種上班族？'));
+
+  const list = mk('div', 'persona-list');
+
+  const personas = [
+    {
+      id: 'busy',
+      icon: '⚡',
+      name: '忙碌上班族',
+      desc: '時間有限，快速解決最重要',
+      tags: ['超商', '外帶', '快速', '一個人'],
+    },
+    {
+      id: 'holiday',
+      icon: '🥂',
+      name: '放假上班族',
+      desc: '今天有時間，想吃點不一樣的',
+      tags: ['內用', '排隊', '異國', '慢慢享受'],
+    },
+  ];
+
+  personas.forEach(p => {
+    const btn = mk('button', 'persona-btn');
+    const tagsHtml = p.tags.map(t => `<span class="persona-tag">${t}</span>`).join('');
+    btn.innerHTML = `
+      <div class="persona-icon">${p.icon}</div>
+      <div class="persona-content">
+        <div class="persona-name">${p.name}</div>
+        <div class="persona-desc">${p.desc}</div>
+        <div class="persona-tags">${tagsHtml}</div>
+      </div>`;
+    btn.addEventListener('click', () => {
+      st.persona = p.id;
+      st.phase   = S.INITIAL;
+      render();
+    });
+    list.appendChild(btn);
+  });
+
+  append(w, list);
+}
+
 function buildInitial(w) {
+  const PERSONA_META = {
+    busy:    { icon: '⚡', name: '忙碌上班族' },
+    holiday: { icon: '🥂', name: '放假上班族' },
+  };
+  const pm = PERSONA_META[st.persona];
+  if (pm) {
+    const ind = mk('div', 'persona-indicator');
+    ind.innerHTML = `
+      <span class="persona-indicator-icon">${pm.icon}</span>
+      <span class="persona-indicator-text">${pm.name}</span>
+      <button class="switch-persona" id="switch-persona-btn">切換身份</button>`;
+    append(w, ind);
+  }
+
   append(w, mk('p', 'eyebrow', '選擇今天想吃的時段'));
 
   const list = mk('div', 'stack');
-  Object.entries(DATA).forEach(([name, d]) => {
+  Object.entries(currentData()).forEach(([name, d]) => {
     const btn = mk('button', 'cat-btn');
     btn.innerHTML = `
       <span>
@@ -1078,10 +1413,17 @@ function buildInitial(w) {
   });
 
   append(w, list);
+
+  afterDraw = () => {
+    document.getElementById('switch-persona-btn')?.addEventListener('click', () => {
+      st.phase = S.PERSONA;
+      render();
+    });
+  };
 }
 
 function buildSpin(w, isSecond) {
-  const catData = DATA[st.category];
+  const catData = currentData()[st.category];
   const items   = isSecond
     ? catData.dirs.find(d => d.name === st.direction).items
     : catData.items;
@@ -1117,7 +1459,7 @@ function buildSpin(w, isSecond) {
       st.direction = null;
       st.phase = S.ASK_DIR;
     } else {
-      st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+      st = { phase: S.INITIAL, persona: st.persona, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
       wheelRot = 0;
     }
     render();
@@ -1183,7 +1525,7 @@ function buildResult1(w) {
 
   const back = mk('div', 'back-link', '← 重新選擇類別');
   back.addEventListener('click', () => {
-    st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+    st = { phase: S.INITIAL, persona: st.persona, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
     wheelRot = 0;
     render();
   });
@@ -1191,7 +1533,7 @@ function buildResult1(w) {
 }
 
 function buildAskDir(w) {
-  const catData = DATA[st.category];
+  const catData = currentData()[st.category];
   const dirs    = [...catData.dirs].sort(() => Math.random() - 0.5).slice(0, 3);
 
   const q = mk('p', 'dir-q', '那你現在對什麼方向有興趣呢？');
@@ -1244,7 +1586,7 @@ function buildResult2(w) {
 
   const restartBtn = mk('button', 'btn-restart', '再選一次');
   restartBtn.addEventListener('click', () => {
-    st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+    st = { phase: S.INITIAL, persona: st.persona, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
     wheelRot = 0;
     render();
   });
@@ -1274,7 +1616,7 @@ function buildExhausted(w) {
 
   afterDraw = () => {
     document.getElementById('calm-btn')?.addEventListener('click', () => {
-      st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+      st = { phase: S.INITIAL, persona: st.persona, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
       wheelRot = 0;
       render();
     });
@@ -1303,7 +1645,7 @@ function buildCantFind(w) {
 
   const backBtn = mk('button', 'btn-ghost', '↩ 回主選單重選');
   backBtn.addEventListener('click', () => {
-    st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+    st = { phase: S.INITIAL, persona: st.persona, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
     wheelRot = 0;
     render();
   });
