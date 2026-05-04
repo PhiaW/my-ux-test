@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>任性選擇器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { font-family: inherit; border: none; cursor: pointer; background: none; }
+
+    :root {
+      --bg:         #FAF6F0;
+      --surface:    #FFFFFF;
+      --primary:    #C94B30;
+      --primary-hv: #B03E26;
+      --primary-lt: #F5DDD8;
+      --text:       #1C0F0A;
+      --muted:      #9B7B6E;
+      --border:     #EAE0D8;
+      --sh:         0 2px 16px rgba(28,15,10,.07);
+      --sh-lg:      0 8px 32px rgba(28,15,10,.13);
+      --r:          14px;
+      --rs:         10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans TC', sans-serif;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── App shell ─────────────────────────────── */
+    .app {
+      width: 100%;
+      max-width: 420px;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px 60px;
+    }
+
+    /* ── Header ────────────────────────────────── */
+    .app-header {
+      padding: 44px 0 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .app-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -.5px;
+      line-height: 1.15;
+    }
+
+    .app-sub {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: .3px;
+    }
+
+    /* ── Progress bar ──────────────────────────── */
+    .progress {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+      padding: 6px 0 28px;
+    }
+
+    .bar {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--border);
+      transition: background .35s ease;
+    }
+
+    .bar.done   { background: var(--primary-lt); }
+    .bar.active { background: var(--primary); }
+
+    /* ── Stage ─────────────────────────────────── */
+    #stage { flex: 1; display: flex; flex-direction: column; }
+
+    .scene {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: slideUp .35s ease forwards;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Shared label ──────────────────────────── */
+    .eyebrow {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── Category buttons ──────────────────────── */
+    .cat-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      text-align: left;
+      transition: all .2s ease;
+    }
+
+    .cat-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--sh-lg);
+    }
+
+    .cat-btn:active { transform: translateY(0); }
+
+    .cat-name {
+      display: block;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .cat-hint {
+      display: block;
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .cat-arr { font-size: 20px; color: var(--muted); opacity: .45; }
+
+    /* ── Wheel ─────────────────────────────────── */
+    .wheel-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .wheel-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .wheel-frame {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wheel-ptr {
+      position: absolute;
+      top: -13px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      border-top: 18px solid var(--primary);
+      filter: drop-shadow(0 2px 6px rgba(201,75,48,.5));
+      z-index: 2;
+    }
+
+    #wheel {
+      display: block;
+      border-radius: 50%;
+      box-shadow: 0 6px 28px rgba(28,15,10,.15);
+    }
+
+    .spin-status {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      text-align: center;
+      animation: blink 1.3s ease infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: .25; }
+    }
+
+    /* ── Result card ───────────────────────────── */
+    .result-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--sh-lg);
+      animation: popIn .45s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .result-emoji { font-size: 44px; }
+    .result-name  { font-size: 30px; font-weight: 700; margin-top: 4px; }
+    .result-hint  {
+      font-size: 12px; color: var(--muted);
+      font-weight: 300; font-style: italic;
+    }
+
+    /* ── Action buttons ────────────────────────── */
+    .action-stack { display: flex; flex-direction: column; gap: 10px; }
+
+    .btn-main {
+      padding: 16px;
+      background: var(--primary);
+      color: white;
+      border-radius: var(--rs);
+      font-size: 15px;
+      font-weight: 500;
+      transition: background .2s ease;
+      text-align: center;
+    }
+
+    .btn-main:hover { background: var(--primary-hv); }
+
+    .btn-ghost {
+      padding: 16px;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+      border-radius: var(--rs);
+      font-size: 14px;
+      font-weight: 400;
+      transition: all .2s ease;
+      text-align: center;
+    }
+
+    .btn-ghost:hover { color: var(--primary); border-color: var(--primary); }
+
+    /* ── Direction chooser ─────────────────────── */
+    .dir-q {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    .dir-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .dir-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      text-align: left;
+      box-shadow: var(--sh);
+      transition: all .2s ease;
+    }
+
+    .dir-btn:hover {
+      border-color: var(--primary);
+      background: #FFFAF9;
+      transform: translateX(4px);
+    }
+
+    .dir-icon { font-size: 28px; flex-shrink: 0; }
+
+    .dir-text { display: flex; flex-direction: column; gap: 2px; }
+
+    .dir-name { font-size: 16px; font-weight: 500; }
+    .dir-desc { font-size: 12px; font-weight: 300; color: var(--muted); }
+
+    /* ── Final result ──────────────────────────── */
+    .final-card {
+      background: var(--primary);
+      border-radius: var(--r);
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 36px rgba(201,75,48,.35);
+      animation: popIn .5s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+
+    .final-eyebrow {
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.6);
+    }
+
+    .final-emoji { font-size: 54px; }
+
+    .final-name {
+      font-size: 34px;
+      font-weight: 700;
+      color: white;
+      text-align: center;
+    }
+
+    .final-context {
+      font-size: 13px;
+      color: rgba(255,255,255,.7);
+      font-weight: 300;
+    }
+
+    .btn-restart {
+      margin-top: 10px;
+      padding: 12px 30px;
+      background: rgba(255,255,255,.18);
+      color: white;
+      border: 1.5px solid rgba(255,255,255,.35);
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 400;
+      transition: all .2s ease;
+    }
+
+    .btn-restart:hover { background: rgba(255,255,255,.28); }
+
+    /* ── Back link ─────────────────────────────── */
+    .back-link {
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      width: fit-content;
+      transition: color .2s;
+    }
+
+    .back-link:hover { color: var(--primary); }
+
+    /* ── Can't find button ─────────────────────── */
+    .btn-cantfind {
+      padding: 14px 16px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 400;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--rs);
+      transition: all .2s ease;
+      text-align: center;
+    }
+
+    .btn-cantfind:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      border-style: solid;
+    }
+
+    /* ── Can't find card ───────────────────────── */
+    .cantfind-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 32px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--sh-lg);
+      text-align: center;
+      animation: popIn .4s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+
+    .cantfind-emoji { font-size: 44px; }
+
+    .cantfind-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .cantfind-msg {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── Exhausted screen ──────────────────────── */
+    .exhausted-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 44px 24px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--sh-lg);
+      animation: popIn .45s cubic-bezier(.34,1.56,.64,1) forwards;
+      text-align: center;
+    }
+
+    .exhausted-emoji { font-size: 52px; }
+
+    .exhausted-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .exhausted-msg {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .btn-calm {
+      margin-top: 8px;
+      padding: 14px 32px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all .2s ease;
+    }
+
+    .btn-calm:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* ── Find nearby button (inside final-card) ── */
+    .btn-find-nearby {
+      width: 100%;
+      margin-top: 14px;
+      padding: 13px 20px;
+      background: rgba(255,255,255,.22);
+      color: white;
+      border: 1.5px solid rgba(255,255,255,.45);
+      border-radius: var(--rs);
+      font-size: 14px;
+      font-weight: 500;
+      transition: background .2s ease;
+    }
+
+    .btn-find-nearby:hover { background: rgba(255,255,255,.32); }
+
+    /* ── Finding (loading) ─────────────────────── */
+    .finding-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 48px 0;
+    }
+
+    .finding-spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .finding-text {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    /* ── Nearby reminder banner ───────────────── */
+    .nearby-reminder {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--primary-lt);
+      border-radius: var(--rs);
+      border-left: 3px solid var(--primary);
+    }
+
+    .nearby-reminder-label {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .nearby-reminder-food {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* ── Google Maps search card ───────────────── */
+    .maps-search-card {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px 20px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--sh-lg);
+      text-decoration: none;
+      color: var(--text);
+      transition: all .2s ease;
+    }
+
+    .maps-search-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px rgba(28,15,10,.14);
+    }
+
+    .maps-search-left {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .maps-search-icon { font-size: 32px; }
+
+    .maps-search-text {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .maps-search-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .maps-search-sub {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+    }
+
+    .maps-search-arrow {
+      font-size: 20px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    /* ── Util: stack ───────────────────────────── */
+    .stack { display: flex; flex-direction: column; gap: 12px; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="app-header">
+    <h1 class="app-title">任性選擇器</h1>
+    <p class="app-sub">肚子餓了，讓命運幫你決定</p>
+  </header>
+
+  <div class="progress" id="progress">
+    <div class="bar active" id="bar-0"></div>
+    <div class="bar" id="bar-1"></div>
+    <div class="bar" id="bar-2"></div>
+    <div class="bar" id="bar-3"></div>
+  </div>
+
+  <main id="stage"></main>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════
+const DATA = {
+  午餐: {
+    hint: '中午該吃什麼呢',
+    items: [
+      { name:'便當',  emoji:'🍱' }, { name:'乾麵',  emoji:'🍜' },
+      { name:'三明治',emoji:'🥪' }, { name:'炒飯',  emoji:'🍳' },
+      { name:'水餃',  emoji:'🥟' }, { name:'拉麵',  emoji:'🍥' },
+      { name:'滷肉飯',emoji:'🍚' }, { name:'漢堡',  emoji:'🍔' },
+    ],
+    dirs: [
+      {
+        name:'熱呼呼的', desc:'暖胃、湯湯水水', icon:'☕',
+        items:[
+          {name:'湯麵',emoji:'🍜'},{name:'排骨湯飯',emoji:'🍱'},
+          {name:'鍋燒意麵',emoji:'🍜'},{name:'牛肉湯麵',emoji:'🐄'},
+          {name:'廣東粥',emoji:'🥣'},{name:'酸菜魚湯麵',emoji:'🐟'},
+          {name:'雞腿湯飯',emoji:'🍗'},
+        ]
+      },
+      {
+        name:'酸辣開胃', desc:'刺激感、夠味', icon:'🌶️',
+        items:[
+          {name:'麻辣燙',emoji:'🌶️'},{name:'酸辣湯麵',emoji:'🥣'},
+          {name:'涼拌米線',emoji:'🍝'},{name:'泰式炒河粉',emoji:'🍜'},
+          {name:'辣雞排飯',emoji:'🍗'},
+        ]
+      },
+      {
+        name:'清爽負擔小', desc:'輕食、不會太撐', icon:'🥗',
+        items:[
+          {name:'沙拉碗',emoji:'🥗'},{name:'清爽涼麵',emoji:'🍜'},
+          {name:'日式定食',emoji:'🍱'},{name:'輕食三明治',emoji:'🥪'},
+          {name:'越式春捲',emoji:'🫔'},{name:'雞肉飯糰',emoji:'🍙'},
+        ]
+      },
+      {
+        name:'飽足感十足', desc:'吃飽才有力氣', icon:'💪',
+        items:[
+          {name:'排骨飯',emoji:'🍖'},{name:'控肉飯',emoji:'🍚'},
+          {name:'大份拉麵',emoji:'🍥'},{name:'漢堡排飯',emoji:'🍔'},
+          {name:'肉燥飯',emoji:'🍚'},
+        ]
+      },
+      {
+        name:'異國風情', desc:'換換口味、出走日常', icon:'🌍',
+        items:[
+          {name:'咖哩飯',emoji:'🍛'},{name:'韓式拌飯',emoji:'🍲'},
+          {name:'日式炸豬排飯',emoji:'🍱'},{name:'泰式打拋豬',emoji:'🌶️'},
+          {name:'照燒雞腿飯',emoji:'🍗'},{name:'星洲炒米粉',emoji:'🍜'},
+          {name:'越式法國麵包',emoji:'🥖'},
+        ]
+      },
+    ],
+  },
+
+  點心: {
+    hint: '來點什麼小確幸',
+    items: [
+      { name:'飯糰',  emoji:'🍙' }, { name:'豆花',  emoji:'🍮' },
+      { name:'雞排',  emoji:'🍗' }, { name:'珍奶',  emoji:'🧋' },
+      { name:'章魚燒',emoji:'🐙' }, { name:'鬆餅',  emoji:'🧇' },
+      { name:'芋圓',  emoji:'🍡' }, { name:'蛋餅',  emoji:'🥚' },
+    ],
+    dirs: [
+      {
+        name:'熱呼呼的', desc:'剛出爐、暖在手', icon:'🔥',
+        items:[
+          {name:'熱湯圓',emoji:'🍡'},{name:'紅豆湯',emoji:'🫘'},
+          {name:'烤番薯',emoji:'🍠'},{name:'煎餅',emoji:'🥞'},
+          {name:'芋泥麻糬',emoji:'🍡'},{name:'地瓜球',emoji:'🟡'},
+        ]
+      },
+      {
+        name:'酸辣解饞', desc:'重口味、夠刺激', icon:'🌶️',
+        items:[
+          {name:'鹹酥雞',emoji:'🍗'},{name:'臭豆腐',emoji:'🫘'},
+          {name:'辣味泡麵',emoji:'🍜'},{name:'甜不辣',emoji:'🍢'},
+          {name:'涼拌小菜',emoji:'🥬'},
+        ]
+      },
+      {
+        name:'清爽甜一下', desc:'甜而不膩、消暑', icon:'🧊',
+        items:[
+          {name:'仙草凍',emoji:'🌿'},{name:'水果切盤',emoji:'🍉'},
+          {name:'檸檬愛玉',emoji:'🍋'},{name:'綠豆湯',emoji:'🍵'},
+          {name:'粉粿',emoji:'🟡'},{name:'椰果奶凍',emoji:'🥥'},
+          {name:'芋圓冰',emoji:'🍡'},
+        ]
+      },
+      {
+        name:'鹹香酥脆', desc:'解嘴饞、停不下來', icon:'🧂',
+        items:[
+          {name:'薯條',emoji:'🍟'},{name:'爆米花',emoji:'🍿'},
+          {name:'炸雞塊',emoji:'🍗'},{name:'地瓜球',emoji:'🟡'},
+          {name:'米餅',emoji:'🍘'},{name:'起司薯餅',emoji:'🧀'},
+        ]
+      },
+      {
+        name:'甜蜜補糖分', desc:'讓大腦快樂一下', icon:'🍬',
+        items:[
+          {name:'甜甜圈',emoji:'🍩'},{name:'泡芙',emoji:'🍮'},
+          {name:'起司蛋糕',emoji:'🍰'},{name:'布丁',emoji:'🍮'},
+          {name:'馬卡龍',emoji:'🌸'},{name:'提拉米蘇',emoji:'☕'},
+          {name:'法式吐司',emoji:'🍞'},
+        ]
+      },
+    ],
+  },
+
+  晚餐: {
+    hint: '今晚要犒賞自己嗎',
+    items: [
+      { name:'火鍋',   emoji:'🍲' }, { name:'壽司',   emoji:'🍣' },
+      { name:'牛肉麵', emoji:'🍜' }, { name:'燒烤',   emoji:'🥩' },
+      { name:'韓式料理',emoji:'🫕' }, { name:'義大利麵',emoji:'🍝' },
+      { name:'炸物',   emoji:'🍟' }, { name:'熱炒',   emoji:'🍳' },
+    ],
+    dirs: [
+      {
+        name:'熱呼呼的', desc:'暖身、圍爐感', icon:'♨️',
+        items:[
+          {name:'火鍋',emoji:'🍲'},{name:'砂鍋',emoji:'🥘'},
+          {name:'薑母鴨',emoji:'🦆'},{name:'羊肉爐',emoji:'🐑'},
+          {name:'燉湯',emoji:'🍵'},
+        ]
+      },
+      {
+        name:'酸辣有勁', desc:'刺激、夠味', icon:'🌶️',
+        items:[
+          {name:'泰式料理',emoji:'🌶️'},{name:'麻辣鍋',emoji:'🌡️'},
+          {name:'部隊鍋',emoji:'🍲'},{name:'酸辣海鮮',emoji:'🦐'},
+          {name:'椒麻雞',emoji:'🍗'},
+        ]
+      },
+      {
+        name:'清爽好消化', desc:'低油、輕盈', icon:'🌿',
+        items:[
+          {name:'壽司',emoji:'🍣'},{name:'日式定食',emoji:'🍱'},
+          {name:'清蒸海鮮',emoji:'🐟'},{name:'沙拉吧',emoji:'🥗'},
+          {name:'豆腐料理',emoji:'⬜'},
+        ]
+      },
+      {
+        name:'豐盛好享受', desc:'今天值得犒賞自己', icon:'🎉',
+        items:[
+          {name:'燒烤',emoji:'🥩'},{name:'鐵板燒',emoji:'🥩'},
+          {name:'壽喜燒',emoji:'🫕'},{name:'炭烤牛排',emoji:'🥩'},
+          {name:'生魚片定食',emoji:'🍣'},
+        ]
+      },
+      {
+        name:'異國料理', desc:'環遊世界不用出門', icon:'🌍',
+        items:[
+          {name:'義大利料理',emoji:'🍝'},{name:'印度咖哩',emoji:'🍛'},
+          {name:'越南料理',emoji:'🍜'},{name:'西班牙料理',emoji:'🫕'},
+          {name:'墨西哥料理',emoji:'🌮'},
+        ]
+      },
+    ],
+  },
+};
+
+// ══════════════════════════════════════════════════
+//  STATE MACHINE
+// ══════════════════════════════════════════════════
+const S = {
+  INITIAL:   'INITIAL',
+  SPIN1:     'SPIN1',
+  RESULT1:   'RESULT1',
+  ASK_DIR:   'ASK_DIR',
+  SPIN2:     'SPIN2',
+  RESULT2:   'RESULT2',
+  EXHAUSTED: 'EXHAUSTED',
+  FINDING:    'FINDING',
+  NEARBY:     'NEARBY',
+  CANT_FIND:  'CANT_FIND',
+};
+
+const MAX_TANTRUMS = 3;
+
+
+let st = {
+  phase:        S.INITIAL,
+  category:     null,
+  result1:      null,
+  direction:    null,
+  result2:      null,
+  tantrumCount: 0,
+  nearbyResult: null,
+};
+
+// ══════════════════════════════════════════════════
+//  WHEEL ENGINE
+// ══════════════════════════════════════════════════
+const WHEEL_COLORS = [
+  '#F5DDD8','#FAEBD0','#D8EDD9','#D8E8F5',
+  '#EDD8F5','#F5ECD8','#D8F5EE','#F5E0D8',
+];
+
+let wheelRot = 0;
+let wheelRaf = null;
+let afterDraw = null;
+
+function drawWheel(canvas, items, rot) {
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W / 2, cy = H / 2;
+  const R  = cx - 4;
+  const N  = items.length;
+  const seg = (Math.PI * 2) / N;
+
+  ctx.clearRect(0, 0, W, H);
+
+  items.forEach((item, i) => {
+    const a0 = -Math.PI / 2 + i * seg + rot;
+    const a1 = a0 + seg;
+
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, R, a0, a1);
+    ctx.closePath();
+    ctx.fillStyle = WHEEL_COLORS[i % WHEEL_COLORS.length];
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(255,255,255,.85)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(a0 + seg / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#2C1810';
+    const fs = Math.max(10, Math.min(13, R * 0.11));
+    ctx.font = `${fs}px 'Noto Sans TC', sans-serif`;
+    ctx.fillText(item.name, R - 10, fs / 3);
+    ctx.restore();
+  });
+
+  // Center hub
+  ctx.beginPath();
+  ctx.arc(cx, cy, 18, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFF';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(28,15,10,.08)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+}
+
+function spinWheel(canvas, items, onDone) {
+  if (wheelRaf) { cancelAnimationFrame(wheelRaf); wheelRaf = null; }
+
+  const N      = items.length;
+  const segRad = (Math.PI * 2) / N;
+  const target = Math.floor(Math.random() * N);
+
+  // Compute forward delta to land segment `target` at pointer
+  const curMod = ((wheelRot % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+  const tgtMod = ((-(target + 0.5) * segRad) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
+  let delta    = tgtMod - curMod;
+  if (delta < 0) delta += Math.PI * 2;
+
+  const extra     = (5 + Math.floor(Math.random() * 4)) * Math.PI * 2;
+  const totalDelta = extra + delta;
+  const startRot  = wheelRot;
+  const endRot    = wheelRot + totalDelta;
+  const dur       = 3600 + Math.random() * 900;
+  const t0        = performance.now();
+
+  function tick(now) {
+    const p = Math.min((now - t0) / dur, 1);
+    const e = 1 - Math.pow(1 - p, 4); // ease-out quart
+    wheelRot = startRot + totalDelta * e;
+    drawWheel(canvas, items, wheelRot);
+    if (p < 1) {
+      wheelRaf = requestAnimationFrame(tick);
+    } else {
+      wheelRot = endRot;
+      onDone(target);
+    }
+  }
+
+  wheelRaf = requestAnimationFrame(tick);
+}
+
+// ══════════════════════════════════════════════════
+//  RENDER CONTROLLER
+// ══════════════════════════════════════════════════
+function render() {
+  // Cancel any running animation
+  if (wheelRaf) { cancelAnimationFrame(wheelRaf); wheelRaf = null; }
+
+  // Progress bar
+  const stepMap = {
+    [S.INITIAL]:   0,
+    [S.SPIN1]:     1,
+    [S.RESULT1]:   st.tantrumCount > 0 ? 2 : 1,
+    [S.ASK_DIR]:   2, [S.SPIN2]: 2,
+    [S.RESULT2]:   3,
+    [S.EXHAUSTED]: 0,
+    [S.FINDING]:   3,
+    [S.NEARBY]:    3,
+    [S.CANT_FIND]: st.tantrumCount > 0 ? 2 : 1,
+  };
+  const cur = stepMap[st.phase] ?? 0;
+  for (let i = 0; i < 4; i++) {
+    const bar = document.getElementById(`bar-${i}`);
+    bar.className = 'bar' + (i < cur ? ' done' : i === cur ? ' active' : '');
+  }
+
+  // Stage
+  const stage = document.getElementById('stage');
+  stage.innerHTML = '';
+  afterDraw = null;
+
+  const scene = document.createElement('div');
+  scene.className = 'scene';
+
+  switch (st.phase) {
+    case S.INITIAL:   buildInitial(scene);    break;
+    case S.SPIN1:     buildSpin(scene, false); break;
+    case S.RESULT1:   buildResult1(scene);    break;
+    case S.ASK_DIR:   buildAskDir(scene);     break;
+    case S.SPIN2:     buildSpin(scene, true);  break;
+    case S.RESULT2:   buildResult2(scene);    break;
+    case S.EXHAUSTED: buildExhausted(scene);  break;
+    case S.FINDING:   buildFinding(scene);    break;
+    case S.NEARBY:    buildNearby(scene);     break;
+    case S.CANT_FIND: buildCantFind(scene);   break;
+  }
+
+  stage.appendChild(scene);
+
+  // Execute post-render canvas init
+  if (afterDraw) requestAnimationFrame(afterDraw);
+}
+
+// ══════════════════════════════════════════════════
+//  PHASE BUILDERS
+// ══════════════════════════════════════════════════
+function buildInitial(w) {
+  append(w, mk('p', 'eyebrow', '選擇今天想吃的時段'));
+
+  const list = mk('div', 'stack');
+  Object.entries(DATA).forEach(([name, d]) => {
+    const btn = mk('button', 'cat-btn');
+    btn.innerHTML = `
+      <span>
+        <span class="cat-name">${name}</span>
+        <span class="cat-hint">${d.hint}</span>
+      </span>
+      <span class="cat-arr">›</span>`;
+    btn.addEventListener('click', () => {
+      st.category = name;
+      st.phase    = S.SPIN1;
+      wheelRot    = 0;
+      render();
+    });
+    list.appendChild(btn);
+  });
+
+  append(w, list);
+}
+
+function buildSpin(w, isSecond) {
+  const catData = DATA[st.category];
+  const items   = isSecond
+    ? catData.dirs.find(d => d.name === st.direction).items
+    : catData.items;
+  const label   = isSecond
+    ? `${st.direction} 的選項`
+    : `${st.category} 可以吃什麼`;
+
+  const section = mk('div', 'wheel-section');
+
+  const sub  = mk('p', 'wheel-subtitle', label);
+  const frame = mk('div', 'wheel-frame');
+  const ptr  = mk('div', 'wheel-ptr');
+
+  const cnv  = document.createElement('canvas');
+  cnv.id     = 'wheel';
+  const size = Math.min(window.innerWidth - 80, 290);
+  cnv.width  = size;
+  cnv.height = size;
+
+  frame.appendChild(ptr);
+  frame.appendChild(cnv);
+
+  const status = mk('p', 'spin-status', '命運的齒輪正在轉動⋯');
+
+  section.appendChild(sub);
+  section.appendChild(frame);
+  section.appendChild(status);
+  append(w, section);
+
+  afterDraw = () => {
+    drawWheel(cnv, items, wheelRot);
+    setTimeout(() => {
+      spinWheel(cnv, items, (idx) => {
+        const result = items[idx];
+        setTimeout(() => {
+          st.result1 = result;
+          st.phase   = S.RESULT1;
+          render();
+        }, 500);
+      });
+    }, 400);
+  };
+}
+
+function buildResult1(w) {
+  const r = st.result1;
+
+  const card = mk('div', 'result-card');
+  card.innerHTML = `
+    <div class="result-emoji">${r.emoji}</div>
+    <div class="result-name">${r.name}</div>
+    <div class="result-hint">命運之輪的選擇</div>`;
+
+  const actions = mk('div', 'action-stack');
+
+  const okBtn = mk('button', 'btn-main', `好，就吃 ${r.name}！`);
+  okBtn.addEventListener('click', () => {
+    st.result2 = r;
+    st.phase   = S.RESULT2;
+    render();
+  });
+
+  const noBtn = mk('button', 'btn-ghost', '🙅 我任性，不想吃這個');
+  noBtn.addEventListener('click', () => {
+    if (st.tantrumCount < MAX_TANTRUMS) {
+      st.tantrumCount++;
+      st.phase = S.ASK_DIR;
+    } else {
+      st.phase = S.EXHAUSTED;
+    }
+    render();
+  });
+
+  const cantFindBtn = mk('button', 'btn-cantfind', '📍 這附近找不到！');
+  cantFindBtn.addEventListener('click', () => {
+    st.phase = S.CANT_FIND;
+    render();
+  });
+
+  actions.appendChild(okBtn);
+  actions.appendChild(noBtn);
+  actions.appendChild(cantFindBtn);
+
+  append(w, card);
+  append(w, actions);
+}
+
+function buildAskDir(w) {
+  const catData = DATA[st.category];
+  const dirs    = [...catData.dirs].sort(() => Math.random() - 0.5).slice(0, 3);
+
+  const q = mk('p', 'dir-q', '那你現在對什麼方向有興趣呢？');
+  const list = mk('div', 'dir-list');
+
+  dirs.forEach(d => {
+    const btn = mk('button', 'dir-btn');
+    btn.innerHTML = `
+      <span class="dir-icon">${d.icon}</span>
+      <div class="dir-text">
+        <span class="dir-name">${d.name}</span>
+        <span class="dir-desc">${d.desc}</span>
+      </div>`;
+    btn.addEventListener('click', () => {
+      st.direction = d.name;
+      st.phase     = S.SPIN2;
+      wheelRot     = 0;
+      render();
+    });
+    list.appendChild(btn);
+  });
+
+  const back = mk('div', 'back-link', '← 重新選擇類別');
+  back.addEventListener('click', () => {
+    st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+    render();
+  });
+
+  append(w, q);
+  append(w, list);
+  append(w, back);
+}
+
+function buildResult2(w) {
+  const r = st.result2;
+
+  const card = mk('div', 'final-card');
+  card.innerHTML = `
+    <div class="final-eyebrow">今天就決定是</div>
+    <div class="final-emoji">${r.emoji}</div>
+    <div class="final-name">${r.name}</div>
+    <div class="final-context">${st.direction ? `${st.direction} · ` : ''}${st.category}</div>`;
+
+  const nearbyBtn = mk('button', 'btn-find-nearby', `📍 找附近的 ${r.name} 店家`);
+  nearbyBtn.addEventListener('click', () => {
+    st.phase = S.NEARBY;
+    render();
+  });
+
+  const restartBtn = mk('button', 'btn-restart', '再選一次');
+  restartBtn.addEventListener('click', () => {
+    st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+    wheelRot = 0;
+    render();
+  });
+
+  card.appendChild(nearbyBtn);
+  card.appendChild(restartBtn);
+  append(w, card);
+}
+
+function buildExhausted(w) {
+  const card = mk('div', 'exhausted-card');
+  card.innerHTML = `
+    <div class="exhausted-emoji">😮‍💨</div>
+    <div class="exhausted-title">我沒招了</div>
+    <div class="exhausted-msg">你先去冷靜一下<br>再回來選 QQ</div>
+    <button class="btn-calm" id="calm-btn">好⋯我冷靜了</button>`;
+
+  append(w, card);
+
+  afterDraw = () => {
+    document.getElementById('calm-btn')?.addEventListener('click', () => {
+      st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+      wheelRot = 0;
+      render();
+    });
+  };
+}
+
+function buildCantFind(w) {
+  const r = st.result1;
+
+  const card = mk('div', 'cantfind-card');
+  card.innerHTML = `
+    <div class="cantfind-emoji">🗺️</div>
+    <div class="cantfind-title">${r?.name} 附近買不到？</div>
+    <div class="cantfind-msg">沒關係，要怎麼辦呢？</div>`;
+  append(w, card);
+
+  const actions = mk('div', 'action-stack');
+
+  const respinBtn = mk('button', 'btn-main', '🎰 重新抽一個選項');
+  respinBtn.addEventListener('click', () => {
+    wheelRot = 0;
+    // 若已選過方向，在相同方向池再轉；否則回第一轉盤
+    st.phase = st.direction ? S.SPIN2 : S.SPIN1;
+    render();
+  });
+
+  const backBtn = mk('button', 'btn-ghost', '↩ 回主選單重選');
+  backBtn.addEventListener('click', () => {
+    st = { phase: S.INITIAL, category: null, result1: null, direction: null, result2: null, tantrumCount: 0, nearbyResult: null };
+    wheelRot = 0;
+    render();
+  });
+
+  actions.appendChild(respinBtn);
+  actions.appendChild(backBtn);
+  append(w, actions);
+}
+
+// ══════════════════════════════════════════════════
+//  NEARBY FEATURE  (Google Maps 搜尋連結)
+// ══════════════════════════════════════════════════
+function buildFinding(w) {
+  // FINDING 已不使用，直接轉 NEARBY
+  st.phase = S.NEARBY;
+  render();
+}
+
+function buildNearby(w) {
+  const r = st.result2;
+  const foodName = r?.name ?? '';
+
+  // 提示：你選了什麼
+  const reminder = mk('div', 'nearby-reminder');
+  reminder.innerHTML = `
+    <span class="nearby-reminder-label">你選擇的是</span>
+    <span class="nearby-reminder-food">${r?.emoji ?? ''} ${foodName}</span>`;
+  append(w, reminder);
+
+  append(w, mk('p', 'eyebrow', '在 Google Maps 搜尋附近店家'));
+
+  // Google Maps 搜尋卡片
+  const searchUrl = `https://www.google.com/maps/search/${encodeURIComponent(foodName + ' 附近')}`;
+
+  const mapsCard = document.createElement('a');
+  mapsCard.className = 'maps-search-card';
+  mapsCard.href = searchUrl;
+  mapsCard.target = '_blank';
+  mapsCard.rel = 'noopener noreferrer';
+  mapsCard.innerHTML = `
+    <div class="maps-search-left">
+      <div class="maps-search-icon">🗺️</div>
+      <div class="maps-search-text">
+        <div class="maps-search-title">「${foodName}」附近</div>
+        <div class="maps-search-sub">開啟 Google Maps · 含評分與照片</div>
+      </div>
+    </div>
+    <div class="maps-search-arrow">↗</div>`;
+  append(w, mapsCard);
+
+  const backBtn = mk('button', 'btn-ghost', '← 回到選擇結果');
+  backBtn.addEventListener('click', () => {
+    st.phase = S.RESULT2;
+    render();
+  });
+  append(w, backBtn);
+}
+
+// ══════════════════════════════════════════════════
+//  HELPERS
+// ══════════════════════════════════════════════════
+function mk(tag, cls, text) {
+  const el = document.createElement(tag);
+  if (cls)  el.className = cls;
+  if (text !== undefined) el.textContent = text;
+  return el;
+}
+
+function append(parent, child) {
+  parent.appendChild(child);
+  return child;
+}
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+render();
+</script>
+</body>
+</html>
