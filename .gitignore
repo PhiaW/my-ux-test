@@ -1,0 +1,11 @@
+# MCP 設定（含 API Key，不可上傳）
+.mcp.json
+.cursor/
+
+# Claude Code 本機設定（含機器專屬路徑，不可上傳）
+.claude/
+
+# 常見忽略項目
+node_modules/
+.env
+.env.local
