@@ -7,27 +7,31 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <!-- TEMP: Figma capture script — remove after capture -->
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     button { font-family: inherit; border: none; cursor: pointer; background: none; }
 
     :root {
       /* Light Mode — 暖色晨曦 */
-      --bg:         #FFFBF2;
+      --bg:         #FCF9F0;
       --surface:    #FFFFFF;
-      --primary:    #FFB380;
-      --primary-hv: #F09060;
-      --primary-lt: #FFD9B3;
-      --text:       #4A443F;
-      --muted:      #7A6E68;
-      --border:     #EAE0D8;
-      --on-primary: #3D2418;   /* text on primary-bg, 9.4:1 contrast */
-      --sh:         0 2px 16px rgba(74,68,63,.07);
-      --sh-lg:      0 8px 32px rgba(74,68,63,.12);
+      --primary:    #F3A839;
+      --primary-hv: #BF5730;
+      --primary-lt: #F3CFA8;
+      --text:       #3B332B;
+      --muted:      #82491B;
+      --border:     #E9E1D6;
+      --on-primary: #15120F;   /* text on primary-bg, 11.8:1 contrast */
+      --on-primary-container: #15120F;
+      --sh:         0 2px 16px rgba(59,51,43,.07);
+      --sh-lg:      0 8px 32px rgba(59,51,43,.12);
       --r:          20px;
       --rs:         14px;
       --fs-display: 32px;
-      --fs-title:   28px;
+      --fs-title:   24px;
       --fs-body:    18px;
       --fs-label:   16px;
       --fs-caption: 14px;
@@ -35,29 +39,36 @@
 
     [data-theme="dark"] {
       /* Dark Mode — 微醺餘暉 */
-      --bg:         #2B2621;
-      --surface:    #3D352F;
-      --primary:    #D4966A;
-      --primary-hv: #BA7A52;
-      --primary-lt: #5C4B3D;
-      --text:       #F2E9E1;
-      --muted:      #BDA090;
-      --border:     #4A4036;
-      --on-primary: #2B2621;   /* text on primary-bg, 6:1 contrast */
+      --bg:         #1E1812;
+      --surface:    #2A211A;
+      --primary:    #B65D32;
+      --primary-hv: #E39B3F;
+      --primary-lt: #74411F;
+      --text:       #EBD7C0;
+      --muted:      #B98C60;
+      --border:     #3B332B;
+      --on-primary: #1E1812;   /* text on primary-bg, 4.9:1 contrast */
+      --on-primary-container: #B65D32;
       --sh:         0 2px 16px rgba(0,0,0,.35);
       --sh-lg:      0 8px 32px rgba(0,0,0,.55);
     }
 
-    [data-theme="dark"] .persona-tag {
-      color: var(--primary);
+    [data-theme="dark"] .theme-toggle {
+      background: var(--surface);
+      color: var(--primary-hv);
+      box-shadow: 0 2px 10px rgba(0,0,0,.4);
+    }
+
+    [data-theme="dark"] .theme-toggle:hover {
+      background: var(--border);
     }
 
     [data-theme="dark"] .final-card {
-      box-shadow: 0 8px 36px rgba(212,150,106,.3);
+      box-shadow: 0 8px 36px rgba(182,93,50,.3);
     }
 
     [data-theme="dark"] .wheel-ptr {
-      filter: drop-shadow(0 2px 6px rgba(212,150,106,.6));
+      filter: drop-shadow(0 2px 6px rgba(182,93,50,.6));
     }
 
     body {
@@ -113,20 +124,21 @@
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      border: 1.5px solid var(--border);
-      background: var(--surface);
-      font-size: 18px;
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: var(--sh);
+      box-shadow: 0 2px 10px rgba(243,168,57,.35);
       transition: all .2s ease;
     }
 
     .theme-toggle:hover {
-      border-color: var(--primary);
-      background: var(--primary-lt);
+      background: var(--primary-hv);
+      transform: scale(1.08);
     }
 
     /* ── Progress bar ──────────────────────────── */
@@ -167,9 +179,7 @@
     .eyebrow {
       font-size: var(--fs-body);
       font-weight: 500;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-      color: var(--muted);
+      color: var(--text);
     }
 
     /* ── Category buttons ──────────────────────── */
@@ -205,12 +215,36 @@
     .cat-hint {
       display: block;
       font-size: var(--fs-caption);
-      font-weight: 300;
+      font-weight: 400;
       color: var(--muted);
       margin-top: 3px;
     }
 
-    .cat-arr { font-size: var(--fs-body); color: var(--muted); opacity: .45; }
+    .cat-body {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cat-icon {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary);
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .cat-arr {
+      font-size: 18px;
+      color: var(--primary);
+      flex-shrink: 0;
+      line-height: 1;
+      transition: color .2s ease;
+    }
+
+    .cat-btn:hover .cat-arr { color: var(--primary-hv); }
+    .cat-btn:hover .cat-icon { color: var(--primary-hv); }
 
     /* ── Wheel ─────────────────────────────────── */
     .wheel-section {
@@ -243,7 +277,7 @@
       border-left: 9px solid transparent;
       border-right: 9px solid transparent;
       border-top: 18px solid var(--primary);
-      filter: drop-shadow(0 2px 6px rgba(255,179,128,.7));
+      filter: drop-shadow(0 2px 6px rgba(243,168,57,.7));
       z-index: 2;
     }
 
@@ -285,11 +319,11 @@
       to   { opacity: 1; transform: scale(1); }
     }
 
-    .result-emoji { font-size: 44px; }
+    .result-icon  { font-size: 48px; color: var(--primary); line-height: 1; }
     .result-name  { font-size: var(--fs-display); font-weight: 700; margin-top: 4px; }
     .result-hint  {
       font-size: var(--fs-caption); color: var(--muted);
-      font-weight: 300; font-style: italic;
+      font-weight: 400;
     }
 
     /* ── Action buttons ────────────────────────── */
@@ -306,7 +340,7 @@
       text-align: center;
     }
 
-    .btn-main:hover { background: var(--primary-hv); }
+    .btn-main:hover { background: var(--primary-hv); color: var(--surface); }
 
     .btn-ghost {
       padding: 16px;
@@ -362,24 +396,23 @@
     .final-card {
       background: var(--primary);
       border-radius: var(--r);
-      padding: 40px 24px;
+      padding: 40px 24px 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      box-shadow: 0 8px 36px rgba(255,179,128,.4);
+      gap: 16px;
+      box-shadow: 0 8px 36px rgba(243,168,57,.4);
       animation: popIn .5s cubic-bezier(.34,1.56,.64,1) forwards;
     }
 
     .final-eyebrow {
-      font-size: var(--fs-caption);
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--on-primary);
+      font-size: var(--fs-title);
+      font-weight: 700;
+      color: var(--surface);
       opacity: .7;
     }
 
-    .final-emoji { font-size: 54px; }
+    .final-icon  { font-size: 64px; color: var(--surface); line-height: 1; }
 
     .final-name {
       font-size: var(--fs-display);
@@ -391,12 +424,11 @@
     .final-context {
       font-size: var(--fs-label);
       color: var(--on-primary);
-      font-weight: 300;
+      font-weight: 400;
       opacity: .75;
     }
 
     .btn-restart {
-      margin-top: 10px;
       padding: 12px 30px;
       background: rgba(255,255,255,.18);
       color: var(--on-primary);
@@ -453,7 +485,7 @@
       animation: popIn .4s cubic-bezier(.34,1.56,.64,1) forwards;
     }
 
-    .cantfind-emoji { font-size: 44px; }
+    .cantfind-emoji { font-size: 40px; color: var(--primary); line-height: 1; }
 
     .cantfind-title {
       font-size: var(--fs-title);
@@ -464,7 +496,7 @@
 
     .cantfind-msg {
       font-size: var(--fs-label);
-      font-weight: 300;
+      font-weight: 400;
       color: var(--muted);
       line-height: 1.6;
     }
@@ -474,17 +506,21 @@
       background: var(--surface);
       border: 1.5px solid var(--border);
       border-radius: var(--r);
-      padding: 44px 24px 36px;
+      padding: 44px 24px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
-      box-shadow: var(--sh-lg);
+      gap: 16px;
+      box-shadow: 0 4px 20px rgba(59,51,43,.08);
       animation: popIn .45s cubic-bezier(.34,1.56,.64,1) forwards;
       text-align: center;
     }
 
-    .exhausted-emoji { font-size: 52px; }
+    .exhausted-icon {
+      font-size: 64px;
+      color: var(--primary);
+      line-height: 1;
+    }
 
     .exhausted-title {
       font-size: var(--fs-title);
@@ -494,9 +530,9 @@
 
     .exhausted-msg {
       font-size: var(--fs-body);
-      font-weight: 300;
+      font-weight: 400;
       color: var(--muted);
-      line-height: 1.7;
+      line-height: 1.55;
     }
 
     .btn-calm {
@@ -521,7 +557,6 @@
       display: flex;
       flex-direction: row;
       gap: 10px;
-      margin-top: 8px;
       width: 100%;
     }
 
@@ -532,12 +567,13 @@
       color: var(--on-primary);
       border-radius: 100px;
       font-size: var(--fs-label);
-      font-weight: 700;
+      font-weight: 500;
       transition: all .2s ease;
     }
 
     .btn-blind:hover {
       background: var(--primary-hv);
+      color: var(--surface);
       transform: translateY(-2px);
       box-shadow: var(--sh);
     }
@@ -552,7 +588,7 @@
 
     .blind-sub {
       font-size: var(--fs-body);
-      font-weight: 300;
+      font-weight: 400;
       color: var(--muted);
       text-align: center;
       line-height: 1.7;
@@ -604,13 +640,12 @@
       pointer-events: none;
     }
 
-    .chest-icon { font-size: 40px; }
+    .chest-icon { font-size: 40px; color: var(--primary); }
 
     .chest-q {
-      font-size: var(--fs-label);
+      font-size: var(--fs-caption);
       font-weight: 700;
       color: var(--muted);
-      letter-spacing: 2px;
     }
 
     .chest-name {
@@ -618,6 +653,33 @@
       font-weight: 700;
       color: var(--text);
       text-align: center;
+    }
+
+    .blind-reveal-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 20px 12px;
+      background: var(--primary-lt);
+      border: 2px solid var(--surface);
+      border-radius: var(--r);
+      width: 100%;
+    }
+
+    .blind-reveal-eyebrow {
+      font-size: var(--fs-body);
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 1.8px;
+    }
+
+    .blind-reveal-icon { font-size: 40px; color: var(--surface); line-height: 1; }
+
+    .blind-reveal-name {
+      font-size: var(--fs-title);
+      font-weight: 700;
+      color: var(--on-primary-container);
     }
 
     .blind-confirm {
@@ -637,8 +699,11 @@
     /* ── Find nearby button (inside final-card) ── */
     .btn-find-nearby {
       width: 100%;
-      margin-top: 14px;
-      padding: 13px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 24px 20px;
       background: rgba(255,255,255,.22);
       color: var(--on-primary);
       border: 1.5px solid rgba(255,255,255,.45);
@@ -647,6 +712,8 @@
       font-weight: 500;
       transition: background .2s ease;
     }
+
+    .btn-find-nearby i { font-size: 32px; line-height: 1; }
 
     .btn-find-nearby:hover { background: rgba(255,255,255,.32); }
 
@@ -678,29 +745,35 @@
       line-height: 1.7;
     }
 
-    /* ── Nearby reminder banner ───────────────── */
+    /* ── Nearby reminder card ────────────────── */
     .nearby-reminder {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      padding: 12px 16px;
-      background: var(--primary-lt);
-      border-radius: var(--rs);
-      border-left: 3px solid var(--primary);
+      gap: 8px;
+      padding: 24px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--sh);
     }
 
     .nearby-reminder-label {
       font-size: var(--fs-caption);
       font-weight: 400;
       color: var(--muted);
-      flex-shrink: 0;
     }
 
-    .nearby-reminder-food {
-      font-size: var(--fs-body);
-      font-weight: 700;
+    .nearby-reminder-icon {
+      font-size: 64px;
       color: var(--primary);
+      line-height: 1;
+    }
+
+    .nearby-reminder-name {
+      font-size: var(--fs-display);
+      font-weight: 700;
+      color: var(--text);
     }
 
     /* ── Google Maps search card ───────────────── */
@@ -742,14 +815,14 @@
     }
 
     .maps-search-title {
-      font-size: var(--fs-body);
-      font-weight: 600;
+      font-size: var(--fs-label);
+      font-weight: 500;
       color: var(--text);
     }
 
     .maps-search-sub {
       font-size: var(--fs-caption);
-      font-weight: 300;
+      font-weight: 400;
       color: var(--muted);
     }
 
@@ -762,7 +835,39 @@
     /* ── Util: stack ───────────────────────────── */
     .stack { display: flex; flex-direction: column; gap: 12px; }
 
-    /* ── Persona selection ─────────────────────── */
+    /* ── Inline SVG illustration — theme-aware colors ──
+       Light: class rule (specificity 0-1-0) overrides fill attr (0)
+       Dark : [data-theme] + class (1-1-0) guarantees override        */
+    .svgc-p   { fill: #F3A839; }
+    .svgc-phv { fill: #BF5730; }
+    .svgc-plt { fill: #F3CFA8; }
+    .svgc-dk  { fill: #15120F; }
+    .svgc-bg  { fill: #FCF9F0; }
+
+    [data-theme="dark"] .svgc-p   { fill: #B65D32; }
+    [data-theme="dark"] .svgc-phv { fill: #E39B3F; }
+    [data-theme="dark"] .svgc-plt { fill: #74411F; }
+    [data-theme="dark"] .svgc-dk  { fill: #EBD7C0; }
+    [data-theme="dark"] .svgc-bg  { fill: #1E1812; }
+
+    /* Fallback：如果 SVG 以 <img> 載入（file:// 或 fetch 失敗），
+       dark mode 仍能用 filter 近似換色                              */
+    [data-theme="dark"] img.persona-hero-img {
+      filter: brightness(0.68) saturate(1.1);
+    }
+
+    /* ── Persona hero illustration ─────────────── */
+    .persona-hero {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4px 0 8px;
+    }
+    .persona-hero-img {
+      width: 240px;
+      height: auto;
+      display: block;
+    }
     .persona-list { display: flex; flex-direction: column; gap: 14px; }
 
     .persona-btn {
@@ -788,15 +893,16 @@
     .persona-btn:active { transform: translateY(0); }
 
     .persona-icon {
-      font-size: 32px;
       width: 56px;
       height: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--primary-lt);
+      background: linear-gradient(135deg, var(--primary), var(--on-primary));
       border-radius: 16px;
       flex-shrink: 0;
+      color: #fff;
+      font-size: 22px;
     }
 
     .persona-content {
@@ -829,7 +935,7 @@
     .persona-tag {
       font-size: 12px;
       font-weight: 500;
-      color: var(--on-primary);
+      color: var(--text);
       background: var(--primary-lt);
       padding: 2px 10px;
       border-radius: 100px;
@@ -847,12 +953,17 @@
       margin-bottom: 4px;
     }
 
-    .persona-indicator-icon { font-size: 16px; }
+    .persona-indicator-icon {
+      font-size: 13px;
+      color: var(--primary-hv);
+      display: flex;
+      align-items: center;
+    }
 
     .persona-indicator-text {
       font-size: var(--fs-caption);
       font-weight: 600;
-      color: var(--on-primary);
+      color: var(--text);
     }
 
     .switch-persona {
@@ -873,7 +984,7 @@
       <h1 class="app-title">任性選擇器</h1>
       <p class="app-sub">肚子餓了，讓命運幫你決定</p>
     </div>
-    <button class="theme-toggle" id="theme-toggle" aria-label="切換深色模式">🌙</button>
+    <button class="theme-toggle" id="theme-toggle" aria-label="切換深色模式"><i class="fa-solid fa-moon"></i></button>
   </header>
 
   <div class="progress" id="progress">
@@ -892,157 +1003,157 @@
 // ══════════════════════════════════════════════════
 const DATA_BUSY = {
   午餐: {
-    hint: '快點選快點吃快點回去工作',
+    hint: '飯、麵、快炒都行',
     items: [
-      { name:'便當',   emoji:'🍱' }, { name:'滷肉飯', emoji:'🍚' },
-      { name:'水餃',   emoji:'🥟' }, { name:'三明治', emoji:'🥪' },
-      { name:'乾麵',   emoji:'🍜' }, { name:'漢堡',   emoji:'🍔' },
-      { name:'飯糰',   emoji:'🍙' }, { name:'炒飯',   emoji:'🍳' },
+      { name:'便當',   icon:'utensils' }, { name:'滷肉飯', icon:'bowl-rice' },
+      { name:'水餃',   icon:'bowl-food' }, { name:'三明治', icon:'bread-slice' },
+      { name:'乾麵',   icon:'bowl-food' }, { name:'漢堡',   icon:'burger' },
+      { name:'飯糰',   icon:'bowl-rice' }, { name:'炒飯',   icon:'egg' },
     ],
     dirs: [
       {
-        name:'5分鐘解決', desc:'超快、不等待', icon:'⚡',
+        name:'5分鐘解決', desc:'超快、不等待', faIcon:'fa-bolt',
         items:[
-          {name:'外帶便當',emoji:'🍱'},{name:'傳統飯糰',emoji:'🍙'},
-          {name:'肉包',emoji:'🥟'},{name:'麵包',emoji:'🍞'},
-          {name:'關東煮',emoji:'🍢'},{name:'三角御飯糰',emoji:'🍙'},
+          {name:'外帶便當',icon:'utensils'},{name:'傳統飯糰',icon:'bowl-rice'},
+          {name:'肉包',icon:'bowl-food'},{name:'麵包',icon:'bread-slice'},
+          {name:'關東煮',icon:'hotdog'},{name:'三角御飯糰',icon:'bowl-rice'},
         ]
       },
       {
-        name:'外帶方便', desc:'乖乖回座繼續工作', icon:'🛵',
+        name:'外帶方便', desc:'乖乖回座繼續工作', faIcon:'fa-motorcycle',
         items:[
-          {name:'滷肉飯',emoji:'🍚'},{name:'雞腿便當',emoji:'🍱'},
-          {name:'牛肉麵',emoji:'🍜'},{name:'炒飯炒麵',emoji:'🍳'},
-          {name:'日式定食',emoji:'🍱'},{name:'拉麵',emoji:'🍥'},{name:'鍋燒意麵',emoji:'🍜'},
+          {name:'滷肉飯',icon:'bowl-rice'},{name:'雞腿便當',icon:'utensils'},
+          {name:'牛肉麵',icon:'bowl-food'},{name:'炒飯炒麵',icon:'egg'},
+          {name:'日式定食',icon:'utensils'},{name:'拉麵',icon:'bowl-food'},{name:'鍋燒意麵',icon:'bowl-food'},
         ]
       },
       {
-        name:'飽足感強', desc:'撐到下班不喊餓', icon:'💪',
+        name:'飽足感強', desc:'撐到下班不喊餓', faIcon:'fa-dumbbell',
         items:[
-          {name:'排骨飯',emoji:'🍖'},{name:'控肉飯',emoji:'🍚'},
-          {name:'大碗乾麵',emoji:'🍜'},{name:'水餃',emoji:'🥟'},
-          {name:'燒肉飯',emoji:'🥩'},,{name:'咖哩飯',emoji:'🍚'},
+          {name:'排骨飯',icon:'drumstick-bite'},{name:'控肉飯',icon:'bowl-rice'},
+          {name:'大碗乾麵',icon:'bowl-food'},{name:'水餃',icon:'bowl-food'},
+          {name:'燒肉飯',icon:'drumstick-bite'},{name:'咖哩飯',icon:'bowl-food'},
         ]
       },
       {
-        name:'清爽好消化', desc:'下午不昏沉', icon:'🥗',
+        name:'清爽好消化', desc:'下午不昏沉', faIcon:'fa-leaf',
         items:[
-          {name:'沙拉碗',emoji:'🥗'},{name:'涼麵',emoji:'🍜'},
-          {name:'日式定食',emoji:'🍱'},{name:'輕食三明治',emoji:'🥪'},
-          {name:'蔬食便當',emoji:'🍱'},{name:'壽司',emoji:'🍣'},
+          {name:'沙拉碗',icon:'leaf'},{name:'涼麵',icon:'bowl-food'},
+          {name:'日式定食',icon:'utensils'},{name:'輕食三明治',icon:'bread-slice'},
+          {name:'蔬食便當',icon:'utensils'},{name:'壽司',icon:'fish'},
         ]
       },
       {
-        name:'一個人剛好', desc:'不用等位、不尷尬', icon:'🎯',
+        name:'一個人剛好', desc:'不用等位、不尷尬', faIcon:'fa-bullseye',
         items:[
-          {name:'丼飯',emoji:'🍚'},{name:'乾麵',emoji:'🍜'},
-          {name:'便當',emoji:'🍱'},{name:'滷味',emoji:'🍢'},
-          {name:'麵線',emoji:'🍜'},{name:'咖哩飯',emoji:'🍛'},
+          {name:'丼飯',icon:'bowl-rice'},{name:'乾麵',icon:'bowl-food'},
+          {name:'便當',icon:'utensils'},{name:'滷味',icon:'hotdog'},
+          {name:'麵線',icon:'bowl-food'},{name:'咖哩飯',icon:'bowl-food'},
         ]
       },
     ],
   },
 
   點心: {
-    hint: '補充能量、繼續拼',
+    hint: '下午茶、甜點或輕食',
     items: [
-      { name:'超商咖啡', emoji:'☕' }, { name:'珍奶',   emoji:'🧋' },
-      { name:'飯糰',    emoji:'🍙' }, { name:'雞排',   emoji:'🍗' },
-      { name:'能量棒',  emoji:'🍫' }, { name:'優格',   emoji:'🍶' },
-      { name:'鬆餅',   emoji:'🧇' }, { name:'蘋果派', emoji:'🥧' },
+      { name:'超商咖啡', icon:'mug-hot' }, { name:'珍奶',   icon:'glass-water' },
+      { name:'飯糰',    icon:'bowl-rice' }, { name:'雞排',   icon:'drumstick-bite' },
+      { name:'能量棒',  icon:'candy-cane' }, { name:'優格',   icon:'jar' },
+      { name:'鬆餅',   icon:'bread-slice' }, { name:'蘋果派', icon:'utensils' },
     ],
     dirs: [
       {
-        name:'咖啡因提神', desc:'馬上清醒繼續戰', icon:'☕',
+        name:'咖啡因提神', desc:'馬上清醒繼續戰', faIcon:'fa-mug-hot',
         items:[
-          {name:'美式',emoji:'☕'},{name:'拿鐵',emoji:'☕'},
-          {name:'紅茶',emoji:'☕'},{name:'有料的!(例如珍珠奶茶)',emoji:'🧋'},
-          {name:'青茶',emoji:'🍵'},{name:'綠茶',emoji:'🍵'},
-          {name:'烏龍茶',emoji:'🍵'},{name:'鮮奶茶',emoji:'🧋'},
+          {name:'美式',icon:'mug-hot'},{name:'拿鐵',icon:'mug-hot'},
+          {name:'紅茶',icon:'mug-hot'},{name:'有料的!(例如珍珠奶茶)',icon:'glass-water'},
+          {name:'青茶',icon:'mug-hot'},{name:'綠茶',icon:'mug-hot'},
+          {name:'烏龍茶',icon:'mug-hot'},{name:'鮮奶茶',icon:'glass-water'},
         ]
       },
       {
-        name:'快速補血', desc:'馬上有飽足感', icon:'⚡',
+        name:'快速補血', desc:'馬上有飽足感', faIcon:'fa-bolt',
         items:[
-          {name:'飯糰',emoji:'🍙'},{name:'三角飯糰',emoji:'🍙'},
-          {name:'麵包',emoji:'🍞'},{name:'肉包',emoji:'🥟'},
-          {name:'能量棒',emoji:'🍫'},{name:'起司蛋糕',emoji:'🍰'},
+          {name:'飯糰',icon:'bowl-rice'},{name:'三角飯糰',icon:'bowl-rice'},
+          {name:'麵包',icon:'bread-slice'},{name:'肉包',icon:'bowl-food'},
+          {name:'能量棒',icon:'candy-cane'},{name:'起司蛋糕',icon:'cake-candles'},
         ]
       },
       {
-        name:'甜甜撐下去', desc:'讓大腦快樂一下', icon:'🍬',
+        name:'甜甜撐下去', desc:'讓大腦快樂一下', faIcon:'fa-candy-cane',
         items:[
-          {name:'巧克力',emoji:'🍫'},{name:'布丁',emoji:'🍮'},
-          {name:'鬆餅',emoji:'🧇'},{name:'超商蛋糕',emoji:'🍰'},
-          {name:'糖果',emoji:'🍬'},
+          {name:'巧克力',icon:'candy-cane'},{name:'布丁',icon:'bowl-food'},
+          {name:'鬆餅',icon:'bread-slice'},{name:'超商蛋糕',icon:'cake-candles'},
+          {name:'糖果',icon:'candy-cane'},
         ]
       },
       {
-        name:'鹹食解饞', desc:'重口味才夠爽', icon:'🧂',
+        name:'鹹食解饞', desc:'重口味才夠爽', faIcon:'fa-pepper-hot',
         items:[
-          {name:'薯條',emoji:'🍟'},{name:'雞排',emoji:'🍗'},
-          {name:'鹹酥雞',emoji:'🍗'},{name:'甜不辣',emoji:'🍢'},
-          {name:'鍋貼',emoji:'🥟'},
+          {name:'薯條',icon:'utensils'},{name:'雞排',icon:'drumstick-bite'},
+          {name:'鹹酥雞',icon:'drumstick-bite'},{name:'甜不辣',icon:'hotdog'},
+          {name:'鍋貼',icon:'bowl-food'},
         ]
       },
       {
-        name:'健康清爽', desc:'罪惡感低一點', icon:'🌿',
+        name:'健康清爽', desc:'罪惡感低一點', faIcon:'fa-leaf',
         items:[
-          {name:'優格',emoji:'🍶'},{name:'水果',emoji:'🍎'},
-          {name:'堅果棒',emoji:'🌰'},{name:'輕食沙拉',emoji:'🥗'},
-          {name:'無糖豆漿',emoji:'🥛'},
+          {name:'優格',icon:'jar'},{name:'水果',icon:'apple-whole'},
+          {name:'堅果棒',icon:'seedling'},{name:'輕食沙拉',icon:'leaf'},
+          {name:'無糖豆漿',icon:'bottle-water'},
         ]
       },
     ],
   },
 
   晚餐: {
-    hint: '下班了！快去吃飯',
+    hint: '今天吃點好的',
     items: [
-      { name:'便當',   emoji:'🍱' }, { name:'牛肉麵', emoji:'🍜' },
-      { name:'水餃',   emoji:'🥟' }, { name:'雞腿飯', emoji:'🍗' },
-      { name:'炒飯',   emoji:'🍳' }, { name:'麵線',   emoji:'🍜' },
-      { name:'爌肉飯', emoji:'🍚' }, { name:'涼麵',   emoji:'🍜' },
+      { name:'便當',   icon:'utensils' }, { name:'牛肉麵', icon:'bowl-food' },
+      { name:'水餃',   icon:'bowl-food' }, { name:'雞腿飯', icon:'drumstick-bite' },
+      { name:'炒飯',   icon:'egg' }, { name:'麵線',   icon:'bowl-food' },
+      { name:'爌肉飯', icon:'bowl-rice' }, { name:'涼麵',   icon:'bowl-food' },
     ],
     dirs: [
       {
-        name:'快快結束回家', desc:'10分鐘搞定', icon:'🏃',
+        name:'快快結束回家', desc:'10分鐘搞定', faIcon:'fa-person-running',
         items:[
-          {name:'便當',emoji:'🍱'},{name:'水餃',emoji:'🥟'},
-          {name:'麵線',emoji:'🍜'},{name:'滷肉飯',emoji:'🍚'},
-          {name:'涼麵',emoji:'🍜'},{name:'超商便當',emoji:'🍱'},
+          {name:'便當',icon:'utensils'},{name:'水餃',icon:'bowl-food'},
+          {name:'麵線',icon:'bowl-food'},{name:'滷肉飯',icon:'bowl-rice'},
+          {name:'涼麵',icon:'bowl-food'},{name:'超商便當',icon:'utensils'},
         ]
       },
       {
-        name:'外帶回家', desc:'回家邊看劇邊吃', icon:'🛍️',
+        name:'外帶回家', desc:'回家邊看劇邊吃', faIcon:'fa-bag-shopping',
         items:[
-          {name:'炒飯',emoji:'🍳'},{name:'排骨飯',emoji:'🍖'},
-          {name:'牛肉麵',emoji:'🍜'},{name:'雞腿便當',emoji:'🍱'},
-          {name:'控肉飯',emoji:'🍚'},
+          {name:'炒飯',icon:'egg'},{name:'排骨飯',icon:'drumstick-bite'},
+          {name:'牛肉麵',icon:'bowl-food'},{name:'雞腿便當',icon:'utensils'},
+          {name:'控肉飯',icon:'bowl-rice'},
         ]
       },
       {
-        name:'解壓飽餐', desc:'今天辛苦了，吃飽', icon:'😮‍💨',
+        name:'解壓飽餐', desc:'今天辛苦了，吃飽', faIcon:'fa-face-tired',
         items:[
-          {name:'爌肉飯',emoji:'🍚'},{name:'大碗牛肉麵',emoji:'🍜'},
-          {name:'羊肉爐',emoji:'🐑'},{name:'炸豬排飯',emoji:'🍱'},
-          {name:'燒烤',emoji:'🥩'},
+          {name:'爌肉飯',icon:'bowl-rice'},{name:'大碗牛肉麵',icon:'bowl-food'},
+          {name:'羊肉爐',icon:'drumstick-bite'},{name:'炸豬排飯',icon:'utensils'},
+          {name:'燒烤',icon:'drumstick-bite'},
         ]
       },
       {
-        name:'一個人享受', desc:'不用配合任何人', icon:'🎧',
+        name:'一個人享受', desc:'不用配合任何人', faIcon:'fa-headphones',
         items:[
-          {name:'拉麵',emoji:'🍥'},{name:'丼飯',emoji:'🍚'},
-          {name:'烏龍麵',emoji:'🍜'},{name:'蛋包飯',emoji:'🍳'},
-          {name:'咖哩飯',emoji:'🍛'},
+          {name:'拉麵',icon:'bowl-food'},{name:'丼飯',icon:'bowl-rice'},
+          {name:'烏龍麵',icon:'bowl-food'},{name:'蛋包飯',icon:'egg'},
+          {name:'咖哩飯',icon:'bowl-food'},
         ]
       },
       {
-        name:'超商就夠了', desc:'不想出門的選擇', icon:'🏪',
+        name:'超商就夠了', desc:'不想出門的選擇', faIcon:'fa-store',
         items:[
-          {name:'泡麵',emoji:'🍜'},{name:'微波便當',emoji:'🍱'},
-          {name:'關東煮',emoji:'🍢'},{name:'茶葉蛋',emoji:'🥚'},
-          {name:'肉包',emoji:'🥟'},{name:'雞腿',emoji:'🍗'},
+          {name:'泡麵',icon:'bowl-food'},{name:'微波便當',icon:'utensils'},
+          {name:'關東煮',icon:'hotdog'},{name:'茶葉蛋',icon:'egg'},
+          {name:'肉包',icon:'bowl-food'},{name:'雞腿',icon:'drumstick-bite'},
         ]
       },
     ],
@@ -1056,53 +1167,53 @@ const DATA_HOLIDAY = {
   午餐: {
     hint: '今天可以慢慢選，不急',
     items: [
-      { name:'義大利麵', emoji:'🍝' }, { name:'壽司',   emoji:'🍣' },
-      { name:'咖哩飯',  emoji:'🍛' }, { name:'拉麵',   emoji:'🍥' },
-      { name:'泰式料理',emoji:'🌶️' }, { name:'韓式料理',emoji:'🫕' },
-      { name:'燉飯',   emoji:'🍚' }, { name:'漢堡排',  emoji:'🍔' },
+      { name:'義大利麵', icon:'bowl-food' }, { name:'壽司',   icon:'fish' },
+      { name:'咖哩飯',  icon:'bowl-food' }, { name:'拉麵',   icon:'bowl-food' },
+      { name:'泰式料理',icon:'pepper-hot' }, { name:'韓式料理',icon:'pot-food' },
+      { name:'燉飯',   icon:'bowl-rice' }, { name:'漢堡排',  icon:'burger' },
     ],
     dirs: [
       {
-        name:'網美打卡', desc:'環境好看、食物好拍', icon:'📸',
+        name:'網美打卡', desc:'環境好看、食物好拍', faIcon:'fa-camera',
         items:[
-          {name:'輕食沙拉碗',emoji:'🥗'},{name:'吐司拼盤',emoji:'🥑'},
-          {name:'班尼迪克蛋',emoji:'🍳'},{name:'法式薄餅',emoji:'🥞'},
-          {name:'鬆餅套餐',emoji:'🧇'},{name:'三明治套餐',emoji:'🥪'},
-          {name:'燉飯',emoji:'🍚'},
+          {name:'輕食沙拉碗',icon:'leaf'},{name:'吐司拼盤',icon:'bread-slice'},
+          {name:'班尼迪克蛋',icon:'egg'},{name:'法式薄餅',icon:'bread-slice'},
+          {name:'鬆餅套餐',icon:'bread-slice'},{name:'三明治套餐',icon:'bread-slice'},
+          {name:'燉飯',icon:'bowl-rice'},
         ]
       },
       {
-        name:'排隊名店', desc:'值得等的那種好吃', icon:'⏳',
+        name:'排隊名店', desc:'值得等的那種好吃', faIcon:'fa-hourglass-half',
         items:[
-          {name:'拉麵',emoji:'🍥'},{name:'壽司',emoji:'🍣'},
-          {name:'牛肉麵',emoji:'🍜'},{name:'義大利麵',emoji:'🍝'},
-          {name:'韓式料理',emoji:'🫕'},{name:'港式飲茶',emoji:'🫖'},
+          {name:'拉麵',icon:'bowl-food'},{name:'壽司',icon:'fish'},
+          {name:'牛肉麵',icon:'bowl-food'},{name:'義大利麵',icon:'bowl-food'},
+          {name:'韓式料理',icon:'pot-food'},{name:'港式飲茶',icon:'mug-hot'},
         ]
       },
       {
-        name:'異國探索', desc:'環遊世界的感覺', icon:'🌍',
+        name:'異國探索', desc:'環遊世界的感覺', faIcon:'fa-globe',
         items:[
-          {name:'越南料理',emoji:'🍜'},{name:'印度咖哩',emoji:'🍛'},
-          {name:'泰式料理',emoji:'🌶️'},{name:'西班牙料理',emoji:'🫕'},
-          {name:'墨西哥料理',emoji:'🌮'},{name:'土耳其料理',emoji:'🥙'},
-          {name:'地中海料理',emoji:'🫒'},
+          {name:'越南料理',icon:'bowl-food'},{name:'印度咖哩',icon:'bowl-food'},
+          {name:'泰式料理',icon:'pepper-hot'},{name:'西班牙料理',icon:'bowl-food'},
+          {name:'墨西哥料理',icon:'taco'},{name:'土耳其料理',icon:'hotdog'},
+          {name:'地中海料理',icon:'seedling'},
         ]
       },
       {
-        name:'悠閒慢慢吃', desc:'不趕時間的享受', icon:'☀️',
+        name:'悠閒慢慢吃', desc:'不趕時間的享受', faIcon:'fa-sun',
         items:[
-          {name:'日式定食',emoji:'🍱'},{name:'韓式石鍋拌飯',emoji:'🍲'},
-          {name:'港式早午餐',emoji:'🍳'},{name:'台式快炒',emoji:'🥘'},
-          {name:'越式法國麵包',emoji:'🥖'},
+          {name:'日式定食',icon:'utensils'},{name:'韓式石鍋拌飯',icon:'pot-food'},
+          {name:'港式早午餐',icon:'egg'},{name:'台式快炒',icon:'fire'},
+          {name:'越式法國麵包',icon:'bread-slice'},
         ]
       },
       {
-        name:'豐盛大享受', desc:'今天不省錢', icon:'🎉',
+        name:'豐盛大享受', desc:'今天不省錢', faIcon:'fa-champagne-glasses',
         items:[
-          {name:'鐵板燒',emoji:'🥩'},{name:'和牛套餐',emoji:'🥩'},
-          {name:'海鮮拼盤',emoji:'🦞'},{name:'生魚片定食',emoji:'🍣'},
-          {name:'牛排料理',emoji:'🥂'},{name:'燒烤',emoji:'🥩'},
-          {name:'義大利麵',emoji:'🍝'},{name:'披薩',emoji:'🍕'},
+          {name:'鐵板燒',icon:'drumstick-bite'},{name:'和牛套餐',icon:'drumstick-bite'},
+          {name:'海鮮拼盤',icon:'shrimp'},{name:'生魚片定食',icon:'fish'},
+          {name:'牛排料理',icon:'drumstick-bite'},{name:'燒烤',icon:'drumstick-bite'},
+          {name:'義大利麵',icon:'bowl-food'},{name:'披薩',icon:'pizza-slice'},
         ]
       },
     ],
@@ -1111,52 +1222,52 @@ const DATA_HOLIDAY = {
   點心: {
     hint: '今天的點心要認真一點',
     items: [
-      { name:'甜甜圈', emoji:'🍩' }, { name:'可頌',    emoji:'🥐' },
-      { name:'提拉米蘇',emoji:'☕'},  { name:'馬卡龍',  emoji:'🌸' },
-      { name:'芋泥球', emoji:'🍡' }, { name:'鬆餅',    emoji:'🧇' },
-      { name:'司康',   emoji:'🫖' }, { name:'巴斯克',  emoji:'🍰' },
+      { name:'甜甜圈', icon:'cookie' }, { name:'可頌',    icon:'bread-slice' },
+      { name:'提拉米蘇',icon:'mug-hot'},  { name:'馬卡龍',  icon:'star' },
+      { name:'芋泥球', icon:'cookie' }, { name:'鬆餅',    icon:'bread-slice' },
+      { name:'司康',   icon:'mug-hot' }, { name:'巴斯克',  icon:'cake-candles' },
     ],
     dirs: [
       {
-        name:'網美咖啡廳', desc:'拍完才能吃', icon:'📸',
+        name:'網美咖啡廳', desc:'拍完才能吃', faIcon:'fa-camera',
         items:[
-          {name:'拉花咖啡',emoji:'☕'},{name:'蛋糕套餐',emoji:'🍰'},
-          {name:'鬆餅疊疊樂',emoji:'🧇'},{name:'甜甜圈',emoji:'🍩'},
-          {name:'冰淇淋杯',emoji:'🍦'},{name:'水果塔',emoji:'🍮'},
+          {name:'拉花咖啡',icon:'mug-hot'},{name:'蛋糕套餐',icon:'cake-candles'},
+          {name:'鬆餅疊疊樂',icon:'bread-slice'},{name:'甜甜圈',icon:'cookie'},
+          {name:'冰淇淋杯',icon:'ice-cream'},{name:'水果塔',icon:'bowl-food'},
         ]
       },
       {
-        name:'日式甜點', desc:'精緻、用料講究', icon:'🎌',
+        name:'日式甜點', desc:'精緻、用料講究', faIcon:'fa-flag',
         items:[
-          {name:'抹茶提拉米蘇',emoji:'🍵'},{name:'和菓子',emoji:'🌸'},
-          {name:'大福',emoji:'🍡'},{name:'芋圓',emoji:'🍡'},
-          {name:'日式戚風',emoji:'🍰'},{name:'草莓大福',emoji:'🍓'},
-          {name:'蕨餅',emoji:'🌿'},
+          {name:'抹茶提拉米蘇',icon:'mug-hot'},{name:'和菓子',icon:'cookie'},
+          {name:'大福',icon:'cookie'},{name:'芋圓',icon:'cookie'},
+          {name:'日式戚風',icon:'cake-candles'},{name:'草莓大福',icon:'apple-whole'},
+          {name:'蕨餅',icon:'seedling'},
         ]
       },
       {
-        name:'台灣傳統甜點', desc:'古早味最暖心', icon:'🏮',
+        name:'台灣傳統甜點', desc:'古早味最暖心', faIcon:'fa-fire',
         items:[
-          {name:'豆花',emoji:'🍮'},{name:'湯圓',emoji:'🍡'},
-          {name:'仙草奶凍',emoji:'🌿'},{name:'紅豆湯',emoji:'🫘'},
-          {name:'芋泥球',emoji:'🍡'},{name:'粉粿',emoji:'🟡'},
-          {name:'麻糬',emoji:'🍡'},
+          {name:'豆花',icon:'bowl-food'},{name:'湯圓',icon:'cookie'},
+          {name:'仙草奶凍',icon:'jar'},{name:'紅豆湯',icon:'bowl-food'},
+          {name:'芋泥球',icon:'cookie'},{name:'粉粿',icon:'circle-dot'},
+          {name:'麻糬',icon:'cookie'},
         ]
       },
       {
-        name:'歐式烘焙', desc:'剛出爐的香氣', icon:'🥐',
+        name:'歐式烘焙', desc:'剛出爐的香氣', faIcon:'fa-bread-slice',
         items:[
-          {name:'可頌',emoji:'🥐'},{name:'司康',emoji:'🫖'},
-          {name:'法式千層',emoji:'🍰'},{name:'泡芙',emoji:'🍮'},
-          {name:'馬卡龍',emoji:'🌸'},{name:'巴斯克乳酪蛋糕',emoji:'🍰'},
+          {name:'可頌',icon:'bread-slice'},{name:'司康',icon:'mug-hot'},
+          {name:'法式千層',icon:'cake-candles'},{name:'泡芙',icon:'cake-candles'},
+          {name:'馬卡龍',icon:'star'},{name:'巴斯克乳酪蛋糕',icon:'cake-candles'},
         ]
       },
       {
-        name:'排隊名店', desc:'只有今天有時間去', icon:'⏳',
+        name:'排隊名店', desc:'只有今天有時間去', faIcon:'fa-hourglass-half',
         items:[
-          {name:'人氣泡芙',emoji:'🍮'},{name:'排隊大福',emoji:'🍡'},
-          {name:'限定蛋糕',emoji:'🎂'},{name:'名店冰淇淋',emoji:'🍦'},
-          {name:'網紅飲料',emoji:'🧋'},
+          {name:'人氣泡芙',icon:'cake-candles'},{name:'排隊大福',icon:'cookie'},
+          {name:'限定蛋糕',icon:'cake-candles'},{name:'名店冰淇淋',icon:'ice-cream'},
+          {name:'網紅飲料',icon:'glass-water'},
         ]
       },
     ],
@@ -1165,50 +1276,50 @@ const DATA_HOLIDAY = {
   晚餐: {
     hint: '今晚要吃得有儀式感',
     items: [
-      { name:'燒烤',    emoji:'🥩' }, { name:'火鍋',    emoji:'🍲' },
-      { name:'法式料理',emoji:'🥂' }, { name:'壽司',    emoji:'🍣' },
-      { name:'海鮮料理',emoji:'🦞' }, { name:'鐵板燒',  emoji:'🥩' },
-      { name:'義大利料理',emoji:'🍝'},{ name:'印度咖哩', emoji:'🍛' },
+      { name:'燒烤',    icon:'drumstick-bite' }, { name:'火鍋',    icon:'pot-food' },
+      { name:'法式料理',icon:'bread-slice' }, { name:'壽司',    icon:'fish' },
+      { name:'海鮮料理',icon:'shrimp' }, { name:'鐵板燒',  icon:'drumstick-bite' },
+      { name:'義大利料理',icon:'bowl-food'},{ name:'印度咖哩', icon:'bowl-food' },
     ],
     dirs: [
       {
-        name:'排隊名店', desc:'值得等候的美食', icon:'⏳',
+        name:'排隊名店', desc:'值得等候的美食', faIcon:'fa-hourglass-half',
         items:[
-          {name:'知名壽司店',emoji:'🍣'},{name:'人氣拉麵店',emoji:'🍥'},
-          {name:'排隊火鍋',emoji:'🍲'},{name:'網紅燒肉店',emoji:'🥩'},
-          {name:'限定懷石料理',emoji:'🍱'},
+          {name:'知名壽司店',icon:'fish'},{name:'人氣拉麵店',icon:'bowl-food'},
+          {name:'排隊火鍋',icon:'pot-food'},{name:'網紅燒肉店',icon:'drumstick-bite'},
+          {name:'限定懷石料理',icon:'utensils'},
         ]
       },
       {
-        name:'異國探索', desc:'今晚出走日常', icon:'🌍',
+        name:'異國探索', desc:'今晚出走日常', faIcon:'fa-globe',
         items:[
-          {name:'法式料理',emoji:'🥂'},{name:'印度咖哩',emoji:'🍛'},
-          {name:'越南料理',emoji:'🍜'},{name:'西班牙料理',emoji:'🫕'},
-          {name:'墨西哥料理',emoji:'🌮'},{name:'土耳其烤肉',emoji:'🥙'},
+          {name:'法式料理',icon:'bread-slice'},{name:'印度咖哩',icon:'bowl-food'},
+          {name:'越南料理',icon:'bowl-food'},{name:'西班牙料理',icon:'bowl-food'},
+          {name:'墨西哥料理',icon:'taco'},{name:'土耳其烤肉',icon:'hotdog'},
         ]
       },
       {
-        name:'豐盛犒賞', desc:'今天值得這樣吃', icon:'🎉',
+        name:'豐盛犒賞', desc:'今天值得這樣吃', faIcon:'fa-champagne-glasses',
         items:[
-          {name:'和牛燒烤',emoji:'🥩'},{name:'龍蝦大餐',emoji:'🦞'},
-          {name:'鐵板燒套餐',emoji:'🥩'},{name:'生魚片拼盤',emoji:'🍣'},
-          {name:'法式全套',emoji:'🥂'},
+          {name:'和牛燒烤',icon:'drumstick-bite'},{name:'龍蝦大餐',icon:'shrimp'},
+          {name:'鐵板燒套餐',icon:'drumstick-bite'},{name:'生魚片拼盤',icon:'fish'},
+          {name:'法式全套',icon:'bread-slice'},
         ]
       },
       {
-        name:'朋友聚餐', desc:'熱鬧、好聊天', icon:'🥂',
+        name:'朋友聚餐', desc:'熱鬧、好聊天', faIcon:'fa-users',
         items:[
-          {name:'麻辣鍋',emoji:'🌶️'},{name:'燒烤',emoji:'🥩'},
-          {name:'韓式部隊鍋',emoji:'🍲'},{name:'熱炒海鮮',emoji:'🦐'},
-          {name:'台式熱炒',emoji:'🍳'},{name:'壽喜燒',emoji:'🫕'},
+          {name:'麻辣鍋',icon:'pot-food'},{name:'燒烤',icon:'drumstick-bite'},
+          {name:'韓式部隊鍋',icon:'pot-food'},{name:'熱炒海鮮',icon:'shrimp'},
+          {name:'台式熱炒',icon:'fire'},{name:'壽喜燒',icon:'pot-food'},
         ]
       },
       {
-        name:'浪漫氛圍', desc:'讓今晚特別一點', icon:'🕯️',
+        name:'浪漫氛圍', desc:'讓今晚特別一點', faIcon:'fa-heart',
         items:[
-          {name:'法式料理',emoji:'🥂'},{name:'義大利麵',emoji:'🍝'},
-          {name:'海鮮拼盤',emoji:'🦞'},{name:'鐵板燒',emoji:'🥩'},
-          {name:'日式懷石',emoji:'🍱'},{name:'地中海料理',emoji:'🫒'},
+          {name:'法式料理',icon:'bread-slice'},{name:'義大利麵',icon:'bowl-food'},
+          {name:'海鮮拼盤',icon:'shrimp'},{name:'鐵板燒',icon:'drumstick-bite'},
+          {name:'日式懷石',icon:'utensils'},{name:'地中海料理',icon:'seedling'},
         ]
       },
     ],
@@ -1252,11 +1363,36 @@ let st = {
   blindPicks:   null,
 };
 
+// Inline SVG cache — loaded once, used every time PERSONA renders
+let _foodSvgText = null;
+
+// Preload SVG：成功後若仍在 PERSONA 畫面則重繪以套用 inline SVG
+(function preloadFoodSvg() {
+  fetch('assets/food-illustration.svg')
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(t => {
+      _foodSvgText = t;
+      if (typeof st !== 'undefined' && st.phase === S.PERSONA) render();
+    })
+    .catch(() => {
+      // fetch 失敗（常見於 file:// 協議）：改用 XMLHttpRequest 同步讀取
+      try {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', 'assets/food-illustration.svg', false); // synchronous
+        xhr.send(null);
+        if (xhr.status === 0 || xhr.status === 200) {
+          _foodSvgText = xhr.responseText;
+          if (typeof st !== 'undefined' && st.phase === S.PERSONA) render();
+        }
+      } catch (e) { /* 仍失敗則維持 <img> fallback */ }
+    });
+})();
+
 // ══════════════════════════════════════════════════
 //  WHEEL ENGINE
 // ══════════════════════════════════════════════════
 const WHEEL_COLORS_LIGHT = [
-  '#FFE8D0','#FFF3E0','#FFD9B3','#FFECD8',
+  '#FFE8D0','#FFF3E0','#F3CFA8','#FFECD8',
   '#FFE0C8','#FFF0D8','#FFD5A8','#FFEACC',
 ];
 
@@ -1463,6 +1599,28 @@ function render() {
 //  PHASE BUILDERS
 // ══════════════════════════════════════════════════
 function buildPersona(w) {
+  const hero = mk('div', 'persona-hero');
+
+  if (_foodSvgText) {
+    hero.innerHTML = _foodSvgText;
+    const svg = hero.querySelector('svg');
+    if (svg) {
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
+      svg.classList.add('persona-hero-img');
+    }
+  } else {
+    // fallback: <img> with dark mode CSS filter approximation
+    // (global preload will call render() again once SVG text is ready)
+    const img = document.createElement('img');
+    img.src = 'assets/food-illustration.svg';
+    img.alt = '';
+    img.className = 'persona-hero-img';
+    hero.appendChild(img);
+  }
+
+  append(w, hero);
+
   append(w, mk('p', 'eyebrow', '你今天是哪種心情/狀態？'));
 
   const list = mk('div', 'persona-list');
@@ -1470,14 +1628,14 @@ function buildPersona(w) {
   const personas = [
     {
       id: 'busy',
-      icon: '⚡',
+      faIcon: 'fa-bolt',
       name: '想簡單吃',
       desc: '時間有限，快速解決最重要',
       tags: ['超商', '外帶', '快速', '輕便'],
     },
     {
       id: 'holiday',
-      icon: '🥂',
+      faIcon: 'fa-champagne-glasses',
       name: '放假可以慢慢選',
       desc: '今天有時間，想吃點不一樣的',
       tags: ['內用', '排隊', '異國', '慢慢享受'],
@@ -1488,7 +1646,7 @@ function buildPersona(w) {
     const btn = mk('button', 'persona-btn');
     const tagsHtml = p.tags.map(t => `<span class="persona-tag">${t}</span>`).join('');
     btn.innerHTML = `
-      <div class="persona-icon">${p.icon}</div>
+      <div class="persona-icon"><i class="fa-solid ${p.faIcon}"></i></div>
       <div class="persona-content">
         <div class="persona-name">${p.name}</div>
         <div class="persona-desc">${p.desc}</div>
@@ -1507,14 +1665,14 @@ function buildPersona(w) {
 
 function buildInitial(w) {
   const PERSONA_META = {
-    busy:    { icon: '⚡', name: '想簡單吃' },
-    holiday: { icon: '🥂', name: '放假可以慢慢選' },
+    busy:    { faIcon: 'fa-bolt', name: '想簡單吃' },
+    holiday: { faIcon: 'fa-champagne-glasses', name: '放假可以慢慢選' },
   };
   const pm = PERSONA_META[st.persona];
   if (pm) {
     const ind = mk('div', 'persona-indicator');
     ind.innerHTML = `
-      <span class="persona-indicator-icon">${pm.icon}</span>
+      <span class="persona-indicator-icon"><i class="fa-solid ${pm.faIcon}"></i></span>
       <span class="persona-indicator-text">${pm.name}</span>
       <button class="switch-persona" id="switch-persona-btn">切換身份</button>`;
     append(w, ind);
@@ -1530,7 +1688,7 @@ function buildInitial(w) {
         <span class="cat-name">${name}</span>
         <span class="cat-hint">${d.hint}</span>
       </span>
-      <span class="cat-arr">›</span>`;
+      <span class="cat-arr"><i class="fa-solid fa-circle-arrow-right"></i></span>`;
     btn.addEventListener('click', () => {
       st.category = name;
       st.phase    = S.SPIN1;
@@ -1614,7 +1772,7 @@ function buildResult1(w) {
 
   const card = mk('div', 'result-card');
   card.innerHTML = `
-    <div class="result-emoji">${r.emoji}</div>
+    <div class="result-icon"><i class="fa-solid fa-${r.icon}"></i></div>
     <div class="result-name">${r.name}</div>
     <div class="result-hint">命運之輪的選擇</div>`;
 
@@ -1627,7 +1785,8 @@ function buildResult1(w) {
     render();
   });
 
-  const noBtn = mk('button', 'btn-ghost', '🙅 我任性，不想吃這個');
+  const noBtn = mk('button', 'btn-ghost');
+  noBtn.innerHTML = '<i class="fa-solid fa-ban"></i> 我任性，不想吃這個';
   noBtn.addEventListener('click', () => {
     if (st.tantrumCount < MAX_TANTRUMS) {
       st.tantrumCount++;
@@ -1638,7 +1797,8 @@ function buildResult1(w) {
     render();
   });
 
-  const cantFindBtn = mk('button', 'btn-cantfind', '📍 這附近找不到！');
+  const cantFindBtn = mk('button', 'btn-cantfind');
+  cantFindBtn.innerHTML = '<i class="fa-solid fa-location-dot"></i> 這附近找不到！';
   cantFindBtn.addEventListener('click', () => {
     st.phase = S.CANT_FIND;
     render();
@@ -1665,16 +1825,19 @@ function buildAskDir(w) {
   const dirs    = [...catData.dirs].sort(() => Math.random() - 0.5).slice(0, 3);
 
   const q = mk('p', 'dir-q', '那你現在對什麼方向有興趣呢？');
-  const list = mk('div', 'dir-list');
+  const list = mk('div', 'stack');
 
   dirs.forEach(d => {
-    const btn = mk('button', 'dir-btn');
+    const btn = mk('button', 'cat-btn');
     btn.innerHTML = `
-      <span class="dir-icon">${d.icon}</span>
-      <div class="dir-text">
-        <span class="dir-name">${d.name}</span>
-        <span class="dir-desc">${d.desc}</span>
-      </div>`;
+      <span class="cat-body">
+        <span class="cat-icon"><i class="fa-solid ${d.faIcon}"></i></span>
+        <span>
+          <span class="cat-name">${d.name}</span>
+          <span class="cat-hint">${d.desc}</span>
+        </span>
+      </span>
+      <span class="cat-arr"><i class="fa-solid fa-circle-arrow-right"></i></span>`;
     btn.addEventListener('click', () => {
       st.direction = d.name;
       st.phase     = S.SPIN2;
@@ -1701,12 +1864,13 @@ function buildResult2(w) {
 
   const card = mk('div', 'final-card');
   card.innerHTML = `
-    <div class="final-eyebrow">今天就決定是</div>
-    <div class="final-emoji">${r.emoji}</div>
+    <div class="final-eyebrow">TODAY'S PICK</div>
+    <div class="final-icon"><i class="fa-solid fa-${r.icon}"></i></div>
     <div class="final-name">${r.name}</div>
     <div class="final-context">${st.direction ? `${st.direction} · ` : ''}${st.category}</div>`;
 
-  const nearbyBtn = mk('button', 'btn-find-nearby', `📍 找附近的 ${r.name} 店家`);
+  const nearbyBtn = mk('button', 'btn-find-nearby');
+  nearbyBtn.innerHTML = `<i class="fa-solid fa-map-location-dot"></i><span>找附近的 ${r.name} 店家</span>`;
   nearbyBtn.addEventListener('click', () => {
     st.phase = S.NEARBY;
     render();
@@ -1737,7 +1901,7 @@ function buildExhausted(w) {
 
   const info = mk('div');
   info.innerHTML = `
-    <div class="exhausted-emoji">😮‍💨</div>
+    <div class="exhausted-icon"><i class="fa-solid fa-face-tired"></i></div>
     <div class="exhausted-title">我沒招了</div>
     <div class="exhausted-msg">你先去冷靜一下<br>再回來選 QQ</div>`;
 
@@ -1750,7 +1914,8 @@ function buildExhausted(w) {
     render();
   });
 
-  const blindBtn = mk('button', 'btn-blind', '🎁 盲選挑戰');
+  const blindBtn = mk('button', 'btn-blind');
+  blindBtn.innerHTML = '<i class="fa-solid fa-gift"></i> 盲選挑戰';
   blindBtn.addEventListener('click', () => {
     st.blindPicks = null;
     st.phase = S.BLIND;
@@ -1779,24 +1944,38 @@ function buildBlind(w) {
 
   const chests = mk('div', 'blind-chests');
 
+  const revealPanel = mk('div', 'blind-reveal-panel');
+  revealPanel.style.display = 'none';
+  revealPanel.innerHTML = `
+    <span class="blind-reveal-eyebrow">點開後揭曉</span>
+    <div class="blind-reveal-icon"></div>
+    <div class="blind-reveal-name"></div>`;
+
   const confirmArea = mk('div', 'blind-confirm');
   confirmArea.style.display = 'none';
   const confirmMsg = mk('div', 'blind-confirm-msg');
   const goBtn = mk('button', 'btn-main', '命運已定，去吃吧！');
+  goBtn.style.width = '100%';
   confirmArea.appendChild(confirmMsg);
   confirmArea.appendChild(goBtn);
 
   picks.forEach(item => {
     const chest = mk('div', 'blind-chest');
-    chest.innerHTML = `<div class="chest-icon">🎁</div><div class="chest-q">？？？</div>`;
+    chest.innerHTML = `<div class="chest-icon"><i class="fa-solid fa-gift"></i></div><div class="chest-q">？？？</div>`;
 
     chest.addEventListener('click', () => {
-      chest.innerHTML = `<div class="chest-icon">${item.emoji}</div><div class="chest-name">${item.name}</div>`;
+      if (chest.classList.contains('revealed')) return;
+
+      chest.innerHTML = `<div class="chest-icon"><i class="fa-solid fa-${item.icon}"></i></div><div class="chest-name">${item.name}</div>`;
       chest.classList.add('revealed');
 
       chests.querySelectorAll('.blind-chest:not(.revealed)').forEach(c => {
         c.classList.add('dimmed');
       });
+
+      revealPanel.querySelector('.blind-reveal-icon').innerHTML = `<i class="fa-solid fa-${item.icon}"></i>`;
+      revealPanel.querySelector('.blind-reveal-name').textContent = item.name;
+      revealPanel.style.display = 'flex';
 
       st.result2 = item;
       confirmMsg.textContent = `就決定是「${item.name}」了！`;
@@ -1814,6 +1993,7 @@ function buildBlind(w) {
   append(w, title);
   append(w, sub);
   append(w, chests);
+  append(w, revealPanel);
   append(w, confirmArea);
 }
 
@@ -1822,14 +2002,15 @@ function buildCantFind(w) {
 
   const card = mk('div', 'cantfind-card');
   card.innerHTML = `
-    <div class="cantfind-emoji">🗺️</div>
+    <div class="cantfind-emoji"><i class="fa-solid fa-${r?.icon ?? 'utensils'}"></i></div>
     <div class="cantfind-title">${r?.name} 附近買不到？</div>
     <div class="cantfind-msg">沒關係，要怎麼辦呢？</div>`;
   append(w, card);
 
   const actions = mk('div', 'action-stack');
 
-  const respinBtn = mk('button', 'btn-main', '🎰 重新抽一個選項');
+  const respinBtn = mk('button', 'btn-main');
+  respinBtn.innerHTML = '<i class="fa-solid fa-dice"></i> 重新抽一個選項';
   respinBtn.addEventListener('click', () => {
     wheelRot = 0;
     // 若已選過方向，在相同方向池再轉；否則回第一轉盤
@@ -1862,14 +2043,15 @@ function buildNearby(w) {
   const r = st.result2;
   const foodName = r?.name ?? '';
 
-  // 提示：你選了什麼
+  // 你選擇的是：垂直置中卡片
   const reminder = mk('div', 'nearby-reminder');
   reminder.innerHTML = `
     <span class="nearby-reminder-label">你選擇的是</span>
-    <span class="nearby-reminder-food">${r?.emoji ?? ''} ${foodName}</span>`;
+    <div class="nearby-reminder-icon"><i class="fa-solid fa-${r?.icon ?? 'utensils'}"></i></div>
+    <div class="nearby-reminder-name">${foodName}</div>`;
   append(w, reminder);
 
-  append(w, mk('p', 'eyebrow', '在 Google Maps 搜尋附近店家'));
+  append(w, mk('p', 'eyebrow', '在 GOOGLE MAPS 搜尋附近店家'));
 
   // Google Maps 搜尋卡片
   const searchUrl = `https://www.google.com/maps/search/${encodeURIComponent(foodName + ' 附近')}`;
@@ -1881,13 +2063,13 @@ function buildNearby(w) {
   mapsCard.rel = 'noopener noreferrer';
   mapsCard.innerHTML = `
     <div class="maps-search-left">
-      <div class="maps-search-icon">🗺️</div>
+      <div class="maps-search-icon"><i class="fa-solid fa-map"></i></div>
       <div class="maps-search-text">
-        <div class="maps-search-title">「${foodName}」附近</div>
-        <div class="maps-search-sub">開啟 Google Maps · 含評分與照片</div>
+        <div class="maps-search-title">找附近的${foodName}</div>
+        <div class="maps-search-sub">開啟 Google Maps</div>
       </div>
     </div>
-    <div class="maps-search-arrow">↗</div>`;
+    <div class="maps-search-arrow"><i class="fa-solid fa-circle-arrow-right"></i></div>`;
   append(w, mapsCard);
 
   const backBtn = mk('button', 'btn-ghost', '← 回到選擇結果');
@@ -1927,10 +2109,10 @@ render();
   function applyTheme(dark) {
     if (dark) {
       root.setAttribute('data-theme', 'dark');
-      btn.textContent = '☀️';
+      btn.firstElementChild.className = 'fa-solid fa-sun';
     } else {
       root.removeAttribute('data-theme');
-      btn.textContent = '🌙';
+      btn.firstElementChild.className = 'fa-solid fa-moon';
     }
     // Re-draw canvas if wheel is currently visible
     const cnv = document.getElementById('wheel');

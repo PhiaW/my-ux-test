@@ -1,0 +1,78 @@
+{
+  "collections": [
+    {
+      "name": "Primitives",
+      "modes": ["Value"],
+      "variables": [
+
+        { "name": "color/orange/200", "type": "COLOR", "values": { "Value": "#F3CFA8" }, "description": "primary-container / Light" },
+        { "name": "color/orange/300", "type": "COLOR", "values": { "Value": "#F3A839" }, "description": "primary / Light" },
+        { "name": "color/orange/400", "type": "COLOR", "values": { "Value": "#BF5730" }, "description": "primary-hover / Light" },
+        { "name": "color/orange/500", "type": "COLOR", "values": { "Value": "#B65D32" }, "description": "primary / Dark" },
+        { "name": "color/orange/600", "type": "COLOR", "values": { "Value": "#E39B3F" }, "description": "primary-hover / Dark" },
+        { "name": "color/orange/700", "type": "COLOR", "values": { "Value": "#74411F" }, "description": "primary-container / Dark" },
+
+        { "name": "color/neutral/0",   "type": "COLOR", "values": { "Value": "#FFFFFF" }, "description": "surface / Light" },
+        { "name": "color/neutral/50",  "type": "COLOR", "values": { "Value": "#FCF9F0" }, "description": "background / Light" },
+        { "name": "color/neutral/200", "type": "COLOR", "values": { "Value": "#EBD7C0" }, "description": "on-background / Dark" },
+        { "name": "color/neutral/300", "type": "COLOR", "values": { "Value": "#E9E1D6" }, "description": "outline / Light" },
+        { "name": "color/neutral/400", "type": "COLOR", "values": { "Value": "#B98C60" }, "description": "on-surface-variant / Dark" },
+        { "name": "color/neutral/500", "type": "COLOR", "values": { "Value": "#82491B" }, "description": "on-surface-variant / Light" },
+        { "name": "color/neutral/600", "type": "COLOR", "values": { "Value": "#3B332B" }, "description": "on-background / Light" },
+        { "name": "color/neutral/700", "type": "COLOR", "values": { "Value": "#3B332B" }, "description": "outline / Dark — 故意與 neutral/600 同值" },
+        { "name": "color/neutral/800", "type": "COLOR", "values": { "Value": "#2A211A" }, "description": "surface / Dark" },
+        { "name": "color/neutral/850", "type": "COLOR", "values": { "Value": "#15120F" }, "description": "on-primary / Light — contrast 11.8:1" },
+        { "name": "color/neutral/900", "type": "COLOR", "values": { "Value": "#1E1812" }, "description": "background / Dark · on-primary / Dark — contrast 4.9:1" },
+
+        { "name": "color/feedback/success", "type": "COLOR", "values": { "Value": "#6DBE8A" }, "description": "Do 綠" },
+        { "name": "color/feedback/error",   "type": "COLOR", "values": { "Value": "#E57373" }, "description": "Don't 紅" },
+
+        { "name": "spacing/1",  "type": "FLOAT", "values": { "Value": 4  }, "description": "4px — half unit" },
+        { "name": "spacing/2",  "type": "FLOAT", "values": { "Value": 8  }, "description": "8px" },
+        { "name": "spacing/3",  "type": "FLOAT", "values": { "Value": 12 }, "description": "12px" },
+        { "name": "spacing/4",  "type": "FLOAT", "values": { "Value": 16 }, "description": "16px — btn padding" },
+        { "name": "spacing/5",  "type": "FLOAT", "values": { "Value": 20 }, "description": "20px — page padding-x" },
+        { "name": "spacing/6",  "type": "FLOAT", "values": { "Value": 24 }, "description": "24px — card padding-x" },
+        { "name": "spacing/7",  "type": "FLOAT", "values": { "Value": 28 }, "description": "28px" },
+        { "name": "spacing/8",  "type": "FLOAT", "values": { "Value": 32 }, "description": "32px — card padding-y" },
+        { "name": "spacing/10", "type": "FLOAT", "values": { "Value": 40 }, "description": "40px — final-card padding-y" },
+        { "name": "spacing/11", "type": "FLOAT", "values": { "Value": 44 }, "description": "44px — header padding-top" },
+        { "name": "spacing/12", "type": "FLOAT", "values": { "Value": 48 }, "description": "48px" },
+        { "name": "spacing/16", "type": "FLOAT", "values": { "Value": 64 }, "description": "64px — section 間距" },
+
+        { "name": "radius/none",   "type": "FLOAT", "values": { "Value": 0    } },
+        { "name": "radius/xs",     "type": "FLOAT", "values": { "Value": 6    }, "description": "code chip" },
+        { "name": "radius/sm",     "type": "FLOAT", "values": { "Value": 10   }, "description": "nav link" },
+        { "name": "radius/md",     "type": "FLOAT", "values": { "Value": 14   }, "description": "Buttons — CSS: --rs" },
+        { "name": "radius/lg",     "type": "FLOAT", "values": { "Value": 16   }, "description": "persona icon 背景" },
+        { "name": "radius/xl",     "type": "FLOAT", "values": { "Value": 20   }, "description": "Cards — CSS: --r" },
+        { "name": "radius/full",   "type": "FLOAT", "values": { "Value": 100  }, "description": "Pill 按鈕" },
+        { "name": "radius/circle", "type": "FLOAT", "values": { "Value": 9999 }, "description": "圓形 theme-toggle" },
+
+        { "name": "font/size/xs",      "type": "FLOAT", "values": { "Value": 11 } },
+        { "name": "font/size/sm",      "type": "FLOAT", "values": { "Value": 12 } },
+        { "name": "font/size/caption", "type": "FLOAT", "values": { "Value": 14 }, "description": "CSS: --fs-caption" },
+        { "name": "font/size/label",   "type": "FLOAT", "values": { "Value": 16 }, "description": "CSS: --fs-label" },
+        { "name": "font/size/body",    "type": "FLOAT", "values": { "Value": 18 }, "description": "CSS: --fs-body" },
+        { "name": "font/size/title",   "type": "FLOAT", "values": { "Value": 24 }, "description": "CSS: --fs-title — Figma Text Style: Title (24px Bold)" },
+        { "name": "font/size/display", "type": "FLOAT", "values": { "Value": 32 }, "description": "CSS: --fs-display" },
+
+        { "name": "font/weight/light",   "type": "FLOAT", "values": { "Value": 300 } },
+        { "name": "font/weight/regular", "type": "FLOAT", "values": { "Value": 400 } },
+        { "name": "font/weight/medium",  "type": "FLOAT", "values": { "Value": 500 } },
+        { "name": "font/weight/bold",    "type": "FLOAT", "values": { "Value": 700 } },
+
+        { "name": "motion/duration/fast",       "type": "FLOAT", "values": { "Value": 150 }, "description": "nav hover" },
+        { "name": "motion/duration/normal",     "type": "FLOAT", "values": { "Value": 200 }, "description": "button transitions" },
+        { "name": "motion/duration/moderate",   "type": "FLOAT", "values": { "Value": 350 }, "description": "scene slideUp" },
+        { "name": "motion/duration/slow",       "type": "FLOAT", "values": { "Value": 450 }, "description": "card popIn / wheel snap" },
+        { "name": "motion/duration/deliberate", "type": "FLOAT", "values": { "Value": 750 }, "description": "loading spinner" },
+
+        { "name": "z-index/base",     "type": "FLOAT", "values": { "Value": 0   } },
+        { "name": "z-index/elevated", "type": "FLOAT", "values": { "Value": 2   }, "description": "wheel 指針" },
+        { "name": "z-index/sticky",   "type": "FLOAT", "values": { "Value": 100 }, "description": "DS sidebar" }
+
+      ]
+    }
+  ]
+}

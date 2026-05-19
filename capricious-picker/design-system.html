@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System — 任性選擇器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { font-family: inherit; border: none; cursor: pointer; background: none; }
+
+    /* ── Design Tokens ─────────────────────────── */
+    :root {
+      --bg:         #FCF9F0;
+      --surface:    #FFFFFF;
+      --primary:    #F3A839;
+      --primary-hv: #BF5730;
+      --primary-lt: #F3CFA8;
+      --text:       #3B332B;
+      --muted:      #82491B;
+      --border:     #E9E1D6;
+      --on-primary: #15120F;
+      --sh:         0 2px 16px rgba(59,51,43,.07);
+      --sh-lg:      0 8px 32px rgba(59,51,43,.12);
+      --r:          20px;
+      --rs:         14px;
+      --fs-display: 32px;
+      --fs-title:   24px;
+      --fs-body:    18px;
+      --fs-label:   16px;
+      --fs-caption: 14px;
+
+      /* Design System page-only tokens */
+      --ds-sidebar-w: 220px;
+      --ds-surface-2: #F8ECDC;
+      --ds-code-bg:   #F0EBE3;
+    }
+
+    [data-theme="dark"] {
+      --bg:         #1E1812;
+      --surface:    #2A211A;
+      --primary:    #B65D32;
+      --primary-hv: #E39B3F;
+      --primary-lt: #74411F;
+      --text:       #EBD7C0;
+      --muted:      #B98C60;
+      --border:     #3B332B;
+      --on-primary: #1E1812;
+      --sh:         0 2px 16px rgba(0,0,0,.35);
+      --sh-lg:      0 8px 32px rgba(0,0,0,.55);
+      --ds-surface-2: #332C26;
+      --ds-code-bg:   #241F1B;
+    }
+
+    /* ── Layout ────────────────────────────────── */
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans TC', sans-serif;
+      min-height: 100dvh;
+      display: flex;
+    }
+
+    .ds-sidebar {
+      width: var(--ds-sidebar-w);
+      flex-shrink: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100dvh;
+      background: var(--surface);
+      border-right: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .ds-sidebar-header {
+      padding: 28px 20px 20px;
+      border-bottom: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ds-sidebar-app {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .ds-sidebar-badge {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--on-primary);
+      background: var(--primary-lt);
+      padding: 2px 8px;
+      border-radius: 100px;
+      width: fit-content;
+      letter-spacing: .5px;
+    }
+
+    .ds-nav {
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .ds-nav-group {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 8px 6px;
+    }
+
+    .ds-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all .15s ease;
+      cursor: pointer;
+    }
+
+    .ds-nav-link:hover {
+      background: var(--ds-surface-2);
+      color: var(--text);
+    }
+
+    .ds-nav-link.active {
+      background: var(--primary-lt);
+      color: var(--on-primary);
+      font-weight: 500;
+    }
+
+    .ds-nav-icon { font-size: 14px; flex-shrink: 0; }
+
+    .ds-main {
+      margin-left: var(--ds-sidebar-w);
+      flex: 1;
+      min-width: 0;
+      padding: 48px 48px 120px;
+      max-width: 900px;
+    }
+
+    /* ── Page Header ───────────────────────────── */
+    .ds-page-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-bottom: 40px;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 56px;
+    }
+
+    .ds-page-header-top {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ds-page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -.5px;
+      line-height: 1.1;
+    }
+
+    .ds-page-desc {
+      font-size: var(--fs-label);
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 480px;
+    }
+
+    /* ── Theme Toggle ──────────────────────────── */
+    .theme-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--sh);
+      transition: all .2s ease;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--primary);
+      background: var(--primary-lt);
+    }
+
+    /* ── Section ───────────────────────────────── */
+    .ds-section {
+      margin-bottom: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      scroll-margin-top: 32px;
+    }
+
+    .ds-section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-bottom: 20px;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .ds-section-title {
+      font-size: var(--fs-title);
+      font-weight: 700;
+      letter-spacing: -.3px;
+    }
+
+    .ds-section-desc {
+      font-size: var(--fs-caption);
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    .ds-subsection {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ds-subsection-title {
+      font-size: var(--fs-label);
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: .3px;
+    }
+
+    /* ── Token card ────────────────────────────── */
+    .ds-token-grid {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .ds-color-swatch {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 130px;
+      flex: 1;
+    }
+
+    .ds-swatch-box {
+      height: 64px;
+      border-radius: var(--rs);
+      border: 1.5px solid var(--border);
+    }
+
+    .ds-swatch-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .ds-swatch-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── Typography specimens ──────────────────── */
+    .ds-type-row {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 20px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .ds-type-row:last-child { border-bottom: none; }
+
+    .ds-type-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      width: 160px;
+      flex-shrink: 0;
+    }
+
+    .ds-type-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .ds-type-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* ── Radius tokens ─────────────────────────── */
+    .ds-radius-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .ds-radius-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ds-radius-box {
+      width: 80px;
+      height: 80px;
+      background: var(--primary-lt);
+      border: 2px solid var(--primary);
+    }
+
+    .ds-radius-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── Shadow tokens ─────────────────────────── */
+    .ds-shadow-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .ds-shadow-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .ds-shadow-box {
+      height: 80px;
+      background: var(--surface);
+      border-radius: var(--rs);
+    }
+
+    /* ── Preview canvas ────────────────────────── */
+    .ds-preview {
+      background: var(--ds-surface-2);
+      border-radius: var(--r);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .ds-preview.col {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .ds-preview.center {
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* ── Code chip ─────────────────────────────── */
+    .ds-chip {
+      display: inline-flex;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--ds-code-bg);
+      padding: 3px 8px;
+      border-radius: 6px;
+      width: fit-content;
+    }
+
+    /* ── Component meta row ────────────────────── */
+    .ds-comp-item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ds-comp-meta {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ds-comp-desc {
+      font-size: var(--fs-caption);
+      color: var(--muted);
+    }
+
+    /* ══════════════════════════════════════════════
+       APP COMPONENTS — copied from index.html
+    ══════════════════════════════════════════════ */
+
+    /* Buttons */
+    .btn-main {
+      padding: 16px;
+      background: var(--primary);
+      border-radius: var(--rs);
+      font-size: var(--fs-body);
+      font-weight: 500;
+      color: var(--on-primary);
+      transition: background .2s ease;
+      text-align: center;
+    }
+    .btn-main:hover { background: var(--primary-hv); }
+
+    .btn-ghost {
+      padding: 16px;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+      border-radius: var(--rs);
+      font-size: var(--fs-label);
+      font-weight: 400;
+      transition: all .2s ease;
+      text-align: center;
+    }
+    .btn-ghost:hover { color: var(--primary); border-color: var(--primary); }
+
+    .btn-cantfind {
+      padding: 14px 16px;
+      color: var(--muted);
+      font-size: var(--fs-label);
+      font-weight: 400;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--rs);
+      transition: all .2s ease;
+      text-align: center;
+    }
+    .btn-cantfind:hover { border-color: var(--primary); color: var(--primary); border-style: solid; }
+
+    .btn-restart {
+      padding: 12px 30px;
+      background: rgba(255,179,128,.18);
+      color: var(--on-primary);
+      border: 1.5px solid rgba(255,179,128,.35);
+      border-radius: 100px;
+      font-size: var(--fs-label);
+      font-weight: 400;
+      transition: all .2s ease;
+    }
+    .btn-restart:hover { background: rgba(255,179,128,.3); }
+
+    .btn-calm {
+      padding: 14px 16px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      font-size: var(--fs-label);
+      font-weight: 500;
+      transition: all .2s ease;
+    }
+    .btn-calm:hover { border-color: var(--primary); color: var(--primary); }
+
+    .btn-blind {
+      padding: 14px 16px;
+      background: var(--primary);
+      color: var(--on-primary);
+      border-radius: 100px;
+      font-size: var(--fs-label);
+      font-weight: 700;
+      transition: all .2s ease;
+    }
+    .btn-blind:hover { background: var(--primary-hv); transform: translateY(-2px); box-shadow: var(--sh); }
+
+    /* Cards */
+    .result-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--sh-lg);
+    }
+    .result-emoji { font-size: 44px; }
+    .result-name  { font-size: var(--fs-display); font-weight: 700; margin-top: 4px; }
+    .result-hint  { font-size: var(--fs-caption); color: var(--muted); font-weight: 300; font-style: italic; }
+
+    .final-card {
+      background: var(--primary);
+      border-radius: var(--r);
+      padding: 40px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 36px rgba(255,179,128,.4);
+    }
+    [data-theme="dark"] .final-card { box-shadow: 0 8px 36px rgba(212,150,106,.3); }
+    .final-eyebrow { font-size: var(--fs-caption); letter-spacing: 2.5px; text-transform: uppercase; color: var(--on-primary); opacity: .7; }
+    .final-emoji { font-size: 54px; }
+    .final-name { font-size: var(--fs-display); font-weight: 700; color: var(--on-primary); text-align: center; }
+    .final-context { font-size: var(--fs-label); color: var(--on-primary); font-weight: 300; opacity: .75; }
+
+    .cantfind-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 32px 24px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--sh-lg);
+      text-align: center;
+    }
+    .cantfind-emoji { font-size: 44px; }
+    .cantfind-title { font-size: var(--fs-title); font-weight: 700; color: var(--text); margin-top: 4px; }
+    .cantfind-msg { font-size: var(--fs-label); font-weight: 300; color: var(--muted); line-height: 1.6; }
+
+    .exhausted-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      padding: 44px 24px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--sh-lg);
+      text-align: center;
+    }
+    .exhausted-emoji { font-size: 52px; }
+    .exhausted-title { font-size: var(--fs-title); font-weight: 700; color: var(--text); }
+    .exhausted-msg { font-size: var(--fs-body); font-weight: 300; color: var(--muted); line-height: 1.7; }
+    .exhausted-btns { display: flex; flex-direction: row; gap: 10px; margin-top: 8px; width: 100%; }
+
+    .blind-chest {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 20px 12px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--r);
+      cursor: pointer;
+      flex: 1;
+      min-width: 80px;
+      transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+      user-select: none;
+    }
+    .blind-chest:hover { border-color: var(--primary); transform: translateY(-4px); box-shadow: var(--sh-lg); }
+    .blind-chest.revealed { border-color: var(--primary); background: var(--primary-lt); }
+    .chest-icon { font-size: 40px; }
+    .chest-q { font-size: var(--fs-label); font-weight: 700; color: var(--muted); letter-spacing: 2px; }
+
+    /* Interactive rows */
+    .cat-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 22px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      text-align: left;
+      transition: all .2s ease;
+      width: 100%;
+    }
+    .cat-btn:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--sh-lg); }
+    .cat-name { display: block; font-size: var(--fs-title); font-weight: 700; color: var(--text); }
+    .cat-hint { display: block; font-size: var(--fs-caption); font-weight: 300; color: var(--muted); margin-top: 3px; }
+    .cat-arr { font-size: var(--fs-body); color: var(--muted); opacity: .45; }
+
+    .dir-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      text-align: left;
+      box-shadow: var(--sh);
+      transition: all .2s ease;
+      width: 100%;
+    }
+    .dir-btn:hover { border-color: var(--primary); background: var(--primary-lt); transform: translateX(4px); }
+    .dir-icon { font-size: 28px; flex-shrink: 0; }
+    .dir-text { display: flex; flex-direction: column; gap: 2px; }
+    .dir-name { font-size: var(--fs-body); font-weight: 500; }
+    .dir-desc { font-size: var(--fs-caption); font-weight: 300; color: var(--muted); }
+
+    .persona-btn {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 18px;
+      padding: 24px 20px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+      text-align: left;
+      transition: all .25s ease;
+      width: 100%;
+    }
+    .persona-btn:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--sh-lg); }
+    .persona-icon { font-size: 32px; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; background: var(--primary-lt); border-radius: 16px; flex-shrink: 0; }
+    .persona-content { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .persona-name { font-size: var(--fs-body); font-weight: 700; color: var(--text); }
+    .persona-desc { font-size: var(--fs-caption); color: var(--muted); font-weight: 300; }
+    .persona-tags { display: flex; flex-direction: row; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .persona-tag { font-size: 12px; font-weight: 500; color: var(--on-primary); background: var(--primary-lt); padding: 2px 10px; border-radius: 100px; }
+    [data-theme="dark"] .persona-tag { color: var(--primary); }
+
+    /* Tags & Indicators */
+    .persona-indicator {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--primary-lt);
+      border-radius: var(--rs);
+    }
+    .persona-indicator-icon { font-size: 16px; }
+    .persona-indicator-text { font-size: var(--fs-caption); font-weight: 600; color: var(--on-primary); }
+
+    .nearby-reminder {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--primary-lt);
+      border-radius: var(--rs);
+      border-left: 3px solid var(--primary);
+    }
+    .nearby-reminder-label { font-size: var(--fs-caption); font-weight: 400; color: var(--muted); flex-shrink: 0; }
+    .nearby-reminder-food { font-size: var(--fs-body); font-weight: 700; color: var(--primary); }
+
+    /* Progress bar */
+    .ds-progress-demo {
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+    }
+    .bar { flex: 1; height: 4px; border-radius: 2px; background: var(--border); }
+    .bar.done   { background: var(--primary-lt); }
+    .bar.active { background: var(--primary); }
+
+    /* Maps search card */
+    .maps-search-card {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 20px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--sh-lg);
+      text-decoration: none;
+      color: var(--text);
+      transition: all .2s ease;
+    }
+    .maps-search-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .maps-search-left { display: flex; flex-direction: row; align-items: center; gap: 14px; }
+    .maps-search-icon { font-size: 32px; }
+    .maps-search-text { display: flex; flex-direction: column; gap: 3px; }
+    .maps-search-title { font-size: var(--fs-body); font-weight: 600; }
+    .maps-search-sub { font-size: var(--fs-caption); font-weight: 300; color: var(--muted); }
+    .maps-search-arrow { font-size: var(--fs-body); color: var(--muted); }
+
+    /* Back link */
+    .back-link {
+      font-size: var(--fs-label);
+      color: var(--muted);
+      cursor: pointer;
+      width: fit-content;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--primary); }
+
+    /* Eyebrow */
+    .eyebrow {
+      font-size: var(--fs-body);
+      font-weight: 500;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* Loading spinner */
+    .finding-spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Animations showcase */
+    .anim-slide-up {
+      animation: slideUp .35s ease forwards;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .anim-pop-in {
+      animation: popIn .45s cubic-bezier(.34,1.56,.64,1) forwards;
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .anim-blink {
+      animation: blink 1.3s ease infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: .25; }
+    }
+
+    /* Animation demo boxes */
+    .anim-demo-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .anim-demo-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      min-width: 180px;
+      align-items: center;
+    }
+
+    .anim-demo-box {
+      width: 80px;
+      height: 80px;
+      background: var(--primary-lt);
+      border: 2px solid var(--primary);
+      border-radius: var(--rs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .anim-play-btn {
+      font-size: var(--fs-caption);
+      color: var(--muted);
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      transition: all .15s ease;
+    }
+    .anim-play-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Divider */
+    .ds-divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Util */
+    .action-stack { display: flex; flex-direction: column; gap: 10px; }
+    .blind-chests { display: flex; flex-direction: row; gap: 12px; justify-content: center; }
+
+    /* Mobile sidebar */
+    @media (max-width: 720px) {
+      .ds-sidebar { display: none; }
+      .ds-main { margin-left: 0; padding: 32px 20px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ─────────────────────────────────── -->
+<aside class="ds-sidebar">
+  <div class="ds-sidebar-header">
+    <span class="ds-sidebar-app">任性選擇器</span>
+    <span class="ds-sidebar-badge">Design System</span>
+  </div>
+  <nav class="ds-nav">
+    <div class="ds-nav-group">Tokens</div>
+    <a class="ds-nav-link" href="#colors"><span class="ds-nav-icon">🎨</span> 顏色</a>
+    <a class="ds-nav-link" href="#typography"><span class="ds-nav-icon">Aa</span> 字體</a>
+    <a class="ds-nav-link" href="#radius"><span class="ds-nav-icon">▢</span> 圓角</a>
+    <a class="ds-nav-link" href="#shadows"><span class="ds-nav-icon">◻</span> 陰影</a>
+
+    <div class="ds-nav-group">Components</div>
+    <a class="ds-nav-link" href="#buttons"><span class="ds-nav-icon">⬜</span> 按鈕</a>
+    <a class="ds-nav-link" href="#cards"><span class="ds-nav-icon">🃏</span> 卡片</a>
+    <a class="ds-nav-link" href="#rows"><span class="ds-nav-icon">☰</span> 互動列</a>
+    <a class="ds-nav-link" href="#tags"><span class="ds-nav-icon">🏷</span> 標籤 & 指示器</a>
+    <a class="ds-nav-link" href="#progress"><span class="ds-nav-icon">▬</span> 進度條</a>
+    <a class="ds-nav-link" href="#states"><span class="ds-nav-icon">✦</span> 特殊狀態</a>
+
+    <div class="ds-nav-group">Motion</div>
+    <a class="ds-nav-link" href="#animations"><span class="ds-nav-icon">✨</span> 動畫</a>
+  </nav>
+</aside>
+
+<!-- ── Main ───────────────────────────────────── -->
+<main class="ds-main">
+
+  <!-- Page Header -->
+  <div class="ds-page-header">
+    <div class="ds-page-header-top">
+      <h1 class="ds-page-title">Design System</h1>
+      <button class="theme-toggle" id="theme-toggle" aria-label="切換深色模式">🌙</button>
+    </div>
+    <p class="ds-page-desc">任性選擇器的設計基準文件。所有 design tokens、元件樣式與動畫規格集中於此，修改前先在這裡對齊視覺語言。</p>
+  </div>
+
+  <!-- ══ COLORS ══════════════════════════════════ -->
+  <section class="ds-section" id="colors">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">顏色</h2>
+      <p class="ds-section-desc">Light Mode（暖色晨曦）與 Dark Mode（微醺餘暉）各自的 CSS 變數對應值。</p>
+    </div>
+
+    <div class="ds-subsection">
+      <div class="ds-subsection-title">主色 Primary</div>
+      <div class="ds-token-grid">
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#F3A839;"></div>
+          <div class="ds-swatch-name">--primary</div>
+          <div class="ds-swatch-hex">Light #F3A839 · Dark #B65D32</div>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#BF5730;"></div>
+          <div class="ds-swatch-name">--primary-hv</div>
+          <div class="ds-swatch-hex">Light #BF5730 · Dark #E39B3F</div>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#F3CFA8;"></div>
+          <div class="ds-swatch-name">--primary-lt</div>
+          <div class="ds-swatch-hex">Light #F3CFA8 · Dark #74411F</div>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#15120F;"></div>
+          <div class="ds-swatch-name">--on-primary</div>
+          <div class="ds-swatch-hex">Light #15120F · Dark #1E1812</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-subsection">
+      <div class="ds-subsection-title">基礎色 Base</div>
+      <div class="ds-token-grid">
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#FCF9F0; border: 1.5px solid #E9E1D6;"></div>
+          <div class="ds-swatch-name">--bg</div>
+          <div class="ds-swatch-hex">Light #FCF9F0 · Dark #1E1812</div>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#FFFFFF; border: 1.5px solid #E9E1D6;"></div>
+          <div class="ds-swatch-name">--surface</div>
+          <div class="ds-swatch-hex">Light #FFFFFF · Dark #2A211A</div>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#3B332B;"></div>
+          <div class="ds-swatch-name">--text</div>
+          <div class="ds-swatch-hex">Light #3B332B · Dark #EBD7C0</div>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#82491B;"></div>
+          <div class="ds-swatch-name">--muted</div>
+          <div class="ds-swatch-hex">Light #82491B · Dark #B98C60</div>
+        </div>
+        <div class="ds-color-swatch">
+          <div class="ds-swatch-box" style="background:#E9E1D6;"></div>
+          <div class="ds-swatch-name">--border</div>
+          <div class="ds-swatch-hex">Light #E9E1D6 · Dark #3B332B</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TYPOGRAPHY ══════════════════════════════ -->
+  <section class="ds-section" id="typography">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">字體</h2>
+      <p class="ds-section-desc">Display 使用 Playfair Display；其餘全部使用 Noto Sans TC。</p>
+    </div>
+
+    <div class="ds-subsection">
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          <span class="ds-type-label">--fs-display</span>
+          <span class="ds-type-value">32px / 700</span>
+          <span class="ds-chip" style="margin-top:4px;">Playfair Display</span>
+        </div>
+        <div style="font-family:'Playfair Display',serif; font-size:32px; font-weight:700; letter-spacing:-.5px;">任性選擇器</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          <span class="ds-type-label">--fs-title</span>
+          <span class="ds-type-value">24px / 700</span>
+          <span class="ds-chip" style="margin-top:4px;">Noto Sans TC</span>
+        </div>
+        <div style="font-size:24px; font-weight:700;">午餐 · 晚餐 · 點心</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          <span class="ds-type-label">--fs-body</span>
+          <span class="ds-type-value">18px / 400–500</span>
+          <span class="ds-chip" style="margin-top:4px;">Noto Sans TC</span>
+        </div>
+        <div style="font-size:18px; font-weight:400;">肚子餓了，讓命運幫你決定</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          <span class="ds-type-label">--fs-label</span>
+          <span class="ds-type-value">16px / 300–600</span>
+        </div>
+        <div style="font-size:16px; font-weight:400; color:var(--muted);">快點選快點吃快點回去工作</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          <span class="ds-type-label">--fs-caption</span>
+          <span class="ds-type-value">14px / 300–500</span>
+        </div>
+        <div style="font-size:14px; font-weight:300; color:var(--muted); font-style:italic;">命運之輪的選擇</div>
+      </div>
+      <div class="ds-type-row">
+        <div class="ds-type-meta">
+          <span class="ds-type-label">eyebrow</span>
+          <span class="ds-type-value">18px / 500 / uppercase</span>
+          <span class="ds-type-value">letter-spacing: 1.8px</span>
+        </div>
+        <div class="eyebrow">選擇今天想吃的時段</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ RADIUS ══════════════════════════════════ -->
+  <section class="ds-section" id="radius">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">圓角</h2>
+      <p class="ds-section-desc">兩種主要圓角尺寸，搭配 100px pill 用於膠囊按鈕。</p>
+    </div>
+
+    <div class="ds-radius-grid">
+      <div class="ds-radius-item">
+        <div class="ds-radius-box" style="border-radius:20px;"></div>
+        <div class="ds-radius-label"><strong>--r</strong><br>20px<br>Cards · Rows</div>
+      </div>
+      <div class="ds-radius-item">
+        <div class="ds-radius-box" style="border-radius:14px;"></div>
+        <div class="ds-radius-label"><strong>--rs</strong><br>14px<br>Buttons · Chips</div>
+      </div>
+      <div class="ds-radius-item">
+        <div class="ds-radius-box" style="border-radius:100px;"></div>
+        <div class="ds-radius-label"><strong>pill</strong><br>100px<br>Calm / Blind / Restart</div>
+      </div>
+      <div class="ds-radius-item">
+        <div class="ds-radius-box" style="border-radius:50%; width:80px; height:80px;"></div>
+        <div class="ds-radius-label"><strong>circle</strong><br>50%<br>Theme Toggle</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SHADOWS ═════════════════════════════════ -->
+  <section class="ds-section" id="shadows">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">陰影</h2>
+      <p class="ds-section-desc">輕重兩種陰影，Dark Mode 改用 black 底色的半透明陰影。</p>
+    </div>
+
+    <div class="ds-shadow-grid">
+      <div class="ds-shadow-item">
+        <div class="ds-shadow-box" style="box-shadow: 0 2px 16px rgba(74,68,63,.07);"></div>
+        <div class="ds-swatch-name">--sh</div>
+        <div class="ds-swatch-hex" style="font-size:12px;">0 2px 16px rgba(74,68,63,.07)<br>用於：Cards（預設）、Rows</div>
+      </div>
+      <div class="ds-shadow-item">
+        <div class="ds-shadow-box" style="box-shadow: 0 8px 32px rgba(74,68,63,.12);"></div>
+        <div class="ds-swatch-name">--sh-lg</div>
+        <div class="ds-swatch-hex" style="font-size:12px;">0 8px 32px rgba(74,68,63,.12)<br>用於：Result cards、Hover 狀態</div>
+      </div>
+      <div class="ds-shadow-item">
+        <div class="ds-shadow-box" style="box-shadow: 0 8px 36px rgba(255,179,128,.4);"></div>
+        <div class="ds-swatch-name">final-card glow</div>
+        <div class="ds-swatch-hex" style="font-size:12px;">0 8px 36px rgba(255,179,128,.4)<br>用於：Final Result Card（primary 底色）</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BUTTONS ═════════════════════════════════ -->
+  <section class="ds-section" id="buttons">
+    <div class="ds-section-header">
+      <div style="display:flex; flex-direction:row; align-items:baseline; justify-content:space-between; gap:12px;">
+        <h2 class="ds-section-title">按鈕</h2>
+        <a href="components/button.html" style="font-size:13px; color:var(--primary); font-weight:500; text-decoration:none; white-space:nowrap; transition:opacity .15s;" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">查看文件 →</a>
+      </div>
+      <p class="ds-section-desc">六種按鈕變體，涵蓋 Primary、Ghost、Dashed、Pill 等語意場景。</p>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.btn-main</span>
+        <span class="ds-comp-desc">主要操作 — 確認選擇、重新抽選</span>
+      </div>
+      <div class="ds-preview">
+        <button class="btn-main" style="min-width:180px;">好，就吃便當！</button>
+        <button class="btn-main" style="min-width:180px;">🎰 重新抽一個選項</button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.btn-ghost</span>
+        <span class="ds-comp-desc">次要操作 — 任性拒絕、返回主選單</span>
+      </div>
+      <div class="ds-preview">
+        <button class="btn-ghost" style="min-width:200px;">🙅 我任性，不想吃這個</button>
+        <button class="btn-ghost" style="min-width:180px;">↩ 回主選單重選</button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.btn-cantfind</span>
+        <span class="ds-comp-desc">可選的輔助操作 — dashed border 降低視覺重量</span>
+      </div>
+      <div class="ds-preview">
+        <button class="btn-cantfind" style="min-width:200px;">📍 這附近找不到！</button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.btn-restart</span>
+        <span class="ds-comp-desc">出現在 Primary 底色卡片內 — 半透明白色 pill</span>
+      </div>
+      <div class="ds-preview" style="background:var(--primary); border-radius:var(--r);">
+        <button class="btn-restart">再選一次</button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.btn-calm</span>
+        <span class="ds-comp-desc">彩蛋畫面「冷靜了」pill — bg 底色邊框</span>
+      </div>
+      <div class="ds-preview">
+        <button class="btn-calm">好⋯我冷靜了</button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.btn-blind</span>
+        <span class="ds-comp-desc">盲選挑戰 CTA — primary 底色 pill，強調</span>
+      </div>
+      <div class="ds-preview">
+        <button class="btn-blind">🎁 盲選挑戰</button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.theme-toggle</span>
+        <span class="ds-comp-desc">右上角圓形圖示按鈕 — 切換 Dark Mode</span>
+      </div>
+      <div class="ds-preview">
+        <button class="theme-toggle" style="pointer-events:none;">🌙</button>
+        <button class="theme-toggle" style="pointer-events:none;">☀️</button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.back-link</span>
+        <span class="ds-comp-desc">文字型返回連結 — 低重量導覽</span>
+      </div>
+      <div class="ds-preview">
+        <span class="back-link">← 重新選擇類別</span>
+        <span class="back-link">← 回上一個結果</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CARDS ═══════════════════════════════════ -->
+  <section class="ds-section" id="cards">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">卡片</h2>
+      <p class="ds-section-desc">五種卡片，依語意分成 surface 底色與 primary 底色兩系列。</p>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.result-card</span>
+        <span class="ds-comp-desc">命運之輪結果 — Surface 底色，popIn 動畫進場</span>
+      </div>
+      <div class="ds-preview col" style="max-width:320px;">
+        <div class="result-card">
+          <div class="result-emoji">🍱</div>
+          <div class="result-name">便當</div>
+          <div class="result-hint">命運之輪的選擇</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.final-card</span>
+        <span class="ds-comp-desc">最終選擇 — Primary 底色，帶 glow 陰影</span>
+      </div>
+      <div class="ds-preview col" style="max-width:320px;">
+        <div class="final-card">
+          <div class="final-eyebrow">今天就決定是</div>
+          <div class="final-emoji">🍜</div>
+          <div class="final-name">牛肉麵</div>
+          <div class="final-context">解壓飽餐 · 晚餐</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.exhausted-card</span>
+        <span class="ds-comp-desc">彩蛋「我沒招了」畫面 — Surface 底色，更大 padding</span>
+      </div>
+      <div class="ds-preview col" style="max-width:320px;">
+        <div class="exhausted-card">
+          <div class="exhausted-emoji">😮‍💨</div>
+          <div class="exhausted-title">我沒招了</div>
+          <div class="exhausted-msg">你先去冷靜一下<br>再回來選 QQ</div>
+          <div class="exhausted-btns">
+            <button class="btn-calm">好⋯我冷靜了</button>
+            <button class="btn-blind">🎁 盲選挑戰</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.cantfind-card</span>
+        <span class="ds-comp-desc">找不到附近店家 — Surface 底色，居中文字</span>
+      </div>
+      <div class="ds-preview col" style="max-width:320px;">
+        <div class="cantfind-card">
+          <div class="cantfind-emoji">🗺️</div>
+          <div class="cantfind-title">便當 附近買不到？</div>
+          <div class="cantfind-msg">沒關係，要怎麼辦呢？</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.blind-chest</span>
+        <span class="ds-comp-desc">盲選寶箱 — 三欄並排，點擊後 revealed 狀態</span>
+      </div>
+      <div class="ds-preview center" style="max-width:360px;">
+        <div class="blind-chests" style="width:100%;">
+          <div class="blind-chest">
+            <div class="chest-icon">🎁</div>
+            <div class="chest-q">？？？</div>
+          </div>
+          <div class="blind-chest revealed">
+            <div class="chest-icon">🍣</div>
+            <div style="font-size:14px; font-weight:700; color:var(--text); text-align:center;">壽司</div>
+          </div>
+          <div class="blind-chest" style="opacity:.3; pointer-events:none;">
+            <div class="chest-icon">🎁</div>
+            <div class="chest-q">？？？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.maps-search-card</span>
+        <span class="ds-comp-desc">Google Maps 外部連結卡片 — 右箭頭 ↗</span>
+      </div>
+      <div class="ds-preview col" style="max-width:400px;">
+        <div class="maps-search-card" style="cursor:default;">
+          <div class="maps-search-left">
+            <div class="maps-search-icon">🗺️</div>
+            <div class="maps-search-text">
+              <div class="maps-search-title">「牛肉麵」附近</div>
+              <div class="maps-search-sub">開啟 Google Maps · 含評分與照片</div>
+            </div>
+          </div>
+          <div class="maps-search-arrow">↗</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ INTERACTIVE ROWS ════════════════════════ -->
+  <section class="ds-section" id="rows">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">互動列</h2>
+      <p class="ds-section-desc">三種可點擊的選擇列，承載不同層次的資訊密度。</p>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.cat-btn</span>
+        <span class="ds-comp-desc">類別選擇列 — 時段 + hint，hover 上浮 2px</span>
+      </div>
+      <div class="ds-preview col">
+        <button class="cat-btn">
+          <span>
+            <span class="cat-name">午餐</span>
+            <span class="cat-hint">快點選快點吃快點回去工作</span>
+          </span>
+          <span class="cat-arr">›</span>
+        </button>
+        <button class="cat-btn">
+          <span>
+            <span class="cat-name">晚餐</span>
+            <span class="cat-hint">下班了！快去吃飯</span>
+          </span>
+          <span class="cat-arr">›</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.dir-btn</span>
+        <span class="ds-comp-desc">方向選擇列 — icon + name + desc，hover 右移 4px + primary-lt 背景</span>
+      </div>
+      <div class="ds-preview col">
+        <button class="dir-btn">
+          <span class="dir-icon">⚡</span>
+          <div class="dir-text">
+            <span class="dir-name">5分鐘解決</span>
+            <span class="dir-desc">超快、不等待</span>
+          </div>
+        </button>
+        <button class="dir-btn">
+          <span class="dir-icon">🥗</span>
+          <div class="dir-text">
+            <span class="dir-name">清爽好消化</span>
+            <span class="dir-desc">下午不昏沉</span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.persona-btn</span>
+        <span class="ds-comp-desc">Persona 選擇列 — 圓角 icon 框 + 名稱 + desc + 標籤群</span>
+      </div>
+      <div class="ds-preview col">
+        <button class="persona-btn">
+          <div class="persona-icon">⚡</div>
+          <div class="persona-content">
+            <div class="persona-name">想簡單吃</div>
+            <div class="persona-desc">時間有限，快速解決最重要</div>
+            <div class="persona-tags">
+              <span class="persona-tag">超商</span>
+              <span class="persona-tag">外帶</span>
+              <span class="persona-tag">快速</span>
+              <span class="persona-tag">輕便</span>
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TAGS & INDICATORS ════════════════════════ -->
+  <section class="ds-section" id="tags">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">標籤 & 指示器</h2>
+      <p class="ds-section-desc">輔助資訊元件，用於狀態顯示、提示、分類。</p>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.persona-tag</span>
+        <span class="ds-comp-desc">Persona 列內的小標籤 — 12px / 100px radius / primary-lt bg</span>
+      </div>
+      <div class="ds-preview">
+        <span class="persona-tag">超商</span>
+        <span class="persona-tag">外帶</span>
+        <span class="persona-tag">排隊</span>
+        <span class="persona-tag">異國</span>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.persona-indicator</span>
+        <span class="ds-comp-desc">INITIAL 畫面的當前身份指示條 — primary-lt bg</span>
+      </div>
+      <div class="ds-preview col" style="max-width:320px;">
+        <div class="persona-indicator">
+          <span class="persona-indicator-icon">⚡</span>
+          <span class="persona-indicator-text">想簡單吃</span>
+          <span style="font-size:14px; color:var(--muted); margin-left:auto; cursor:pointer;">切換身份</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.nearby-reminder</span>
+        <span class="ds-comp-desc">Nearby 畫面的提示條 — 左邊 3px primary 線</span>
+      </div>
+      <div class="ds-preview col" style="max-width:360px;">
+        <div class="nearby-reminder">
+          <span class="nearby-reminder-label">你選擇的是</span>
+          <span class="nearby-reminder-food">🍜 牛肉麵</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.eyebrow</span>
+        <span class="ds-comp-desc">區塊前的 ALL CAPS 標籤 — 18px / uppercase / 1.8px letter-spacing</span>
+      </div>
+      <div class="ds-preview">
+        <span class="eyebrow">選擇今天想吃的時段</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROGRESS BAR ════════════════════════════ -->
+  <section class="ds-section" id="progress">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">進度條</h2>
+      <p class="ds-section-desc">4 格細線進度條，三種狀態：預設、done（primary-lt）、active（primary）。</p>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.bar / .bar.done / .bar.active</span>
+        <span class="ds-comp-desc">height 4px / border-radius 2px / transition .35s</span>
+      </div>
+      <div class="ds-preview col" style="gap:16px;">
+        <div>
+          <div class="ds-comp-desc" style="margin-bottom:8px; font-size:12px;">Step 1 of 4</div>
+          <div class="ds-progress-demo">
+            <div class="bar active"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </div>
+        <div>
+          <div class="ds-comp-desc" style="margin-bottom:8px; font-size:12px;">Step 2 of 4</div>
+          <div class="ds-progress-demo">
+            <div class="bar done"></div>
+            <div class="bar active"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+        </div>
+        <div>
+          <div class="ds-comp-desc" style="margin-bottom:8px; font-size:12px;">Step 4 of 4 (完成)</div>
+          <div class="ds-progress-demo">
+            <div class="bar done"></div>
+            <div class="bar done"></div>
+            <div class="bar done"></div>
+            <div class="bar active"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SPECIAL STATES ══════════════════════════ -->
+  <section class="ds-section" id="states">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">特殊狀態</h2>
+      <p class="ds-section-desc">Loading spinner 與 spin-status 閃爍文字。</p>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.finding-spinner</span>
+        <span class="ds-comp-desc">44px 圓形 spinner — border-top: primary，.75s linear</span>
+      </div>
+      <div class="ds-preview center">
+        <div class="finding-spinner"></div>
+      </div>
+    </div>
+
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta">
+        <span class="ds-chip">.spin-status</span>
+        <span class="ds-comp-desc">命運之輪下方提示文字 — blink animation 1.3s</span>
+      </div>
+      <div class="ds-preview center">
+        <span class="anim-blink" style="font-size:16px; color:var(--muted); font-weight:300;">命運的齒輪正在轉動，點一下可停止⋯</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ANIMATIONS ══════════════════════════════ -->
+  <section class="ds-section" id="animations">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">動畫</h2>
+      <p class="ds-section-desc">四種 keyframe，點「重播」觸發動畫重新執行。</p>
+    </div>
+
+    <div class="anim-demo-grid">
+      <div class="anim-demo-card">
+        <div class="anim-demo-box" id="anim-slide">🎪</div>
+        <div class="ds-swatch-name">slideUp</div>
+        <div class="ds-swatch-hex" style="font-size:12px; text-align:center;">Scene 進場<br>.35s ease</div>
+        <button class="anim-play-btn" onclick="replayAnim('anim-slide','anim-slide-up')">重播</button>
+      </div>
+      <div class="anim-demo-card">
+        <div class="anim-demo-box" id="anim-pop">🎉</div>
+        <div class="ds-swatch-name">popIn</div>
+        <div class="ds-swatch-hex" style="font-size:12px; text-align:center;">卡片進場<br>.45s cubic-bezier(.34,1.56,.64,1)</div>
+        <button class="anim-play-btn" onclick="replayAnim('anim-pop','anim-pop-in')">重播</button>
+      </div>
+      <div class="anim-demo-card">
+        <div class="anim-demo-box anim-blink" id="anim-blink-box">✨</div>
+        <div class="ds-swatch-name">blink</div>
+        <div class="ds-swatch-hex" style="font-size:12px; text-align:center;">spin-status<br>1.3s ease infinite</div>
+        <div style="font-size:12px; color:var(--muted);">持續執行中</div>
+      </div>
+      <div class="anim-demo-card">
+        <div class="finding-spinner" style="width:60px; height:60px;" id="anim-spin-box"></div>
+        <div class="ds-swatch-name">spin</div>
+        <div class="ds-swatch-hex" style="font-size:12px; text-align:center;">loading spinner<br>.75s linear infinite</div>
+        <div style="font-size:12px; color:var(--muted);">持續執行中</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  /* Theme toggle */
+  (function initTheme() {
+    const root  = document.documentElement;
+    const btn   = document.getElementById('theme-toggle');
+    const saved = localStorage.getItem('theme');
+
+    function applyTheme(dark) {
+      if (dark) {
+        root.setAttribute('data-theme', 'dark');
+        btn.textContent = '☀️';
+      } else {
+        root.removeAttribute('data-theme');
+        btn.textContent = '🌙';
+      }
+    }
+
+    applyTheme(saved === 'dark');
+
+    btn.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      applyTheme(!isDark);
+    });
+  })();
+
+  /* Active nav link on scroll */
+  (function initScrollSpy() {
+    const sections = document.querySelectorAll('.ds-section');
+    const links    = document.querySelectorAll('.ds-nav-link');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const link = document.querySelector(`.ds-nav-link[href="#${entry.target.id}"]`);
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+  })();
+
+  /* Animation replay helper */
+  function replayAnim(elId, animClass) {
+    const el = document.getElementById(elId);
+    el.classList.remove(animClass);
+    void el.offsetWidth; // reflow
+    el.classList.add(animClass);
+  }
+</script>
+</body>
+</html>
