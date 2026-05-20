@@ -975,6 +975,34 @@
     }
 
     .switch-persona:hover { color: var(--text); }
+
+    /* ── Star animations (food-illustration) ──────────── */
+    .star-anim {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: star-twinkle 2.6s ease-in-out infinite,
+                 star-sway    3.4s ease-in-out infinite;
+    }
+
+    [data-theme="dark"] .star-anim { fill: #FFFFFF; }
+
+    #star-s1 { animation-delay:  0.0s,  0.0s; }
+    #star-s2 { animation-delay: -0.7s, -1.3s; }
+    #star-s3 { animation-delay: -1.5s, -0.6s; }
+    #star-s4 { animation-delay: -2.2s, -2.0s; }
+    #star-s5 { animation-delay: -0.4s, -2.7s; }
+    #star-s6 { animation-delay: -1.9s, -0.3s; }
+
+    @keyframes star-twinkle {
+      0%, 100% { opacity: 1;   }
+      45%, 55% { opacity: 0.1; }
+    }
+
+    @keyframes star-sway {
+      0%, 100% { transform: rotate(0deg); }
+      30%      { transform: rotate(5deg); }
+      70%      { transform: rotate(-5deg); }
+    }
   </style>
 </head>
 <body>
@@ -1368,24 +1396,23 @@ let _foodSvgText = null;
 
 // Preload SVG：成功後若仍在 PERSONA 畫面則重繪以套用 inline SVG
 (function preloadFoodSvg() {
+  function applyText(t) {
+    _foodSvgText = t;
+    if (typeof st !== 'undefined' && st.phase === S.PERSONA) render();
+  }
+
+  function tryXHR() {
+    // fetch 失敗（常見於 file:// 協議）：改用 async XHR
+    const xhr = new XMLHttpRequest();
+    xhr.onload = function() { if (xhr.responseText) applyText(xhr.responseText); };
+    xhr.open('GET', 'assets/food-illustration.svg', true); // async
+    try { xhr.send(null); } catch(e) { /* 仍失敗則維持 <img> fallback */ }
+  }
+
   fetch('assets/food-illustration.svg')
     .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
-    .then(t => {
-      _foodSvgText = t;
-      if (typeof st !== 'undefined' && st.phase === S.PERSONA) render();
-    })
-    .catch(() => {
-      // fetch 失敗（常見於 file:// 協議）：改用 XMLHttpRequest 同步讀取
-      try {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', 'assets/food-illustration.svg', false); // synchronous
-        xhr.send(null);
-        if (xhr.status === 0 || xhr.status === 200) {
-          _foodSvgText = xhr.responseText;
-          if (typeof st !== 'undefined' && st.phase === S.PERSONA) render();
-        }
-      } catch (e) { /* 仍失敗則維持 <img> fallback */ }
-    });
+    .then(applyText)
+    .catch(tryXHR);
 })();
 
 // ══════════════════════════════════════════════════
@@ -1661,6 +1688,8 @@ function buildPersona(w) {
   });
 
   append(w, list);
+
+  afterDraw = () => { updateStarFills(); };
 }
 
 function buildInitial(w) {
@@ -2083,6 +2112,15 @@ function buildNearby(w) {
 // ══════════════════════════════════════════════════
 //  HELPERS
 // ══════════════════════════════════════════════════
+function updateStarFills() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const fill = isDark ? '#FFFFFF' : '#15120F';
+  for (let i = 1; i <= 6; i++) {
+    const el = document.getElementById('star-s' + i);
+    if (el) el.style.fill = fill;
+  }
+}
+
 function mk(tag, cls, text) {
   const el = document.createElement(tag);
   if (cls)  el.className = cls;
@@ -2117,6 +2155,7 @@ render();
     // Re-draw canvas if wheel is currently visible
     const cnv = document.getElementById('wheel');
     if (cnv && !wheelRaf) drawWheel(cnv, [], 0);
+    updateStarFills();
   }
 
   applyTheme(saved === 'dark');
