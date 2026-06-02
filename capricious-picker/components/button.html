@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button — 任性選擇器 Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { font-family: inherit; border: none; cursor: pointer; background: none; }
+
+    /* ── Design Tokens ─────────────────────────── */
+    :root {
+      --bg:         #FCF9F0;
+      --surface:    #FFFFFF;
+      --primary:    #F3A839;
+      --primary-hv: #BF5730;
+      --primary-lt: #F3CFA8;
+      --text:       #3B332B;
+      --muted:      #82491B;
+      --border:     #E9E1D6;
+      --on-primary: #15120F;
+      --sh:         0 2px 16px rgba(59,51,43,.07);
+      --sh-lg:      0 8px 32px rgba(59,51,43,.12);
+      --r:          20px;
+      --rs:         14px;
+      --fs-display: 32px;
+      --fs-title:   28px;
+      --fs-body:    18px;
+      --fs-label:   16px;
+      --fs-caption: 14px;
+
+      --ds-sidebar-w: 220px;
+      --ds-surface-2: #F8ECDC;
+      --ds-code-bg:   #F0EBE3;
+      --do-bg:   #F0FBF4;
+      --do-border: #6DBE8A;
+      --dont-bg: #FDF2F2;
+      --dont-border: #E57373;
+    }
+
+    [data-theme="dark"] {
+      --bg:         #1E1812;
+      --surface:    #2A211A;
+      --primary:    #B65D32;
+      --primary-hv: #E39B3F;
+      --primary-lt: #74411F;
+      --text:       #EBD7C0;
+      --muted:      #B98C60;
+      --border:     #3B332B;
+      --on-primary: #1E1812;
+      --sh:         0 2px 16px rgba(0,0,0,.35);
+      --sh-lg:      0 8px 32px rgba(0,0,0,.55);
+      --ds-surface-2: #332C26;
+      --ds-code-bg:   #241F1B;
+      --do-bg:   #1A2E22;
+      --do-border: #4A9464;
+      --dont-bg: #2E1A1A;
+      --dont-border: #B05555;
+    }
+
+    /* ── Layout ────────────────────────────────── */
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Sans TC', sans-serif;
+      min-height: 100dvh;
+      display: flex;
+    }
+
+    .ds-sidebar {
+      width: var(--ds-sidebar-w);
+      flex-shrink: 0;
+      position: fixed;
+      top: 0; left: 0;
+      height: 100dvh;
+      background: var(--surface);
+      border-right: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .ds-sidebar-header {
+      padding: 24px 20px 16px;
+      border-bottom: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ds-sidebar-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .15s;
+      width: fit-content;
+    }
+    .ds-sidebar-back:hover { color: var(--primary); }
+
+    .ds-sidebar-component {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .ds-sidebar-desc {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.5;
+    }
+
+    .ds-nav {
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ds-nav-group {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 8px 6px;
+    }
+
+    .ds-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all .15s;
+      cursor: pointer;
+    }
+    .ds-nav-link:hover { background: var(--ds-surface-2); color: var(--text); }
+    .ds-nav-link.active { background: var(--primary-lt); color: var(--on-primary); font-weight: 500; }
+
+    .ds-main {
+      margin-left: var(--ds-sidebar-w);
+      flex: 1;
+      min-width: 0;
+      padding: 48px 52px 120px;
+      max-width: 860px;
+    }
+
+    /* ── Page Header ───────────────────────────── */
+    .page-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-bottom: 36px;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 52px;
+    }
+
+    .page-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .page-header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color .15s; }
+    .breadcrumb a:hover { color: var(--primary); }
+    .breadcrumb-sep { opacity: .4; }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -.5px;
+      line-height: 1.1;
+    }
+
+    .page-desc {
+      font-size: var(--fs-label);
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 520px;
+    }
+
+    .theme-toggle {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--sh);
+      transition: all .2s;
+    }
+    .theme-toggle:hover { border-color: var(--primary); background: var(--primary-lt); }
+
+    /* ── Sections ──────────────────────────────── */
+    .doc-section {
+      margin-bottom: 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      scroll-margin-top: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-bottom: 16px;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.2px;
+    }
+
+    .section-desc {
+      font-size: var(--fs-caption);
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    .subsection { display: flex; flex-direction: column; gap: 12px; }
+
+    .subsection-title {
+      font-size: var(--fs-label);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .body-text {
+      font-size: var(--fs-caption);
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ── Preview canvas ────────────────────────── */
+    .preview {
+      background: var(--ds-surface-2);
+      border-radius: var(--r);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+    .preview.col { flex-direction: column; align-items: stretch; }
+    .preview.center { justify-content: center; }
+    .preview.on-primary { background: var(--primary); }
+
+    /* ── Code chip ─────────────────────────────── */
+    .chip {
+      display: inline-flex;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--ds-code-bg);
+      padding: 3px 8px;
+      border-radius: 6px;
+    }
+
+    /* ── Anatomy diagram ───────────────────────── */
+    .anatomy-wrap {
+      display: flex;
+      flex-direction: row;
+      gap: 32px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .anatomy-preview {
+      background: var(--ds-surface-2);
+      border-radius: var(--r);
+      padding: 40px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+
+    .anatomy-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .anatomy-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .anatomy-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--on-primary);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .anatomy-item-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .anatomy-item-label {
+      font-size: var(--fs-caption);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .anatomy-item-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Annotated button for anatomy */
+    .annotated-btn {
+      position: relative;
+      padding: 16px 24px;
+      background: var(--primary);
+      border-radius: var(--rs);
+      font-size: var(--fs-body);
+      font-weight: 500;
+      color: var(--on-primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      outline: 3px dashed rgba(255,179,128,.5);
+      outline-offset: 6px;
+    }
+
+    .anatomy-dot {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      border: 2.5px solid var(--surface);
+      color: var(--on-primary);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+
+    /* ── Variants grid ─────────────────────────── */
+    .variants-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .variant-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 20px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      box-shadow: var(--sh);
+    }
+
+    .variant-row-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .variant-name {
+      font-size: var(--fs-label);
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .variant-usage {
+      font-size: var(--fs-caption);
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .variant-preview {
+      background: var(--ds-surface-2);
+      border-radius: var(--rs);
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .variant-preview.on-primary { background: var(--primary); }
+
+    /* ── States table ──────────────────────────── */
+    .states-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .states-header-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 1fr 1fr 1fr;
+      background: var(--ds-surface-2);
+      border-bottom: 1.5px solid var(--border);
+      padding: 10px 16px;
+      gap: 8px;
+    }
+
+    .states-body-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 1fr 1fr 1fr;
+      padding: 16px;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+    .states-body-row:last-child { border-bottom: none; }
+
+    .states-col-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .states-row-label {
+      font-size: var(--fs-caption);
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+    }
+
+    .state-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .state-indicator {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+    .state-indicator.yes { background: #6DBE8A; }
+    .state-indicator.no  { background: var(--border); }
+    .state-indicator.modified { background: var(--primary); }
+
+    /* ── State demo ────────────────────────────── */
+    .state-demo-grid {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .state-demo-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .state-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: .5px;
+    }
+
+    /* ── Do / Don't ────────────────────────────── */
+    .do-dont-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .do-card, .dont-card {
+      flex: 1;
+      min-width: 220px;
+      border-radius: var(--r);
+      overflow: hidden;
+      border: 1.5px solid var(--border);
+    }
+
+    .do-card { border-top: 4px solid var(--do-border); }
+    .dont-card { border-top: 4px solid var(--dont-border); }
+
+    .do-preview, .dont-preview {
+      padding: 28px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .do-preview   { background: var(--do-bg); }
+    .dont-preview { background: var(--dont-bg); }
+
+    .do-label-bar, .dont-label-bar {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .do-label-bar   { background: var(--surface); border-top: 1px solid var(--border); }
+    .dont-label-bar { background: var(--surface); border-top: 1px solid var(--border); }
+
+    .do-icon   { font-size: 14px; color: var(--do-border); }
+    .dont-icon { font-size: 14px; color: var(--dont-border); }
+
+    .do-text   { font-size: var(--fs-caption); font-weight: 500; color: var(--do-border); }
+    .dont-text { font-size: var(--fs-caption); font-weight: 500; color: var(--dont-border); }
+
+    .do-desc, .dont-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--muted);
+      padding: 0 16px 14px;
+      background: var(--surface);
+      line-height: 1.6;
+    }
+
+    /* ── Token table ───────────────────────────── */
+    .token-table {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+      border-collapse: collapse;
+      font-size: var(--fs-caption);
+    }
+
+    .token-table th {
+      background: var(--ds-surface-2);
+      padding: 10px 16px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .token-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .token-table tr:last-child td { border-bottom: none; }
+
+    .token-table tr:hover td { background: var(--ds-surface-2); }
+
+    .token-swatch-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .token-swatch {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 1.5px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ── Figma section ─────────────────────────── */
+    .figma-prop-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1.5px solid var(--border);
+      border-radius: var(--r);
+      overflow: hidden;
+    }
+
+    .figma-prop-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 1fr;
+      padding: 12px 16px;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      align-items: start;
+    }
+    .figma-prop-row:first-child { background: var(--ds-surface-2); }
+    .figma-prop-row:last-child { border-bottom: none; }
+
+    .figma-prop-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .figma-prop-name {
+      font-size: var(--fs-caption);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .figma-prop-values {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .figma-prop-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .figma-note {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--primary-lt);
+      border-radius: var(--rs);
+      border-left: 3px solid var(--primary);
+      font-size: var(--fs-caption);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ══════════════════════════════════════════════
+       APP BUTTON COMPONENTS
+    ══════════════════════════════════════════════ */
+    .btn-main {
+      padding: 16px;
+      background: var(--primary);
+      border-radius: var(--rs);
+      font-size: var(--fs-body);
+      font-weight: 500;
+      color: var(--on-primary);
+      transition: background .2s;
+      text-align: center;
+      min-width: 160px;
+    }
+    .btn-main:hover { background: var(--primary-hv); }
+    .btn-main.disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+
+    .btn-ghost {
+      padding: 16px;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+      border-radius: var(--rs);
+      font-size: var(--fs-label);
+      font-weight: 400;
+      transition: all .2s;
+      text-align: center;
+      min-width: 160px;
+    }
+    .btn-ghost:hover { color: var(--primary); border-color: var(--primary); }
+    .btn-ghost.disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+
+    .btn-cantfind {
+      padding: 14px 16px;
+      color: var(--muted);
+      font-size: var(--fs-label);
+      font-weight: 400;
+      border: 1.5px dashed var(--border);
+      border-radius: var(--rs);
+      transition: all .2s;
+      text-align: center;
+      min-width: 160px;
+    }
+    .btn-cantfind:hover { border-color: var(--primary); color: var(--primary); border-style: solid; }
+    .btn-cantfind.disabled { opacity: .4; cursor: not-allowed; pointer-events: none; }
+
+    .btn-restart {
+      padding: 12px 30px;
+      background: rgba(255,179,128,.18);
+      color: var(--on-primary);
+      border: 1.5px solid rgba(255,179,128,.35);
+      border-radius: 100px;
+      font-size: var(--fs-label);
+      font-weight: 400;
+      transition: all .2s;
+    }
+    .btn-restart:hover { background: rgba(255,179,128,.3); }
+
+    .btn-calm {
+      padding: 14px 24px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      font-size: var(--fs-label);
+      font-weight: 500;
+      transition: all .2s;
+    }
+    .btn-calm:hover { border-color: var(--primary); color: var(--primary); }
+
+    .btn-blind {
+      padding: 14px 24px;
+      background: var(--primary);
+      color: var(--on-primary);
+      border-radius: 100px;
+      font-size: var(--fs-label);
+      font-weight: 700;
+      transition: all .2s;
+    }
+    .btn-blind:hover { background: var(--primary-hv); transform: translateY(-2px); box-shadow: var(--sh); }
+
+    .theme-toggle-demo {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: var(--sh);
+      transition: all .2s;
+    }
+    .theme-toggle-demo:hover { border-color: var(--primary); background: var(--primary-lt); }
+
+    .back-link-demo {
+      font-size: var(--fs-label);
+      color: var(--muted);
+      cursor: pointer;
+      transition: color .2s;
+    }
+    .back-link-demo:hover { color: var(--primary); }
+
+    @media (max-width: 720px) {
+      .ds-sidebar { display: none; }
+      .ds-main { margin-left: 0; padding: 32px 20px 80px; }
+      .states-header-row, .states-body-row { grid-template-columns: 100px 1fr 1fr 1fr 1fr; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ─────────────────────────────────── -->
+<aside class="ds-sidebar">
+  <div class="ds-sidebar-header">
+    <a class="ds-sidebar-back" href="../design-system.html">← Design System</a>
+    <div class="ds-sidebar-component">Button</div>
+    <div class="ds-sidebar-desc">任性選擇器 · 元件文件</div>
+  </div>
+  <nav class="ds-nav">
+    <div class="ds-nav-group">本頁</div>
+    <a class="ds-nav-link" href="#overview">Overview</a>
+    <a class="ds-nav-link" href="#anatomy">Anatomy</a>
+    <a class="ds-nav-link" href="#variants">Variants</a>
+    <a class="ds-nav-link" href="#states">States</a>
+    <a class="ds-nav-link" href="#usage">Usage Guidelines</a>
+    <a class="ds-nav-link" href="#tokens">Design Tokens</a>
+    <a class="ds-nav-link" href="#figma">Figma</a>
+  </nav>
+</aside>
+
+<!-- ── Main ───────────────────────────────────── -->
+<main class="ds-main">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-top">
+      <div class="page-header-left">
+        <div class="breadcrumb">
+          <a href="../design-system.html">Design System</a>
+          <span class="breadcrumb-sep">/</span>
+          <span>Components</span>
+          <span class="breadcrumb-sep">/</span>
+          <span>Button</span>
+        </div>
+        <h1 class="page-title">Button</h1>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="切換深色模式">🌙</button>
+    </div>
+    <p class="page-desc">按鈕是使用者與任性選擇器互動最主要的元件。共有 8 個變體，各自對應不同的操作語意與視覺重量，確保使用者在每個畫面都能直觀判斷操作的優先順序。</p>
+  </div>
+
+  <!-- ══ OVERVIEW ════════════════════════════════ -->
+  <section class="doc-section" id="overview">
+    <div class="section-header">
+      <h2 class="section-title">Overview</h2>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">何時使用按鈕</div>
+      <div class="body-text">
+        按鈕用於觸發<strong style="color:var(--text);">即時的、確定性的操作</strong>，例如確認選擇、拒絕結果、返回上一步。每個畫面的主要操作應使用最高重量的按鈕（btn-main），次要操作降一層。
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">何時不用按鈕</div>
+      <div class="body-text">
+        用於<strong style="color:var(--text);">導覽跳轉</strong>（如外開 Google Maps）時應改用帶有 ↗ 箭頭的 <span class="chip">.maps-search-card</span> 連結卡片。純文字返回操作請使用 <span class="chip">.back-link</span> 而非按鈕。
+      </div>
+    </div>
+
+    <div class="preview">
+      <button class="btn-main">好，就吃便當！</button>
+      <button class="btn-ghost">🙅 我任性，不想吃這個</button>
+      <button class="btn-cantfind">📍 這附近找不到！</button>
+    </div>
+  </section>
+
+  <!-- ══ ANATOMY ═════════════════════════════════ -->
+  <section class="doc-section" id="anatomy">
+    <div class="section-header">
+      <h2 class="section-title">Anatomy</h2>
+      <p class="section-desc">以 btn-main 為基準解析按鈕的組成元素，其他變體共用相同結構但調整外觀屬性。</p>
+    </div>
+
+    <div class="anatomy-wrap">
+      <div class="anatomy-preview">
+        <div style="position:relative; display:inline-flex;">
+          <div class="annotated-btn">
+            好，就吃便當！
+            <!-- dot 1 = container -->
+            <div class="anatomy-dot" style="top:-10px; left:-10px;">1</div>
+            <!-- dot 2 = label -->
+            <div class="anatomy-dot" style="bottom:-10px; right:30px;">2</div>
+            <!-- dot 3 = icon (optional) -->
+            <div class="anatomy-dot" style="top:-10px; right:-10px;">3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="anatomy-list">
+        <div class="anatomy-item">
+          <div class="anatomy-num">1</div>
+          <div class="anatomy-item-text">
+            <div class="anatomy-item-label">Container</div>
+            <div class="anatomy-item-desc">
+              按鈕的邊界框。決定 background、border、border-radius、padding 與 box-shadow。<br>
+              btn-main：<span class="chip">border-radius: --rs (14px)</span><br>
+              pill 類型：<span class="chip">border-radius: 100px</span>
+            </div>
+          </div>
+        </div>
+        <div class="anatomy-item">
+          <div class="anatomy-num">2</div>
+          <div class="anatomy-item-text">
+            <div class="anatomy-item-label">Label</div>
+            <div class="anatomy-item-desc">
+              按鈕文字，說明操作內容。字型 Noto Sans TC，font-size 依 variant 為 <span class="chip">--fs-body (18px)</span> 或 <span class="chip">--fs-label (16px)</span>。文字應清楚描述動作，避免「確認」、「OK」等模糊詞。
+            </div>
+          </div>
+        </div>
+        <div class="anatomy-item">
+          <div class="anatomy-num">3</div>
+          <div class="anatomy-item-text">
+            <div class="anatomy-item-label">Icon（選用）</div>
+            <div class="anatomy-item-desc">
+              以 emoji 形式出現，放置於 label 前方。用於強化語意（📍 找附近、🙅 拒絕、🎁 驚喜）。圖示應與文字意義一致，不可單獨使用。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ VARIANTS ════════════════════════════════ -->
+  <section class="doc-section" id="variants">
+    <div class="section-header">
+      <h2 class="section-title">Variants</h2>
+      <p class="section-desc">8 個按鈕變體，依視覺重量由高至低排列。每個畫面最多只能有一個 btn-main。</p>
+    </div>
+
+    <div class="variants-grid">
+
+      <!-- btn-main -->
+      <div class="variant-row">
+        <div class="variant-row-header">
+          <span class="variant-name">Primary</span>
+          <span class="chip">.btn-main</span>
+        </div>
+        <div class="variant-usage">最高視覺重量。每個畫面唯一的主要操作，例如「確認選擇」、「重新抽選」。背景色 <span class="chip">--primary</span>，文字色 <span class="chip">--on-primary</span>，圓角 <span class="chip">--rs</span>。font-size <span class="chip">--fs-body (18px)</span>。</div>
+        <div class="variant-preview">
+          <button class="btn-main">好，就吃便當！</button>
+          <button class="btn-main">🎰 重新抽一個選項</button>
+          <button class="btn-main">命運已定，去吃吧！</button>
+        </div>
+      </div>
+
+      <!-- btn-ghost -->
+      <div class="variant-row">
+        <div class="variant-row-header">
+          <span class="variant-name">Ghost</span>
+          <span class="chip">.btn-ghost</span>
+        </div>
+        <div class="variant-usage">次要操作。與 btn-main 並排時承擔「拒絕/返回」的語意。透明背景 + border，hover 時 text/border 變 <span class="chip">--primary</span>。font-size <span class="chip">--fs-label (16px)</span>。</div>
+        <div class="variant-preview">
+          <button class="btn-ghost">🙅 我任性，不想吃這個</button>
+          <button class="btn-ghost">↩ 回主選單重選</button>
+          <button class="btn-ghost">← 回到選擇結果</button>
+        </div>
+      </div>
+
+      <!-- btn-cantfind -->
+      <div class="variant-row">
+        <div class="variant-row-header">
+          <span class="variant-name">Dashed</span>
+          <span class="chip">.btn-cantfind</span>
+        </div>
+        <div class="variant-usage">輔助操作。以 dashed border 降低視覺重量，讓使用者知道此操作「可選但不是重點」。hover 時 border 變 solid + primary 色。</div>
+        <div class="variant-preview">
+          <button class="btn-cantfind">📍 這附近找不到！</button>
+        </div>
+      </div>
+
+      <!-- btn-restart -->
+      <div class="variant-row">
+        <div class="variant-row-header">
+          <span class="variant-name">Restart</span>
+          <span class="chip">.btn-restart</span>
+        </div>
+        <div class="variant-usage">專用於 <code style="font-family:monospace;font-size:12px;">.final-card</code>（primary 底色背景）內。白色半透明 pill 形狀，讓按鈕在 primary 背景上仍能被識別，但不搶過最終結果。</div>
+        <div class="variant-preview on-primary">
+          <button class="btn-restart">再選一次</button>
+        </div>
+      </div>
+
+      <!-- btn-calm -->
+      <div class="variant-row">
+        <div class="variant-row-header">
+          <span class="variant-name">Calm</span>
+          <span class="chip">.btn-calm</span>
+        </div>
+        <div class="variant-usage">彩蛋畫面「冷靜了」操作。Pill 形狀使用 <span class="chip">--bg</span> 背景 + <span class="chip">--border</span> 邊框，在 exhausted-card 的 Surface 背景上呈現低強度感。</div>
+        <div class="variant-preview">
+          <button class="btn-calm">好⋯我冷靜了</button>
+        </div>
+      </div>
+
+      <!-- btn-blind -->
+      <div class="variant-row">
+        <div class="variant-row-header">
+          <span class="variant-name">Blind</span>
+          <span class="chip">.btn-blind</span>
+        </div>
+        <div class="variant-usage">盲選挑戰 CTA。Primary 背景 + pill 形狀，與 btn-calm 並排時擔任視覺焦點，引導使用者嘗試驚喜玩法。hover 有 translateY(-2px) 效果強調互動感。</div>
+        <div class="variant-preview">
+          <button class="btn-blind">🎁 盲選挑戰</button>
+        </div>
+      </div>
+
+      <!-- theme-toggle -->
+      <div class="variant-row">
+        <div class="variant-row-header">
+          <span class="variant-name">Icon Round</span>
+          <span class="chip">.theme-toggle</span>
+        </div>
+        <div class="variant-usage">38×38px 圓形 icon-only 按鈕，固定出現於右上角。Surface 背景 + border，hover 時背景變 primary-lt。此 variant 不放文字 label。</div>
+        <div class="variant-preview">
+          <div class="theme-toggle-demo">🌙</div>
+          <div class="theme-toggle-demo" style="border-color:var(--primary); background:var(--primary-lt);">☀️</div>
+        </div>
+      </div>
+
+      <!-- back-link -->
+      <div class="variant-row">
+        <div class="variant-row-header">
+          <span class="variant-name">Text Link</span>
+          <span class="chip">.back-link</span>
+        </div>
+        <div class="variant-usage">無背景、無邊框的純文字操作，視覺重量最低。專門用於「返回上一步」的導覽行為，不應用於確認型操作。hover 時文字色變 primary。</div>
+        <div class="variant-preview">
+          <span class="back-link-demo">← 重新選擇類別</span>
+          <span class="back-link-demo">← 回上一個結果</span>
+          <span class="back-link-demo">← 反悔了，重新考慮</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ STATES ══════════════════════════════════ -->
+  <section class="doc-section" id="states">
+    <div class="section-header">
+      <h2 class="section-title">States</h2>
+      <p class="section-desc">各 variant 的互動狀態矩陣。所有 transition 時長統一為 .2s ease。</p>
+    </div>
+
+    <!-- State demo: btn-main -->
+    <div class="subsection">
+      <div class="subsection-title">Primary（btn-main）狀態展示</div>
+      <div class="preview">
+        <div class="state-demo-item">
+          <button class="btn-main" style="pointer-events:none;">好，就吃便當！</button>
+          <span class="state-label">DEFAULT</span>
+        </div>
+        <div class="state-demo-item">
+          <button class="btn-main" style="pointer-events:none; background:var(--primary-hv);">好，就吃便當！</button>
+          <span class="state-label">HOVER</span>
+        </div>
+        <div class="state-demo-item">
+          <button class="btn-main" style="pointer-events:none; background:var(--primary-hv); transform:scale(.98);">好，就吃便當！</button>
+          <span class="state-label">ACTIVE</span>
+        </div>
+        <div class="state-demo-item">
+          <button class="btn-main disabled">好，就吃便當！</button>
+          <span class="state-label">DISABLED</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- State demo: btn-ghost -->
+    <div class="subsection">
+      <div class="subsection-title">Ghost（btn-ghost）狀態展示</div>
+      <div class="preview">
+        <div class="state-demo-item">
+          <button class="btn-ghost" style="pointer-events:none;">🙅 我任性</button>
+          <span class="state-label">DEFAULT</span>
+        </div>
+        <div class="state-demo-item">
+          <button class="btn-ghost" style="pointer-events:none; color:var(--primary); border-color:var(--primary);">🙅 我任性</button>
+          <span class="state-label">HOVER</span>
+        </div>
+        <div class="state-demo-item">
+          <button class="btn-ghost disabled">🙅 我任性</button>
+          <span class="state-label">DISABLED</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- States matrix -->
+    <div class="subsection">
+      <div class="subsection-title">狀態支援矩陣</div>
+      <div class="states-grid">
+        <div class="states-header-row">
+          <div class="states-col-label">Variant</div>
+          <div class="states-col-label" style="text-align:center;">Hover</div>
+          <div class="states-col-label" style="text-align:center;">Active</div>
+          <div class="states-col-label" style="text-align:center;">Disabled</div>
+          <div class="states-col-label" style="text-align:center;">Focus</div>
+        </div>
+        <div class="states-body-row">
+          <div class="states-row-label"><span class="chip">.btn-main</span></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator modified"></div></div>
+        </div>
+        <div class="states-body-row">
+          <div class="states-row-label"><span class="chip">.btn-ghost</span></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator modified"></div></div>
+        </div>
+        <div class="states-body-row">
+          <div class="states-row-label"><span class="chip">.btn-cantfind</span></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator modified"></div></div>
+        </div>
+        <div class="states-body-row">
+          <div class="states-row-label"><span class="chip">.btn-blind</span></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator modified"></div></div>
+        </div>
+        <div class="states-body-row">
+          <div class="states-row-label"><span class="chip">.btn-calm</span></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+        </div>
+        <div class="states-body-row">
+          <div class="states-row-label"><span class="chip">.btn-restart</span></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+        </div>
+        <div class="states-body-row">
+          <div class="states-row-label"><span class="chip">.theme-toggle</span></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+        </div>
+        <div class="states-body-row">
+          <div class="states-row-label"><span class="chip">.back-link</span></div>
+          <div class="state-cell"><div class="state-indicator yes"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+          <div class="state-cell"><div class="state-indicator no"></div></div>
+        </div>
+      </div>
+      <div class="body-text" style="margin-top:8px;">
+        ● 綠色 = 有定義樣式　● 橘色 = 從 default 繼承，無另外定義　○ 灰色 = 此 variant 不適用此狀態
+      </div>
+    </div>
+
+    <div class="subsection">
+      <div class="subsection-title">Disabled 實作規則</div>
+      <div class="body-text">套用 <span class="chip">opacity: .4</span> + <span class="chip">cursor: not-allowed</span> + <span class="chip">pointer-events: none</span>。目前 App 中不主動使用 disabled 狀態，但在 loading 或等待動畫期間可加上以防重複觸發。</div>
+    </div>
+  </section>
+
+  <!-- ══ USAGE GUIDELINES ════════════════════════ -->
+  <section class="doc-section" id="usage">
+    <div class="section-header">
+      <h2 class="section-title">Usage Guidelines</h2>
+    </div>
+
+    <!-- hierarchy -->
+    <div class="subsection">
+      <div class="subsection-title">操作層級</div>
+      <div class="do-dont-grid">
+        <div class="do-card">
+          <div class="do-preview">
+            <div style="display:flex; flex-direction:column; gap:10px; width:200px;">
+              <button class="btn-main" style="pointer-events:none;">好，就吃便當！</button>
+              <button class="btn-ghost" style="pointer-events:none;">🙅 我任性，不想吃</button>
+              <button class="btn-cantfind" style="pointer-events:none;">📍 附近找不到</button>
+            </div>
+          </div>
+          <div class="do-label-bar"><span class="do-icon">✓</span><span class="do-text">Do</span></div>
+          <div class="do-desc">每個畫面只有一個 btn-main，次要操作用 ghost 或 cantfind，層級清楚。</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-preview">
+            <div style="display:flex; flex-direction:column; gap:10px; width:200px;">
+              <button class="btn-main" style="pointer-events:none;">好，就吃便當！</button>
+              <button class="btn-main" style="pointer-events:none;">🙅 我任性，不想吃</button>
+            </div>
+          </div>
+          <div class="dont-label-bar"><span class="dont-icon">✗</span><span class="dont-text">Don't</span></div>
+          <div class="dont-desc">同一畫面出現兩個 btn-main，使用者無法判斷哪個才是主要操作。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- label clarity -->
+    <div class="subsection">
+      <div class="subsection-title">按鈕文字</div>
+      <div class="do-dont-grid">
+        <div class="do-card">
+          <div class="do-preview">
+            <button class="btn-main" style="pointer-events:none;">好，就吃牛肉麵！</button>
+          </div>
+          <div class="do-label-bar"><span class="do-icon">✓</span><span class="do-text">Do</span></div>
+          <div class="do-desc">文字包含動作結果，使用者明確知道點下去會發生什麼。</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-preview">
+            <button class="btn-main" style="pointer-events:none;">確認</button>
+          </div>
+          <div class="dont-label-bar"><span class="dont-icon">✗</span><span class="dont-text">Don't</span></div>
+          <div class="dont-desc">「確認」、「OK」、「Submit」等模糊詞無法傳達操作語意。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- pill vs rounded -->
+    <div class="subsection">
+      <div class="subsection-title">形狀語意</div>
+      <div class="do-dont-grid">
+        <div class="do-card">
+          <div class="do-preview" style="flex-direction:column; gap:10px; align-items:center;">
+            <button class="btn-main" style="pointer-events:none;">🎰 重新抽一個選項</button>
+            <button class="btn-calm" style="pointer-events:none;">好⋯我冷靜了</button>
+          </div>
+          <div class="do-label-bar"><span class="do-icon">✓</span><span class="do-text">Do</span></div>
+          <div class="do-desc">主要操作用 rounded（--rs），情境型輔助操作（彩蛋、重啟）用 pill，形狀輔助語意區分。</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-preview" style="flex-direction:column; gap:10px; align-items:center;">
+            <button class="btn-calm" style="pointer-events:none;">好，就吃便當！</button>
+          </div>
+          <div class="dont-label-bar"><span class="dont-icon">✗</span><span class="dont-text">Don't</span></div>
+          <div class="dont-desc">把主要確認操作套用 pill 樣式，破壞形狀語意一致性。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- context: on-primary -->
+    <div class="subsection">
+      <div class="subsection-title">在 Primary 底色上使用按鈕</div>
+      <div class="do-dont-grid">
+        <div class="do-card">
+          <div class="do-preview on-primary">
+            <button class="btn-restart" style="pointer-events:none;">再選一次</button>
+          </div>
+          <div class="do-label-bar"><span class="do-icon">✓</span><span class="do-text">Do</span></div>
+          <div class="do-desc">在 final-card（primary 背景）內使用 btn-restart，白色半透明確保對比度。</div>
+        </div>
+        <div class="dont-card">
+          <div class="dont-preview on-primary" style="background:var(--primary);">
+            <button class="btn-main" style="pointer-events:none; background:var(--primary-hv);">再選一次</button>
+          </div>
+          <div class="dont-label-bar"><span class="dont-icon">✗</span><span class="dont-text">Don't</span></div>
+          <div class="dont-desc">在 primary 背景上使用 btn-main，顏色幾乎相同，對比度不足。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ DESIGN TOKENS ════════════════════════════ -->
+  <section class="doc-section" id="tokens">
+    <div class="section-header">
+      <h2 class="section-title">Design Tokens</h2>
+      <p class="section-desc">按鈕使用到的所有 CSS 變數，修改 token 即可同步更新所有 variant。</p>
+    </div>
+
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Light 值</th>
+          <th>Dark 值</th>
+          <th>用途</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="chip">--primary</span></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#F3A839;"></div>#F3A839</div></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#B65D32;"></div>#B65D32</div></td>
+          <td>btn-main / btn-blind background</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--primary-hv</span></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#BF5730;"></div>#BF5730</div></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#E39B3F;"></div>#E39B3F</div></td>
+          <td>btn-main / btn-blind hover state</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--primary-lt</span></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#F3CFA8;"></div>#F3CFA8</div></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#74411F;"></div>#74411F</div></td>
+          <td>theme-toggle hover background</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--on-primary</span></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#15120F;"></div>#15120F</div></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#1E1812;"></div>#1E1812</div></td>
+          <td>btn-main / btn-blind text color</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--muted</span></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#82491B;"></div>#82491B</div></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#B98C60;"></div>#B98C60</div></td>
+          <td>btn-ghost / btn-cantfind / back-link text</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--border</span></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#E9E1D6;"></div>#E9E1D6</div></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#3B332B;"></div>#3B332B</div></td>
+          <td>btn-ghost / btn-cantfind / btn-calm / theme-toggle border</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--bg</span></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#FCF9F0; border:1.5px solid #E9E1D6;"></div>#FCF9F0</div></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#1E1812;"></div>#1E1812</div></td>
+          <td>btn-calm background</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--surface</span></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#FFFFFF; border:1.5px solid #E9E1D6;"></div>#FFFFFF</div></td>
+          <td><div class="token-swatch-cell"><div class="token-swatch" style="background:#2A211A;"></div>#2A211A</div></td>
+          <td>theme-toggle background</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--rs</span></td>
+          <td colspan="2" style="font-family:monospace; font-size:12px;">14px</td>
+          <td>btn-main / btn-ghost / btn-cantfind border-radius</td>
+        </tr>
+        <tr>
+          <td><span class="chip">pill</span></td>
+          <td colspan="2" style="font-family:monospace; font-size:12px;">100px（hardcoded）</td>
+          <td>btn-calm / btn-blind / btn-restart border-radius</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--fs-body</span></td>
+          <td colspan="2" style="font-family:monospace; font-size:12px;">18px</td>
+          <td>btn-main font-size</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--fs-label</span></td>
+          <td colspan="2" style="font-family:monospace; font-size:12px;">16px</td>
+          <td>btn-ghost / btn-cantfind / btn-calm / btn-blind / btn-restart font-size</td>
+        </tr>
+        <tr>
+          <td><span class="chip">--sh</span></td>
+          <td colspan="2" style="font-family:monospace; font-size:12px;">0 2px 16px rgba(74,68,63,.07)</td>
+          <td>theme-toggle shadow；btn-blind hover shadow</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══ FIGMA ════════════════════════════════════ -->
+  <section class="doc-section" id="figma">
+    <div class="section-header">
+      <h2 class="section-title">Figma</h2>
+      <p class="section-desc">在 Figma 還原這組按鈕時的建議 Component Properties 與 Auto Layout 設定。</p>
+    </div>
+
+    <div class="figma-prop-grid">
+      <div class="figma-prop-row">
+        <div class="figma-prop-label">Property</div>
+        <div class="figma-prop-label">值</div>
+        <div class="figma-prop-label">說明</div>
+      </div>
+      <div class="figma-prop-row">
+        <div class="figma-prop-name">Variant</div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value">Primary</span>
+          <span class="figma-prop-value">Ghost</span>
+          <span class="figma-prop-value">Dashed</span>
+          <span class="figma-prop-value">Calm</span>
+          <span class="figma-prop-value">Blind</span>
+          <span class="figma-prop-value">Restart</span>
+          <span class="figma-prop-value">Icon Round</span>
+          <span class="figma-prop-value">Text Link</span>
+        </div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value" style="color:var(--muted);">對應 8 個 CSS class</span>
+        </div>
+      </div>
+      <div class="figma-prop-row">
+        <div class="figma-prop-name">State</div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value">Default</span>
+          <span class="figma-prop-value">Hover</span>
+          <span class="figma-prop-value">Disabled</span>
+        </div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value" style="color:var(--muted);">依矩陣表設定，不適用的 State 不需加</span>
+        </div>
+      </div>
+      <div class="figma-prop-row">
+        <div class="figma-prop-name">Has Icon</div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value">True / False</span>
+        </div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value" style="color:var(--muted);">控制 emoji icon 顯示（Text Layer）</span>
+        </div>
+      </div>
+      <div class="figma-prop-row">
+        <div class="figma-prop-name">Auto Layout</div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value">Direction: Horizontal</span>
+          <span class="figma-prop-value">Padding: 16px 上下 / 16–24px 左右</span>
+          <span class="figma-prop-value">Gap: 8px（icon + label 間）</span>
+          <span class="figma-prop-value">Fill: Hug × Hug</span>
+        </div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value" style="color:var(--muted);">確保匯出 HTML 後能倒回 Figma 保留 Auto Layout</span>
+        </div>
+      </div>
+      <div class="figma-prop-row">
+        <div class="figma-prop-name">Corner Radius</div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value">Rounded variants: 14（= --rs）</span>
+          <span class="figma-prop-value">Pill variants: 100</span>
+          <span class="figma-prop-value">Icon Round: 50% → 19px</span>
+        </div>
+        <div class="figma-prop-values">
+          <span class="figma-prop-value" style="color:var(--muted);">綁定 Corner Radius Token</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="figma-note">
+      <span>💡</span>
+      <div>建議將顏色全部綁定至 Figma Variables（對應 CSS 變數名稱），這樣切換 Light / Dark Mode 時所有按鈕能同步更新，不需手動逐一調整。</div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  (function initTheme() {
+    const root  = document.documentElement;
+    const btn   = document.getElementById('theme-toggle');
+    const saved = localStorage.getItem('theme');
+
+    function applyTheme(dark) {
+      if (dark) { root.setAttribute('data-theme', 'dark'); btn.textContent = '☀️'; }
+      else { root.removeAttribute('data-theme'); btn.textContent = '🌙'; }
+    }
+
+    applyTheme(saved === 'dark');
+    btn.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      applyTheme(!isDark);
+    });
+  })();
+
+  (function initScrollSpy() {
+    const sections = document.querySelectorAll('.doc-section');
+    const links    = document.querySelectorAll('.ds-nav-link');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const l = document.querySelector(`.ds-nav-link[href="#${e.target.id}"]`);
+          if (l) l.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => obs.observe(s));
+  })();
+</script>
+</body>
+</html>

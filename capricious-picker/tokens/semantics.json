@@ -1,0 +1,111 @@
+{
+  "collections": [
+    {
+      "name": "Semantics",
+      "modes": ["Light", "Dark"],
+      "variables": [
+
+        {
+          "name": "color/background",
+          "type": "COLOR",
+          "description": "App 最底層頁面背景。CSS: --bg",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/neutral/50" },
+            "Dark":  { "collection": "Primitives", "name": "color/neutral/900" }
+          }
+        },
+
+        {
+          "name": "color/surface",
+          "type": "COLOR",
+          "description": "卡片、元件的表面背景。CSS: --surface",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/neutral/0" },
+            "Dark":  { "collection": "Primitives", "name": "color/neutral/800" }
+          }
+        },
+
+        {
+          "name": "color/primary",
+          "type": "COLOR",
+          "description": "主品牌色，CTA 按鈕背景、final-card 背景。CSS: --primary",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/orange/300" },
+            "Dark":  { "collection": "Primitives", "name": "color/orange/500" }
+          }
+        },
+
+        {
+          "name": "color/primary-hover",
+          "type": "COLOR",
+          "description": "primary 的 hover state。CSS: --primary-hv",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/orange/400" },
+            "Dark":  { "collection": "Primitives", "name": "color/orange/600" }
+          }
+        },
+
+        {
+          "name": "color/primary-container",
+          "type": "COLOR",
+          "description": "primary 淡版背景，用於 tag、indicator、hover bg、blind-chest revealed。CSS: --primary-lt",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/orange/200" },
+            "Dark":  { "collection": "Primitives", "name": "color/orange/700" }
+          }
+        },
+
+        {
+          "name": "color/on-background",
+          "type": "COLOR",
+          "description": "放在 background 上的主要文字色。CSS: --text",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/neutral/600" },
+            "Dark":  { "collection": "Primitives", "name": "color/neutral/200" }
+          }
+        },
+
+        {
+          "name": "color/on-surface-variant",
+          "type": "COLOR",
+          "description": "次要說明文字、placeholder、icon muted。CSS: --muted",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/neutral/500" },
+            "Dark":  { "collection": "Primitives", "name": "color/neutral/400" }
+          }
+        },
+
+        {
+          "name": "color/on-primary",
+          "type": "COLOR",
+          "description": "放在 primary 背景上的文字。WCAG contrast — Light: 11.8:1 / Dark: 4.9:1。CSS: --on-primary",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/neutral/850" },
+            "Dark":  { "collection": "Primitives", "name": "color/neutral/900" }
+          }
+        },
+
+        {
+          "name": "color/on-primary-container",
+          "type": "COLOR",
+          "description": "放在 primary-container 背景上的文字（persona-tag 等）。Dark Mode 改用 primary 色增加可讀性。",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/neutral/850" },
+            "Dark":  { "collection": "Primitives", "name": "color/orange/500" }
+          }
+        },
+
+        {
+          "name": "color/outline",
+          "type": "COLOR",
+          "description": "邊框、分隔線、progress bar 預設色。CSS: --border",
+          "values": {
+            "Light": { "collection": "Primitives", "name": "color/neutral/300" },
+            "Dark":  { "collection": "Primitives", "name": "color/neutral/700" }
+          }
+        }
+
+      ]
+    }
+  ]
+}
