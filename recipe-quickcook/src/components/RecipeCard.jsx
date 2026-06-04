@@ -1,0 +1,48 @@
+import { coreStatus, isReady } from "../data/helpers.js";
+import RecipeCover from "./RecipeCover.jsx";
+
+// 食譜卡：封面 + 標題列（份數右上角）+ 核心食材 chip 或有/缺對照燈
+export default function RecipeCard({ recipe, mode, fridge, onOpen }) {
+  const showMatch = mode === "fridge" && fridge.size > 0;
+  const ready = showMatch && isReady(recipe, fridge);
+
+  return (
+    <button type="button" className={"recipe-card" + (ready ? " is-ready" : "")} onClick={() => onOpen(recipe)}>
+      <RecipeCover recipe={recipe} className="card-cover" />
+      <div className="card-body">
+        <div className="card-titlebar">
+          <span className="card-title">{recipe.title}</span>
+          {ready && (
+            <span className="ready-flag">
+              <i className="fa-solid fa-circle-check" /> 可做
+            </span>
+          )}
+          <span className="badge badge-info card-servings">{recipe.servings}</span>
+        </div>
+
+        {showMatch ? (
+          <div className="match-row">
+            {coreStatus(recipe, fridge).map((d) => {
+              const cls = d.state === "HAVE" ? "on" : d.state === "SUBBED" ? "sub" : d.state === "OPTIONAL" ? "on" : "";
+              const label = d.state === "SUBBED" ? d.via : d.name;
+              return (
+                <span key={d.name} className={"match-chip " + cls}>
+                  <span className="dot" />
+                  {label}
+                </span>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="ing-row-chips">
+            {recipe.core.map((c) => (
+              <span key={c} className="badge badge-ing">
+                {c}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </button>
+  );
+}

@@ -1,0 +1,69 @@
+{
+  "_comment": "Base tokens — 結構型，各案不動。4px base unit。",
+
+  "spacing": {
+    "0":  { "$value": "0px",   "$type": "dimension", "alias": "none" },
+    "1":  { "$value": "4px",   "$type": "dimension", "alias": "xs" },
+    "2":  { "$value": "8px",   "$type": "dimension", "alias": "sm" },
+    "3":  { "$value": "12px",  "$type": "dimension" },
+    "4":  { "$value": "16px",  "$type": "dimension", "alias": "md" },
+    "5":  { "$value": "20px",  "$type": "dimension" },
+    "6":  { "$value": "24px",  "$type": "dimension", "alias": "lg" },
+    "8":  { "$value": "32px",  "$type": "dimension", "alias": "xl" },
+    "10": { "$value": "40px",  "$type": "dimension" },
+    "12": { "$value": "48px",  "$type": "dimension", "alias": "2xl" },
+    "16": { "$value": "64px",  "$type": "dimension", "alias": "3xl" },
+    "20": { "$value": "80px",  "$type": "dimension" },
+    "24": { "$value": "96px",  "$type": "dimension", "alias": "4xl" }
+  },
+
+  "borderRadius": {
+    "none": { "$value": "0px",     "$type": "dimension" },
+    "sm":   { "$value": "2px",     "$type": "dimension" },
+    "md":   { "$value": "4px",     "$type": "dimension" },
+    "lg":   { "$value": "8px",     "$type": "dimension" },
+    "xl":   { "$value": "12px",    "$type": "dimension" },
+    "2xl":  { "$value": "16px",    "$type": "dimension" },
+    "3xl":  { "$value": "24px",    "$type": "dimension" },
+    "full": { "$value": "9999px",  "$type": "dimension" }
+  },
+
+  "shadow": {
+    "sm": {
+      "$value": "0 1px 2px 0 rgba(0,0,0,0.05)",
+      "$type": "shadow"
+    },
+    "md": {
+      "$value": "0 4px 6px -1px rgba(0,0,0,0.10), 0 2px 4px -1px rgba(0,0,0,0.06)",
+      "$type": "shadow"
+    },
+    "lg": {
+      "$value": "0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -2px rgba(0,0,0,0.05)",
+      "$type": "shadow"
+    },
+    "xl": {
+      "$value": "0 20px 25px -5px rgba(0,0,0,0.10), 0 10px 10px -5px rgba(0,0,0,0.04)",
+      "$type": "shadow"
+    },
+    "inner": {
+      "$value": "inset 0 2px 4px 0 rgba(0,0,0,0.06)",
+      "$type": "shadow"
+    }
+  },
+
+  "zIndex": {
+    "base":     { "$value": 0 },
+    "raised":   { "$value": 10 },
+    "dropdown": { "$value": 100 },
+    "sticky":   { "$value": 200 },
+    "overlay":  { "$value": 300 },
+    "modal":    { "$value": 400 },
+    "toast":    { "$value": 500 }
+  },
+
+  "transition": {
+    "fast":   { "$value": "150ms ease" },
+    "normal": { "$value": "250ms ease" },
+    "slow":   { "$value": "400ms ease" }
+  }
+}

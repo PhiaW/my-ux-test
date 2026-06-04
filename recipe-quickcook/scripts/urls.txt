@@ -1,0 +1,9 @@
+# 一行一個 YouTube 連結；# 開頭為註解。
+# 範例：
+# https://www.youtube.com/watch?v=0Ig6Nt4XmVk
+
+#── 蘿潔塔的廚房（YouTube 批次匯入 2026-06-02）──
+https://www.youtube.com/watch?v=ZqopAN3nLVc
+https://www.youtube.com/watch?v=1JWtRj8JXCQ
+https://www.youtube.com/watch?v=6zMjBjugWSk
+https://www.youtube.com/watch?v=Q5_SQP9AMU8
