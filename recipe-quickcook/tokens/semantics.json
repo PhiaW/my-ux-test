@@ -1,0 +1,87 @@
+{
+  "_comment": "語義 token——把 brand/base token 對映到用途。每案確認對映是否符合設計方向。",
+  "_format": "值用 {category.token} 語法參照上層 token。",
+
+  "background": {
+    "page":       { "$value": "{color.neutral.50}",    "_note": "頁面底色" },
+    "surface":    { "$value": "{color.neutral.0}",     "_note": "卡片、面板底色（純白或接近白）" },
+    "elevated":   { "$value": "{color.neutral.0}",     "_note": "Modal、Dropdown 底色" },
+    "subtle":     { "$value": "{color.neutral.100}",   "_note": "次要區塊、標籤底色" },
+    "inverse":    { "$value": "{color.neutral.900}",   "_note": "深色背景" }
+  },
+
+  "text": {
+    "primary":    { "$value": "{color.neutral.900}",   "_note": "主要文字" },
+    "secondary":  { "$value": "{color.neutral.600}",   "_note": "次要說明文字" },
+    "tertiary":   { "$value": "{color.neutral.400}",   "_note": "Placeholder、停用說明" },
+    "inverse":    { "$value": "{color.neutral.50}",    "_note": "深色背景上的文字" },
+    "link":       { "$value": "{color.primary.600}",   "_note": "超連結" },
+    "linkHover":  { "$value": "{color.primary.800}",   "_note": "超連結 hover" }
+  },
+
+  "border": {
+    "default":    { "$value": "{color.neutral.200}",   "_note": "一般邊框" },
+    "strong":     { "$value": "{color.neutral.400}",   "_note": "強調邊框" },
+    "focus":      { "$value": "{color.primary.500}",   "_note": "Focus ring" }
+  },
+
+  "interactive": {
+    "primary": {
+      "bg":           { "$value": "{color.primary.500}" },
+      "bgHover":      { "$value": "{color.primary.600}" },
+      "bgActive":     { "$value": "{color.primary.700}" },
+      "bgDisabled":   { "$value": "{color.neutral.200}" },
+      "text":         { "$value": "#ffffff" },
+      "textDisabled": { "$value": "{color.neutral.400}" }
+    },
+    "secondary": {
+      "bg":           { "$value": "transparent" },
+      "bgHover":      { "$value": "{color.primary.50}" },
+      "border":       { "$value": "{color.primary.500}" },
+      "text":         { "$value": "{color.primary.600}" }
+    },
+    "ghost": {
+      "bg":           { "$value": "transparent" },
+      "bgHover":      { "$value": "{color.neutral.100}" },
+      "text":         { "$value": "{color.neutral.700}" }
+    },
+    "danger": {
+      "bg":           { "$value": "{color.semantic.error.base}" },
+      "bgHover":      { "$value": "{color.semantic.error.dark}" },
+      "text":         { "$value": "#ffffff" }
+    }
+  },
+
+  "input": {
+    "bg":           { "$value": "{color.neutral.0}" },
+    "border":       { "$value": "{color.neutral.300}" },
+    "borderFocus":  { "$value": "{color.primary.500}" },
+    "borderError":  { "$value": "{color.semantic.error.base}" },
+    "text":         { "$value": "{color.neutral.900}" },
+    "placeholder":  { "$value": "{color.neutral.400}" },
+    "bgDisabled":   { "$value": "{color.neutral.100}" }
+  },
+
+  "feedback": {
+    "success": {
+      "bg":     { "$value": "{color.semantic.success.light}" },
+      "text":   { "$value": "{color.semantic.success.dark}" },
+      "border": { "$value": "{color.semantic.success.base}" }
+    },
+    "warning": {
+      "bg":     { "$value": "{color.semantic.warning.light}" },
+      "text":   { "$value": "{color.semantic.warning.dark}" },
+      "border": { "$value": "{color.semantic.warning.base}" }
+    },
+    "error": {
+      "bg":     { "$value": "{color.semantic.error.light}" },
+      "text":   { "$value": "{color.semantic.error.dark}" },
+      "border": { "$value": "{color.semantic.error.base}" }
+    },
+    "info": {
+      "bg":     { "$value": "{color.semantic.info.light}" },
+      "text":   { "$value": "{color.semantic.info.dark}" },
+      "border": { "$value": "{color.semantic.info.base}" }
+    }
+  }
+}

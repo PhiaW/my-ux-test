@@ -1,0 +1,66 @@
+{
+  "$description": "平台差異 token — 僅存放因平台而異的值，供混合元件使用。品牌元件不引用此檔，系統元件無對應 token。多數值為平台規範既定值，標 [案件確認] 者需依專案調整。",
+
+  "platform": {
+
+    "ios": {
+      "$description": "iOS 平台差異值。多數沿用 Human Interface Guidelines 既定規範。",
+
+      "navigation": {
+        "topBarHeight":     { "$value": "44px", "$comment": "Navigation Bar 標準高度，不含狀態列" },
+        "bottomTabHeight":  { "$value": "49px", "$comment": "Tab Bar 標準高度，不含安全區域" },
+        "statusBarHeight":  { "$value": "20px", "$comment": "基準值，瀏海機型由系統 safe area 提供" }
+      },
+
+      "safeArea": {
+        "$description": "安全區域內距。實際值由系統提供，此處為設計參考基準。",
+        "top":    { "$value": "47px", "$comment": "瀏海 / 動態島機型參考值" },
+        "bottom": { "$value": "34px", "$comment": "Home Indicator 區域" }
+      },
+
+      "touchTarget": {
+        "minSize": { "$value": "44px", "$comment": "HIG 建議最小可點擊尺寸" }
+      },
+
+      "control": {
+        "$description": "原生控制項尺寸，供混合元件對齊。",
+        "switchWidth":  { "$value": "51px" },
+        "switchHeight": { "$value": "31px" }
+      }
+    },
+
+    "android": {
+      "$description": "Android 平台差異值。多數沿用 Material Design 既定規範。",
+
+      "navigation": {
+        "topBarHeight":     { "$value": "56px", "$comment": "App Bar 標準高度" },
+        "bottomNavHeight":  { "$value": "80px", "$comment": "Navigation Bar 含標籤文字" },
+        "statusBarHeight":  { "$value": "24px", "$comment": "基準值，實際由系統提供" }
+      },
+
+      "safeArea": {
+        "$description": "系統列內距。實際值由系統 window insets 提供，此處為設計參考基準。",
+        "top":    { "$value": "24px", "$comment": "狀態列" },
+        "bottom": { "$value": "48px", "$comment": "手勢導覽列，三鍵導覽則更高" }
+      },
+
+      "touchTarget": {
+        "minSize": { "$value": "48px", "$comment": "Material 建議最小可點擊尺寸" }
+      },
+
+      "control": {
+        "$description": "原生控制項尺寸，供混合元件對齊。",
+        "switchWidth":  { "$value": "52px" },
+        "switchHeight": { "$value": "32px" }
+      }
+    }
+  },
+
+  "_usage": {
+    "$description": "使用說明，非 token 值。",
+    "rule1": "僅混合元件引用此檔。品牌元件一律用 brand / semantics token，系統元件不引用任何 token。",
+    "rule2": "觸控目標最小尺寸取兩平台較大值較安全：統一用 48px 可同時滿足 iOS 與 Android。",
+    "rule3": "safeArea 為設計參考基準，實際開發應讀取系統提供的動態 safe area / window insets，不寫死。",
+    "rule4": "標 [案件確認] 的欄位需依專案調整；本檔目前皆為平台規範既定值，新案通常可直接沿用。"
+  }
+}

@@ -1,0 +1,404 @@
+/* ────────────────────────────────────────────
+   Recipe QuickCook — Design Tokens (Section 0)
+   來源：prototype.html / tokens/brand-recipe-quickcook.json
+   ──────────────────────────────────────────── */
+:root {
+  --primary: #688943;
+  --primary-hover: #557235;
+  --primary-active: #425928;
+  --primary-lt: #f4f7f1;
+  --secondary: #e0a23c;
+  --secondary-lt: #fbf1df;
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --text: #1a1918;
+  --text-sub: #5c5a56;
+  --placeholder: #a8a6a1;
+  --border: #e4e3e0;
+  --success: #688943;
+  --warning: #e0a23c;
+  --error: #dc2626;
+  --error-strong: #b91c1c;
+  --error-lt: #fee2e2;
+  --gray-light: #c9c7c2;
+  --subbed-text: #8a5e16;
+  --r-btn: 8px;
+  --r-card: 16px;
+  --r-pill: 9999px;
+  --r-check: 6px;
+  --r-circle: 50%;
+  --sp-xxs: 2px;
+  --sp-xs: 4px;
+  --sp-sm: 8px;
+  --sp-md: 16px;
+  --sp-lg: 24px;
+  --sp-xl: 32px;
+  --sp-2xl: 48px;
+  --shadow-card: 0 10px 30px rgba(33, 32, 30, 0.06);
+  --shadow-lg: 0 16px 40px rgba(33, 32, 30, 0.12);
+  --shadow-glow: 0 0 0 1px var(--primary), 0 10px 28px rgba(104, 137, 67, 0.16);
+  --font-display: "Playfair Display", "Noto Serif TC", serif;
+  --font-body: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+  --font-mono: "JetBrains Mono", "Roboto Mono", monospace;
+  /* type scale（對齊 Figma Text Styles，全偶數）
+     H1 28 / H2 26 / H3 20(Section) / H4 18(Card Title) / Body 16 / Caption 14 / Mono-L 24 */
+  --fs-h1: 28px;
+  --fs-h2: 26px;
+  --fs-h3: 20px;
+  --fs-h4: 18px;
+  --fs-body: 16px;
+  --fs-btn: 16px;
+  --fs-label: 16px;
+  --fs-caption: 14px;
+  --fs-mono-lg: 24px;
+  /* sizes */
+  --size-check: 24px;
+  --size-step-no: 32px;
+  --size-timer-btn: 32px;
+  --size-count: 22px;
+  --size-page-btn: 40px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── app shell ── */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 480px;
+  margin-inline: auto;
+  background: var(--bg);
+}
+.app-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-md);
+  padding: var(--sp-md);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.app-header-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-xs);
+  min-width: 0;
+}
+.app-header h1 { font-family: var(--font-display); font-size: var(--fs-h1); font-weight: 700; }
+.app-header p { font-size: var(--fs-caption); color: var(--text-sub); }
+.app-header .header-dish { width: 88px; height: 59px; flex-shrink: 0; }
+
+.view { display: flex; flex-direction: column; gap: var(--sp-lg); padding: var(--sp-lg); }
+
+/* 區塊：標題與內容間距 */
+.block { display: flex; flex-direction: column; gap: var(--sp-lg); }
+/* 詳情頁 block：標題與內容間距較緊（Figma sp-md） */
+.detail-block { gap: var(--sp-md); }
+/* 詳情頁分隔線：分隔食材清單與料理步驟 */
+.detail-divider { align-self: stretch; height: 1px; background: var(--border); border: 0; }
+.section-title {
+  display: flex; align-items: center; gap: var(--sp-sm);
+  font-family: var(--font-display); font-size: 20px; font-weight: 600;
+}
+.section-title > i { color: var(--primary); }
+
+/* 對齊工具：避免在 column flex 中被拉伸 */
+.align-start { align-self: flex-start; }
+
+/* ── mode switch（依菜單挑 / 依食材選） ── */
+.mode-switch {
+  display: flex; gap: var(--sp-xs);
+  padding: var(--sp-xs);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+}
+.mode-btn {
+  flex: 1; min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-sm);
+  font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 700;
+  color: var(--text-sub); background: transparent; border: none;
+  border-radius: var(--r-pill); cursor: pointer; transition: all 0.15s ease;
+}
+.mode-btn:hover { color: var(--primary); }
+.mode-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.mode-btn.is-active { background: var(--primary); color: #fff; }
+
+/* ── fridge picker（可收合） ── */
+.picker {
+  display: flex; flex-direction: column; gap: var(--sp-md);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card);
+  padding: var(--sp-md) var(--sp-lg);
+}
+.picker-head {
+  display: flex; align-items: center; gap: var(--sp-sm);
+  min-height: 44px; cursor: pointer; background: none; border: none;
+  font-family: var(--font-body); font-size: var(--fs-label); font-weight: 700; color: var(--text);
+}
+.picker-head:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.picker-head > i:first-child { color: var(--primary); }
+.picker-head .count { font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 500; color: var(--primary); }
+.picker-head .chevron { margin-left: auto; color: var(--text-sub); transition: transform 0.2s ease; }
+.picker.is-open .picker-head .chevron { transform: rotate(180deg); }
+.picker-body { display: flex; flex-direction: column; gap: var(--sp-md); }
+
+.ingredient-group { display: flex; flex-direction: column; gap: var(--sp-sm); border-top: 1px solid var(--border); padding-top: var(--sp-sm); }
+.group-head {
+  display: flex; align-items: center; gap: var(--sp-sm); min-height: 44px;
+  background: none; border: none; cursor: pointer; text-align: left;
+  font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 700; color: var(--text);
+}
+.group-head:hover { color: var(--primary); }
+.group-head:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.group-head .group-name { flex: 1; min-width: 0; }
+.group-head > i:first-child { color: var(--primary); }
+.group-count {
+  display: inline-flex; align-items: center; justify-content: center; min-width: var(--size-count); height: var(--size-count);
+  padding: 0 var(--sp-xs); font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 700;
+  color: #fff; background: var(--primary); border-radius: var(--r-pill);
+}
+.group-head .chevron { color: var(--text-sub); transition: transform 0.2s ease; }
+.group-head.is-open .chevron { transform: rotate(180deg); }
+.chip-row { display: flex; flex-wrap: wrap; gap: var(--sp-sm); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: var(--sp-xs);
+  min-height: 48px; padding: 0 var(--sp-md);
+  font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 500; color: var(--text);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-pill);
+  cursor: pointer; transition: all 0.15s ease;
+}
+.chip:hover { border-color: var(--primary); }
+.chip:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.chip:active { transform: scale(0.97); }
+.chip i { font-size: var(--fs-caption); color: var(--placeholder); }
+.chip.is-selected { background: var(--primary-lt); border-color: var(--primary); color: var(--primary-active); font-weight: 700; }
+.chip.is-selected i { color: var(--primary); }
+
+.more-btn {
+  display: inline-flex; align-items: center; gap: var(--sp-xs); align-self: flex-start;
+  min-height: 36px; padding: 0 var(--sp-sm);
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700; color: var(--primary);
+}
+.more-btn:hover { color: var(--primary-active); }
+.more-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.more-btn i { font-size: var(--fs-caption); }
+
+/* ── buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-sm);
+  min-height: 44px; padding: 0 var(--sp-md);
+  font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 700;
+  border-radius: var(--r-btn); border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease;
+}
+.btn-ghost { background: transparent; color: var(--text-sub); border-color: var(--border); }
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+.btn-ghost:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.btn-primary { background: var(--primary-hover); color: #fff; }
+.btn-primary:hover { background: var(--primary-active); }
+.btn-primary:active { background: var(--primary-active); transform: scale(0.98); }
+.btn-primary:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.btn-block { width: 100%; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── 情境篩選 tabs（scenario） ── */
+.filters { display: flex; flex-direction: column; gap: var(--sp-md); }
+.filter-group { display: flex; flex-direction: column; gap: var(--sp-sm); }
+.filter-group-label { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; color: var(--text); }
+.filter-row { display: flex; flex-wrap: wrap; gap: var(--sp-sm); }
+.filter-tab {
+  min-height: 44px; padding: 0 var(--sp-md);
+  display: inline-flex; align-items: center; gap: var(--sp-xs);
+  font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-pill);
+  cursor: pointer; transition: all 0.15s ease;
+}
+.filter-tab:hover { border-color: var(--primary); color: var(--primary); }
+.filter-tab:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.filter-tab.is-active { background: var(--primary-lt); border-color: var(--primary); color: var(--primary-active); }
+
+/* ── recipe cards ── */
+.recipe-list { display: flex; flex-direction: column; gap: var(--sp-md); }
+.recipe-card {
+  display: flex; flex-direction: column;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-card); box-shadow: var(--shadow-card);
+  overflow: hidden; cursor: pointer; transition: all 0.18s ease;
+  text-align: left; font-family: var(--font-body);
+}
+.recipe-card:hover { box-shadow: var(--shadow-lg); border-color: var(--primary); transform: translateY(-2px); }
+.recipe-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.recipe-card:active { transform: translateY(0); }
+.recipe-card.is-ready { box-shadow: var(--shadow-glow); border-color: var(--primary); }
+
+.card-cover { height: 140px; background-size: cover; background-position: center; background-color: var(--border); }
+
+/* 無照片時的佔位：品牌色底 + fire-burner 圖示（--ph-bg / --ph-fg 由元件動態帶入） */
+.cover-placeholder {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ph-fg);
+}
+/* 複合選擇器確保底色不被 .detail-cover / .card-cover 的 background-color 蓋掉 */
+.card-cover.cover-placeholder,
+.detail-cover.cover-placeholder { background: var(--ph-bg); }
+.cover-placeholder i { font-size: 52px; opacity: 0.85; }
+.card-body { display: flex; flex-direction: column; gap: var(--sp-sm); padding: var(--sp-md); }
+.card-titlebar { display: flex; align-items: center; gap: var(--sp-sm); }
+.card-title { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; flex: 1; min-width: 0; }
+.card-servings { flex-shrink: 0; align-self: flex-start; white-space: nowrap; }
+.ready-flag { font-size: var(--fs-caption); font-weight: 700; color: var(--primary); display: inline-flex; align-items: center; gap: var(--sp-xs); }
+.card-meta { display: flex; flex-wrap: wrap; gap: var(--sp-xs); }
+
+.badge {
+  display: inline-flex; align-items: center; gap: var(--sp-xs);
+  padding: var(--sp-xs) var(--sp-md); font-size: var(--fs-caption); font-weight: 700; border-radius: var(--r-pill);
+}
+.badge-info { background: var(--primary-lt); color: var(--primary-active); }
+.badge-ing { background: var(--bg); color: var(--text-sub); border: 1px solid var(--border); font-weight: 500; }
+
+/* 核心食材 chip 列（依菜單挑模式卡片內） */
+.ing-row-chips { display: flex; flex-wrap: wrap; gap: var(--sp-xs); padding-top: var(--sp-xs); border-top: 1px dashed var(--border); }
+
+/* 食材對照燈（fridge 模式卡片內） */
+.match-row { display: flex; flex-wrap: wrap; gap: var(--sp-xs); padding-top: var(--sp-xs); border-top: 1px dashed var(--border); }
+.match-chip {
+  display: inline-flex; align-items: center; gap: var(--sp-xs);
+  padding: var(--sp-xxs) var(--sp-sm); font-size: var(--fs-caption); font-weight: 500;
+  border-radius: var(--r-pill); border: 1px solid var(--border); color: var(--placeholder); background: var(--bg);
+}
+.match-chip .dot { width: 8px; height: 8px; border-radius: var(--r-circle); background: var(--gray-light); }
+.match-chip.on { color: var(--primary-active); border-color: var(--primary); background: var(--primary-lt); }
+.match-chip.on .dot { background: var(--success); }
+.match-chip.sub { color: var(--subbed-text); border-color: var(--warning); background: var(--secondary-lt); }
+.match-chip.sub .dot { background: var(--warning); }
+
+.empty {
+  display: flex; flex-direction: column; align-items: center; gap: var(--sp-md);
+  min-height: 240px; justify-content: center; text-align: center; color: var(--text-sub);
+}
+.empty i { font-size: 48px; color: var(--border); }
+.empty h3 { font-family: var(--font-display); font-size: 18px; color: var(--text); }
+
+/* ── pagination ── */
+.pager { display: flex; justify-content: center; align-items: center; gap: var(--sp-sm); }
+.page-btn {
+  min-width: var(--size-page-btn); min-height: var(--size-page-btn); padding: 0 var(--sp-sm);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-btn);
+  cursor: pointer; transition: all 0.15s ease;
+}
+.page-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+.page-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.page-btn.is-active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── detail ── */
+.detail-cover { height: 200px; background-size: cover; background-position: center; background-color: var(--border); border-radius: var(--r-card); }
+.detail-head { display: flex; flex-direction: column; gap: var(--sp-sm); }
+.detail-head h2 { font-family: var(--font-display); font-size: 26px; font-weight: 700; }
+
+/* 食安警告 */
+.safety-note {
+  display: flex; gap: var(--sp-sm); align-items: flex-start;
+  padding: var(--sp-md); border-radius: var(--r-btn);
+  background: var(--error-lt); border: 1px solid var(--error);
+}
+.safety-note > i { color: var(--error-strong); font-size: var(--fs-body); margin-top: 2px; flex-shrink: 0; }
+.safety-body { display: flex; flex-direction: column; gap: var(--sp-xs); min-width: 0; }
+.safety-title { font-size: var(--fs-body); font-weight: 700; color: var(--error-strong); }
+.safety-note ul { display: flex; flex-direction: column; gap: var(--sp-xs); padding-left: var(--sp-md); }
+.safety-note li { font-size: var(--fs-body); line-height: 1.6; color: var(--text); }
+
+.ing-block { display: flex; flex-direction: column; gap: var(--sp-sm); background: var(--primary-lt); padding: var(--sp-sm); border-radius: var(--r-card); }
+.ing-sub-label { font-size: var(--fs-label); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: var(--sp-xs); }
+
+/* 食材列：可含次選（可替換 chip） */
+.ing-row {
+  display: flex; flex-direction: column; gap: var(--sp-sm);
+  padding: var(--sp-sm) var(--sp-md);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-btn);
+}
+.ing-main { display: flex; align-items: center; gap: var(--sp-sm); }
+.ing-check {
+  width: var(--size-check); height: var(--size-check); flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: var(--r-check); background: var(--surface);
+  cursor: pointer; color: transparent; transition: all 0.15s ease;
+}
+.ing-check:hover { border-color: var(--primary); }
+.ing-check:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.ing-check.checked { background: var(--secondary); border-color: var(--secondary); color: #fff; }
+.name-block { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.name-block .name { font-weight: 500; }
+.name-block .opt-flag { font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub); display: inline-flex; align-items: center; gap: var(--sp-xs); }
+.ing-row .qty { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-sub); flex-shrink: 0; }
+.ing-row .tag-mini { font-size: var(--fs-caption); font-weight: 700; padding: 1px var(--sp-sm); border-radius: var(--r-pill); flex-shrink: 0; }
+.tag-mini--opt { color: var(--text-sub); }
+.tag-mini--buy { color: var(--secondary); }
+.ing-row.have { border-color: var(--primary); }
+.ing-row.have .tag-mini { color: var(--success); }
+.ing-row.subbed { background: var(--secondary-lt); border-color: var(--warning); }
+.ing-row.subbed .tag-mini { color: var(--subbed-text); }
+
+/* 可替換次選 chip 列 */
+.ing-subs { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-xs); padding-left: calc(var(--size-check) + var(--sp-sm)); }
+.subs-label { font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub); }
+.sub-chip {
+  display: inline-flex; align-items: center; gap: var(--sp-xs);
+  min-height: 32px; padding: 0 var(--sp-sm);
+  font-size: var(--fs-caption); font-weight: 500; color: var(--text-sub);
+  background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-pill);
+}
+.sub-chip.on { background: var(--primary-lt); border-color: var(--primary); color: var(--primary-active); font-weight: 700; }
+.sub-chip.skip { font-style: italic; }
+
+.copy-bar { display: flex; gap: var(--sp-sm); }
+.copy-bar .btn-clear { flex: 1; }
+.copy-bar .btn-copy { flex: 2; }
+
+.step-list { display: flex; flex-direction: column; gap: var(--sp-lg); }
+.step { display: flex; gap: var(--sp-md); padding: var(--sp-lg); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); }
+.step-no {
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: var(--size-step-no); height: var(--size-step-no); font-family: var(--font-mono); font-weight: 700; font-size: var(--fs-btn);
+  color: var(--primary); background: var(--primary-lt); border-radius: var(--r-circle);
+}
+.step-body { display: flex; flex-direction: column; gap: var(--sp-md); flex: 1; min-width: 0; }
+.step-text { font-size: var(--fs-body); line-height: 1.6; }
+
+.timer { display: flex; align-items: center; gap: var(--sp-lg); }
+.timer-display { font-family: var(--font-mono); font-size: var(--fs-mono-lg); font-weight: 700; color: var(--text); letter-spacing: 1px; }
+.timer.is-done .timer-display { color: var(--secondary); }
+.timer-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--size-timer-btn); height: var(--size-timer-btn); font-size: 12px; border-radius: var(--r-circle);
+  border: 1px solid var(--border); background: var(--surface); color: var(--primary); cursor: pointer; transition: all 0.15s ease;
+}
+.timer-btn:hover { border-color: var(--primary); background: var(--primary-lt); }
+.timer-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.source-link { align-self: flex-start; text-decoration: none; }
+.source-link:hover { text-decoration: underline; }
+
+/* ── toast ── */
+.toast {
+  position: fixed; left: 50%; bottom: var(--sp-xl); transform: translateX(-50%) translateY(20px);
+  display: inline-flex; align-items: center; gap: var(--sp-sm);
+  padding: var(--sp-sm) var(--sp-lg); border-radius: var(--r-pill);
+  background: var(--primary-active); color: #fff; font-size: var(--fs-caption); font-weight: 700;
+  box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 50;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    ╔══════════════════════════════════════════════════════════════╗
+    ║  BiteSync Design System Template — 空白模板                  ║
+    ║  使用方式：                                                    ║
+    ║  1. 複製此檔，重新命名為 design-system.html 放到專案資料夾      ║
+    ║  2. 在 Section [FILL] 填入你的 brand token 值                ║
+    ║  3. 更新 [BRAND NAME] 與 [TAGLINE]                           ║
+    ║  4. 所有元件預覽會自動套用新的色彩                             ║
+    ╚══════════════════════════════════════════════════════════════╝
+  -->
+  <title>Design System — Recipe QuickCook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!--
+    [FILL] 替換字體：把下方的 Anton 和 Noto+Sans+TC 改為你的 brand 字體
+    display font 參考：Anton / Archivo Black / DM Serif Display / Syne
+    body font 參考：Noto Sans TC / Plus Jakarta Sans / DM Sans
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    button { font-family: inherit; border: none; cursor: pointer; background: none; }
+
+    /* ════════════════════════════════════════════════
+       [FILL] BRAND TOKENS — 每案只改這個區塊
+       所有元件自動套用，禁止在下方 hardcode 數值
+    ════════════════════════════════════════════════ */
+    :root {
+      /* Primary — 主品牌色
+         [FILL] 替換為你的 primary 色階 */
+      --primary:     #688943;   /* primary.500 — 橄欖綠基準色 */
+      --primary-hv:  #557235;   /* primary.600 — Hover */
+      --primary-act: #425928;   /* primary.700 — Active */
+      --primary-lt:  #F4F7F1;   /* primary.50  — 淺色背景 */
+
+      /* Secondary — 暖黃（點綴用，面積應小於 primary） */
+      --secondary:   #E0A23C;   /* secondary.500 */
+      --secondary-lt:#FBE8CC;   /* secondary 淺底 */
+
+      /* Neutral — 暖調無彩灰（此主題視覺主角，佔 60–90%） */
+      --bg:          #FAFAF9;   /* neutral.50  — 頁面底色 */
+      --surface:     #FFFFFF;   /* neutral.0   — 卡片底色 */
+      --subtle:      #F2F1EF;   /* neutral.100 — 次要區塊底色 */
+      --border:      #E4E3E0;   /* neutral.200 — 邊框 */
+      --border-str:  #D1CFCB;   /* neutral.300 — 強調邊框 */
+      --text:        #1A1918;   /* neutral.900 — 主文字 */
+      --text-sec:    #5C5A56;   /* neutral.600 — 次文字 */
+      --muted:       #A8A6A1;   /* neutral.400 — Placeholder */
+
+      /* Semantic — success/warning 對齊品牌綠黃（＝食譜燈號 🟢🟡）；error 警示紅（食安） */
+      --success:     #688943;   /* 綠燈：完全符合 */
+      --success-lt:  #E1EAD8;
+      --warning:     #E0A23C;   /* 黃燈：差一樣 / 可替代 */
+      --warning-lt:  #FBE8CC;
+      --error:       #DC2626;   /* 食安警告 */
+      --error-lt:    #FEE2E2;
+      --info:        #2563EB;
+      --info-lt:     #DBEAFE;
+
+      /* Shadows — 含蓄質感（theme-A 調性） */
+      --sh:          0 2px 16px rgba(33,32,30,.05);
+      --sh-lg:       0 10px 30px rgba(33,32,30,.06);
+      --sh-primary:  0 4px 24px rgba(104,137,67,.22); /* primary.500 的 rgb */
+
+      /* Border Radius — 柔和（btn 8 / card 16 / badge 膠囊） */
+      --r-btn:   8px;
+      --r-card:  16px;
+      --r-badge: 9999px;
+
+      /* Typography — Playfair 襯線標題（生活感）+ Noto Sans 內文 */
+      --font-display: 'Playfair Display', 'Noto Serif TC', serif;
+      --font-body:    'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
+      --font-mono:    'JetBrains Mono', 'Roboto Mono', monospace;
+
+      /* Spacing — 4px base，通常不需修改 */
+      --sp-xs:  4px;
+      --sp-sm:  8px;
+      --sp-md:  16px;
+      --sp-lg:  24px;
+      --sp-xl:  32px;
+      --sp-2xl: 48px;
+      --sp-3xl: 64px;
+
+      /* Design System page-only tokens — 不影響 app 畫面 */
+      --ds-sidebar-w: 220px;
+      --ds-surface-2: #F2F1EF;
+      --ds-code-bg:   #E4E3E0;
+    }
+    /* ════════════════════════════════════════════════
+       [FILL] END — 以下禁止直接寫顏色數值
+    ════════════════════════════════════════════════ */
+
+    /* ── Layout ── */
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100dvh;
+      display: flex;
+    }
+
+    .ds-sidebar {
+      width: var(--ds-sidebar-w);
+      flex-shrink: 0;
+      position: fixed;
+      top: 0; left: 0;
+      height: 100dvh;
+      background: var(--surface);
+      border-right: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 100;
+    }
+
+    .ds-sidebar-header {
+      padding: 28px 20px 20px;
+      border-bottom: 1.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ds-sidebar-app {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+    .ds-sidebar-app-accent { color: var(--primary); }
+
+    .ds-sidebar-badge {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--primary);
+      background: var(--primary-lt);
+      padding: 2px 8px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+
+    .ds-nav {
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .ds-nav-group {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 12px 8px 6px;
+    }
+
+    .ds-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--text-sec);
+      text-decoration: none;
+      transition: all .15s ease;
+      cursor: pointer;
+    }
+    .ds-nav-link:hover  { background: var(--ds-surface-2); color: var(--text); }
+    .ds-nav-link.active { background: var(--primary-lt); color: var(--primary); font-weight: 500; }
+    .ds-nav-icon { font-size: 14px; flex-shrink: 0; }
+
+    .ds-main {
+      margin-left: var(--ds-sidebar-w);
+      flex: 1;
+      min-width: 0;
+      padding: 48px 48px 120px;
+      max-width: 900px;
+    }
+
+    /* ── Page Header ── */
+    .ds-page-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-bottom: 40px;
+      border-bottom: 1.5px solid var(--border);
+      margin-bottom: 56px;
+    }
+
+    .ds-page-title {
+      font-family: var(--font-display);
+      font-size: 44px;
+      letter-spacing: -0.02em;
+      line-height: 1.05;
+    }
+    .ds-page-title-accent { color: var(--primary); }
+    .ds-page-desc { font-size: 15px; color: var(--text-sec); line-height: 1.6; max-width: 480px; }
+
+    /* ── Sections ── */
+    .ds-section { margin-bottom: 72px; display: flex; flex-direction: column; gap: 32px; scroll-margin-top: 32px; }
+    .ds-section-header { display: flex; flex-direction: column; gap: 6px; padding-bottom: 20px; border-bottom: 1.5px solid var(--border); }
+    .ds-section-title { font-size: 22px; font-weight: 700; }
+    .ds-section-desc  { font-size: 14px; color: var(--text-sec); }
+    .ds-subsection       { display: flex; flex-direction: column; gap: 12px; }
+    .ds-subsection-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+
+    /* ── Token UI ── */
+    .ds-token-grid { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; }
+    .ds-color-swatch { display: flex; flex-direction: column; gap: 8px; min-width: 110px; flex: 1; }
+    .ds-swatch-box   { height: 60px; border-radius: var(--r-btn); border: 1.5px solid var(--border); }
+    .ds-swatch-name  { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text); }
+    .ds-swatch-hex   { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+    .ds-type-row            { display: flex; flex-direction: row; align-items: baseline; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .ds-type-row:last-child { border-bottom: none; }
+    .ds-type-meta  { display: flex; flex-direction: column; gap: 3px; width: 160px; flex-shrink: 0; }
+    .ds-type-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--muted); }
+    .ds-type-value { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+    .ds-radius-grid  { display: flex; flex-direction: row; gap: 16px; flex-wrap: wrap; }
+    .ds-radius-item  { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .ds-radius-box   { width: 80px; height: 80px; background: var(--primary-lt); border: 2px solid var(--primary); }
+    .ds-radius-label { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-align: center; }
+
+    .ds-shadow-grid { display: flex; flex-direction: row; gap: 24px; flex-wrap: wrap; }
+    .ds-shadow-item { display: flex; flex-direction: column; gap: 12px; flex: 1; min-width: 180px; }
+    .ds-shadow-box  { height: 80px; background: var(--surface); border-radius: var(--r-card); }
+
+    .ds-spacing-grid { display: flex; flex-direction: column; gap: 10px; }
+    .ds-spacing-row  { display: flex; flex-direction: row; align-items: center; gap: 12px; }
+    .ds-spacing-bar  { height: 8px; background: var(--primary-lt); border: 1.5px solid var(--primary); border-radius: 2px; flex-shrink: 0; }
+
+    /* ── Preview Canvas ── */
+    .ds-preview { background: var(--ds-surface-2); border-radius: var(--r-card); padding: 28px 24px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
+    .ds-preview.col    { flex-direction: column; align-items: stretch; }
+    .ds-preview.center { justify-content: center; align-items: center; }
+
+    .ds-chip { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--text-sec); background: var(--ds-code-bg); padding: 3px 8px; border-radius: 6px; width: fit-content; }
+
+    .ds-comp-item { display: flex; flex-direction: column; gap: 10px; }
+    .ds-comp-meta { display: flex; flex-direction: row; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .ds-comp-desc { font-size: 13px; color: var(--text-sec); }
+
+    /* ══ APP COMPONENTS ══════════════════════════════════════════
+       以下元件全部使用 CSS 變數，填入上方 [FILL] 區塊後自動更新
+    ══════════════════════════════════════════════════════════════ */
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--primary); color: #fff;
+      border: none; border-radius: var(--r-btn);
+      height: 52px; padding: 0 24px;
+      font-family: var(--font-body); font-size: 15px; font-weight: 700;
+      cursor: pointer; white-space: nowrap;
+      transition: background .15s, transform .1s;
+    }
+    .btn-primary:hover   { background: var(--primary-hv); }
+    .btn-primary:focus   { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .btn-primary:active  { background: var(--primary-act); transform: scale(.98); }
+    .btn-primary.sm      { height: 40px; padding: 0 16px; font-size: 14px; }
+    .btn-primary.lg      { height: 60px; padding: 0 32px; font-size: 17px; }
+    .btn-primary:disabled, .btn-primary.disabled { background: var(--subtle); color: var(--muted); cursor: not-allowed; pointer-events: none; }
+    .btn-primary.loading { pointer-events: none; }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: transparent; color: var(--primary);
+      border: 1.5px solid var(--primary); border-radius: var(--r-btn);
+      height: 52px; padding: 0 24px;
+      font-family: var(--font-body); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all .15s, transform .1s;
+    }
+    .btn-secondary:hover   { background: var(--primary-lt); }
+    .btn-secondary:focus   { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .btn-secondary:active  { transform: scale(.98); }
+    .btn-secondary.sm      { height: 40px; padding: 0 16px; font-size: 14px; }
+    .btn-secondary:disabled { color: var(--muted); border-color: var(--border); cursor: not-allowed; }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: transparent; color: var(--text-sec);
+      border: none; border-radius: var(--r-btn);
+      height: 52px; padding: 0 24px;
+      font-family: var(--font-body); font-size: 15px;
+      cursor: pointer; transition: all .15s;
+    }
+    .btn-ghost:hover  { background: var(--subtle); color: var(--text); }
+    .btn-ghost:disabled { color: var(--muted); cursor: not-allowed; }
+
+    .btn-danger {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: var(--error); color: #fff;
+      border: none; border-radius: var(--r-btn);
+      height: 52px; padding: 0 24px;
+      font-family: var(--font-body); font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: all .15s, transform .1s;
+    }
+    .btn-danger:hover  { background: #b91c1c; }
+    .btn-danger:active { transform: scale(.98); }
+    .btn-danger:disabled { background: var(--subtle); color: var(--muted); cursor: not-allowed; }
+
+    /* Spinner */
+    .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; flex-shrink: 0; }
+    .spinner.on-light { border-color: rgba(0,0,0,.1); border-top-color: var(--primary); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Input */
+    .input-group    { display: flex; flex-direction: column; gap: 6px; }
+    .input-label    { font-size: 13px; font-weight: 500; color: var(--text); }
+    .input-required { color: var(--error); }
+
+    .input-field {
+      background: var(--surface); border: 1px solid var(--border-str);
+      border-radius: var(--r-btn); padding: 0 var(--sp-md);
+      height: 52px; font-family: var(--font-body); font-size: 16px; color: var(--text);
+      outline: none; width: 100%;
+      transition: border-color .15s, box-shadow .15s;
+    }
+    .input-field::placeholder { color: var(--muted); }
+    .input-field:focus    { border-color: var(--primary); border-width: 2px; box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent); }
+    .input-field.is-error { border-color: var(--error); border-width: 2px; background: var(--error-lt); }
+    .input-field:disabled { background: var(--subtle); color: var(--muted); border-color: var(--border); cursor: not-allowed; }
+    .input-field.is-readonly { background: var(--ds-surface-2); border-style: dashed; }
+
+    .input-helper    { font-size: 12px; color: var(--muted); }
+    .input-error-msg { display: none; font-size: 12px; color: var(--error); }
+    .input-error-msg.is-visible { display: flex; align-items: center; gap: 4px; }
+
+    /* Cards */
+    .card-flat        { display: flex; flex-direction: column; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--r-card); padding: var(--sp-lg); }
+    .card-elevated    { display: flex; flex-direction: column; background: var(--surface); border-radius: var(--r-card); padding: var(--sp-lg); box-shadow: var(--sh-lg); }
+    .card-interactive { display: flex; flex-direction: column; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--r-card); padding: 20px var(--sp-lg); cursor: pointer; transition: border-color .15s, transform .12s, box-shadow .15s; }
+    .card-interactive:hover  { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--sh-lg); }
+    .card-interactive:active { transform: translateY(0); }
+
+    /* Badges */
+    .badge     { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: var(--r-badge); font-size: 12px; font-weight: 600; white-space: nowrap; }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .badge-primary { background: var(--primary-lt); color: var(--primary-act); }
+    .badge-primary .badge-dot { background: var(--primary); }
+    .badge-success { background: var(--success-lt); color: #15803d; }
+    .badge-success .badge-dot { background: var(--success); }
+    .badge-warning { background: var(--warning-lt); color: #a16207; }
+    .badge-warning .badge-dot { background: var(--warning); }
+    .badge-error   { background: var(--error-lt);   color: #b91c1c; }
+    .badge-error .badge-dot   { background: var(--error); }
+    .badge-neutral { background: var(--subtle); color: var(--text-sec); }
+    .badge-neutral .badge-dot { background: var(--muted); }
+
+    /* Bottom Nav */
+    .bottom-nav { display: flex; flex-direction: row; background: var(--surface); border-top: 1.5px solid var(--border); padding: 8px 0 20px; box-shadow: 0 -2px 16px rgba(0,0,0,.05); }
+    .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; padding: 6px 0; cursor: pointer; border: none; background: none; font-family: var(--font-body); color: var(--muted); transition: color .15s; }
+    .bottom-nav-item.active { color: var(--primary); }
+    .bottom-nav-icon  { font-size: 22px; line-height: 1; }
+    .bottom-nav-label { font-size: 11px; font-weight: 500; }
+    .bottom-nav-icon-wrap { position: relative; display: inline-flex; }
+    .bottom-nav-badge-dot { position: absolute; top: -1px; right: -3px; width: 8px; height: 8px; background: var(--primary); border: 2px solid var(--surface); border-radius: 50%; }
+
+    /* Stepper */
+    .stepper { display: flex; flex-direction: row; align-items: center; }
+    .stepper-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+    .stepper-node-row { display: flex; flex-direction: row; align-items: center; width: 100%; }
+    .stepper-line { flex: 1; height: 2px; background: var(--border); transition: background .3s; }
+    .stepper-line.done { background: var(--primary); }
+    .stepper-node { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; transition: all .2s; }
+    .stepper-node.default { background: var(--subtle); color: var(--muted); border: 2px solid var(--border); }
+    .stepper-node.active  { background: var(--primary); color: #fff; border: 2px solid var(--primary); box-shadow: 0 0 0 3px var(--primary-lt); }
+    .stepper-node.done    { background: var(--primary); color: #fff; border: 2px solid var(--primary); font-size: 0; }
+    .stepper-node.done::after { content: '✓'; font-size: 13px; }
+    .stepper-label { font-size: 11px; font-weight: 500; color: var(--muted); text-align: center; }
+    .stepper-step.active .stepper-label { color: var(--primary); font-weight: 700; }
+    .stepper-step.done   .stepper-label { color: var(--text-sec); }
+
+    /* Toast */
+    .toast { display: flex; flex-direction: row; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--r-card); }
+    .toast-icon  { font-size: 18px; flex-shrink: 0; }
+    .toast-text  { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
+    .toast-title { font-size: 14px; font-weight: 600; }
+    .toast-sub   { font-size: 12px; opacity: .8; }
+    .toast-success { background: var(--success-lt); color: #15803d; border: 1px solid #bbf7d0; }
+    .toast-error   { background: var(--error-lt);   color: #b91c1c; border: 1px solid #fecaca; }
+    .toast-warning { background: var(--warning-lt); color: #a16207; border: 1px solid #fef08a; }
+    .toast-info    { background: var(--info-lt);    color: #1d4ed8; border: 1px solid #bfdbfe; }
+
+    /* Skeleton */
+    .skeleton { background: linear-gradient(90deg, var(--subtle) 0%, var(--border) 50%, var(--subtle) 100%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; border-radius: 6px; }
+    @keyframes shimmer { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
+
+    /* Animations */
+    .anim-slide-up  { animation: slideUp .35s ease forwards; }
+    .anim-pop-in    { animation: popIn .45s cubic-bezier(.34,1.56,.64,1) forwards; }
+    .anim-blink     { animation: blink 1.3s ease infinite; }
+    .anim-pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
+    @keyframes slideUp  { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes popIn    { from { opacity:0; transform:scale(.85); } to { opacity:1; transform:scale(1); } }
+    @keyframes blink    { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+    @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.75);} }
+
+    .anim-demo-grid { display: flex; flex-direction: row; gap: 16px; flex-wrap: wrap; }
+    .anim-demo-card { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 130px; align-items: center; }
+    .anim-demo-box  { width: 72px; height: 72px; background: var(--primary-lt); border: 2px solid var(--primary); border-radius: var(--r-btn); display: flex; align-items: center; justify-content: center; font-size: 26px; }
+    .anim-play-btn  { font-size: 12px; color: var(--muted); padding: 5px 12px; border: 1px solid var(--border); border-radius: 100px; font-family: var(--font-body); transition: all .15s; }
+    .anim-play-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+    @media (max-width: 720px) {
+      .ds-sidebar { display: none; }
+      .ds-main    { margin-left: 0; padding: 32px 20px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<aside class="ds-sidebar">
+  <div class="ds-sidebar-header">
+    <span class="ds-sidebar-app">Quick<span class="ds-sidebar-app-accent">Cook</span></span>
+    <span class="ds-sidebar-badge">Design System</span>
+  </div>
+  <nav class="ds-nav">
+    <div class="ds-nav-group">Tokens</div>
+    <a class="ds-nav-link" href="#colors"><span class="ds-nav-icon"><i class="fa-solid fa-palette"></i></span> 顏色</a>
+    <a class="ds-nav-link" href="#typography"><span class="ds-nav-icon"><i class="fa-solid fa-font"></i></span> 字體</a>
+    <a class="ds-nav-link" href="#spacing"><span class="ds-nav-icon"><i class="fa-solid fa-left-right"></i></span> Spacing</a>
+    <a class="ds-nav-link" href="#radius"><span class="ds-nav-icon"><i class="fa-solid fa-border-all"></i></span> 圓角</a>
+    <a class="ds-nav-link" href="#shadows"><span class="ds-nav-icon"><i class="fa-solid fa-clone"></i></span> 陰影</a>
+    <div class="ds-nav-group">Components</div>
+    <a class="ds-nav-link" href="#buttons"><span class="ds-nav-icon"><i class="fa-solid fa-hand-pointer"></i></span> 按鈕</a>
+    <a class="ds-nav-link" href="#inputs"><span class="ds-nav-icon"><i class="fa-solid fa-pen"></i></span> 輸入框</a>
+    <a class="ds-nav-link" href="#cards"><span class="ds-nav-icon"><i class="fa-solid fa-id-card"></i></span> 卡片</a>
+    <a class="ds-nav-link" href="#badges"><span class="ds-nav-icon"><i class="fa-solid fa-tag"></i></span> Badge</a>
+    <a class="ds-nav-link" href="#bottom-nav"><span class="ds-nav-icon"><i class="fa-solid fa-bars"></i></span> 底部導航</a>
+    <a class="ds-nav-link" href="#stepper"><span class="ds-nav-icon"><i class="fa-solid fa-list-ol"></i></span> Stepper</a>
+    <a class="ds-nav-link" href="#feedback"><span class="ds-nav-icon"><i class="fa-solid fa-comment-dots"></i></span> Toast</a>
+    <a class="ds-nav-link" href="#states"><span class="ds-nav-icon"><i class="fa-solid fa-spinner"></i></span> 特殊狀態</a>
+    <div class="ds-nav-group">Motion</div>
+    <a class="ds-nav-link" href="#animations"><span class="ds-nav-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span> 動畫</a>
+  </nav>
+</aside>
+
+<main class="ds-main">
+
+  <div class="ds-page-header">
+    <h1 class="ds-page-title">Quick<span class="ds-page-title-accent">Cook</span> DS</h1>
+    <p class="ds-page-desc">Recipe QuickCook 設計基準：無彩留白為底、橄欖綠與暖黃點綴的居家料理工具。所有 token 集中於此，原型須對齊，禁止 hardcode 數值。</p>
+  </div>
+
+  <!-- ══ COLORS ══ -->
+  <section class="ds-section" id="colors">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">顏色</h2>
+      <p class="ds-section-desc">暖調無彩灰為主體（60–90%），橄欖綠主色僅作強調，暖黃點綴。綠／黃同時擔任食譜燈號。</p>
+    </div>
+
+    <div class="ds-subsection">
+      <div class="ds-subsection-title">Primary</div>
+      <div class="ds-token-grid">
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-lt);"></div><div class="ds-swatch-name">primary.50</div><div class="ds-swatch-hex">#F4F7F1 · --primary-lt</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary);"></div><div class="ds-swatch-name">primary.500</div><div class="ds-swatch-hex">#688943 · --primary</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-hv);"></div><div class="ds-swatch-name">primary.600</div><div class="ds-swatch-hex">#557235 · --primary-hv</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-act);"></div><div class="ds-swatch-name">primary.700</div><div class="ds-swatch-hex">#425928 · --primary-act</div></div>
+      </div>
+    </div>
+
+    <div class="ds-subsection">
+      <div class="ds-subsection-title">Neutral</div>
+      <div class="ds-token-grid">
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--bg);"></div><div class="ds-swatch-name">neutral.50</div><div class="ds-swatch-hex">#FAFAF9 · --bg</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--surface); border-color:var(--border);"></div><div class="ds-swatch-name">neutral.0</div><div class="ds-swatch-hex">#FFFFFF · --surface</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--border);"></div><div class="ds-swatch-name">neutral.200</div><div class="ds-swatch-hex">#E4E3E0 · --border</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--muted);"></div><div class="ds-swatch-name">neutral.400</div><div class="ds-swatch-hex">#A8A6A1 · --muted</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--text-sec);"></div><div class="ds-swatch-name">neutral.600</div><div class="ds-swatch-hex">#5C5A56 · --text-sec</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--text);"></div><div class="ds-swatch-name">neutral.900</div><div class="ds-swatch-hex">#1A1918 · --text</div></div>
+      </div>
+    </div>
+
+    <div class="ds-subsection">
+      <div class="ds-subsection-title">Semantic</div>
+      <div class="ds-token-grid">
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--success-lt);"></div><div class="ds-swatch-name">success.light <i class="fa-solid fa-circle" style="color:var(--success);font-size:10px;"></i></div><div class="ds-swatch-hex">#E1EAD8</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--success);"></div><div class="ds-swatch-name">success.base 綠燈</div><div class="ds-swatch-hex">#688943</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--warning-lt);"></div><div class="ds-swatch-name">warning.light <i class="fa-solid fa-circle" style="color:var(--warning);font-size:10px;"></i></div><div class="ds-swatch-hex">#FBE8CC</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--warning);"></div><div class="ds-swatch-name">warning.base 黃燈</div><div class="ds-swatch-hex">#E0A23C</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--error-lt);"></div><div class="ds-swatch-name">error.light</div><div class="ds-swatch-hex">#FEE2E2</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--error);"></div><div class="ds-swatch-name">error.base 食安</div><div class="ds-swatch-hex">#DC2626</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TYPOGRAPHY ══ -->
+  <section class="ds-section" id="typography">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">字體</h2>
+      <p class="ds-section-desc">標題用 Playfair Display 襯線製造生活感；內文 Noto Sans TC；計時與份量數字用 JetBrains Mono。</p>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta"><span class="ds-type-label">Display</span><span class="ds-type-value">--font-display · 48px</span></div>
+      <div style="font-family:var(--font-display); font-size:48px; line-height:1; letter-spacing:-0.02em;">Quick<span style="color:var(--primary);">Cook</span></div>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta"><span class="ds-type-label">H1 / Title</span><span class="ds-type-value">28px / 700</span></div>
+      <div style="font-size:28px; font-weight:700;">今天能煮什麼？</div>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta"><span class="ds-type-label">H2</span><span class="ds-type-value">22px / 700</span></div>
+      <div style="font-size:22px; font-weight:700;">消防車紅蘿蔔肉末飯糰</div>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta"><span class="ds-type-label">Body Regular</span><span class="ds-type-value">16px / 400</span></div>
+      <div style="font-size:16px; color:var(--text-sec);">勾選冰箱現有食材，立即看出哪些料理能做、哪些差一樣。</div>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta"><span class="ds-type-label">Caption</span><span class="ds-type-value">14px / 400</span></div>
+      <div style="font-size:14px; color:var(--muted);">約 10 分鐘 · 1 兒童份 · 可冷凍</div>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta"><span class="ds-type-label">Mono</span><span class="ds-type-value">--font-mono · 計時</span></div>
+      <div style="font-family:var(--font-mono); font-size:18px; font-weight:500; color:var(--primary);">01:00</div>
+    </div>
+  </section>
+
+  <!-- ══ SPACING ══ -->
+  <section class="ds-section" id="spacing">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">Spacing</h2>
+      <p class="ds-section-desc">4px base，7 個固定尺寸。全部以 CSS 變數引用，禁止 hardcode px 值。</p>
+    </div>
+    <div class="ds-spacing-grid">
+      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:4px; min-width:4px;"></div><span class="ds-chip">--sp-xs · 4px</span></div>
+      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:8px; min-width:8px;"></div><span class="ds-chip">--sp-sm · 8px</span></div>
+      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:16px; min-width:16px;"></div><span class="ds-chip">--sp-md · 16px</span></div>
+      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:24px; min-width:24px;"></div><span class="ds-chip">--sp-lg · 24px</span></div>
+      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:32px; min-width:32px;"></div><span class="ds-chip">--sp-xl · 32px</span></div>
+      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:48px; min-width:48px;"></div><span class="ds-chip">--sp-2xl · 48px</span></div>
+      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:64px; min-width:64px;"></div><span class="ds-chip">--sp-3xl · 64px</span></div>
+    </div>
+  </section>
+
+  <!-- ══ RADIUS ══ -->
+  <section class="ds-section" id="radius">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">圓角</h2>
+      <p class="ds-section-desc">柔和調性：按鈕 8px、卡片 16px、標籤膠囊。傳達生活感而不失俐落。</p>
+    </div>
+    <div class="ds-radius-grid">
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-btn);"></div><div class="ds-radius-label"><strong>--r-btn</strong><br>8px<br>Button · Input</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-card);"></div><div class="ds-radius-label"><strong>--r-card</strong><br>16px<br>Card · Panel</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-badge);"></div><div class="ds-radius-label"><strong>--r-badge</strong><br>膠囊<br>Badge · Tag</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:50%; width:80px; height:80px;"></div><div class="ds-radius-label"><strong>50%</strong><br>circle<br>Avatar</div></div>
+    </div>
+  </section>
+
+  <!-- ══ SHADOWS ══ -->
+  <section class="ds-section" id="shadows">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">陰影</h2>
+      <p class="ds-section-desc">以 neutral.900 的 RGB 值為底，避免冰冷的純黑。填入品牌色後 --sh-primary 自動更新。</p>
+    </div>
+    <div class="ds-shadow-grid">
+      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--sh);"></div><div class="ds-swatch-name">--sh</div><div class="ds-swatch-hex" style="font-size:12px;">Cards 預設</div></div>
+      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--sh-lg);"></div><div class="ds-swatch-name">--sh-lg</div><div class="ds-swatch-hex" style="font-size:12px;">Hover · Modal</div></div>
+      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--sh-primary);"></div><div class="ds-swatch-name">--sh-primary</div><div class="ds-swatch-hex" style="font-size:12px;">Primary CTA glow</div></div>
+    </div>
+  </section>
+
+  <!-- ══ BUTTONS ══ -->
+  <section class="ds-section" id="buttons">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">按鈕</h2>
+      <p class="ds-section-desc">四種語意變體。最小高度 48px，確保濕手廚房情境的觸控精準度。</p>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.btn-primary</span><span class="ds-comp-desc">主要 CTA</span></div>
+      <div class="ds-preview" style="flex-wrap:wrap;">
+        <button class="btn-primary">開始烹飪</button>
+        <button class="btn-primary sm">勾選</button>
+        <button class="btn-primary lg">一鍵複製清單</button>
+        <button class="btn-primary loading"><div class="spinner"></div><span>複製中⋯</span></button>
+        <button class="btn-primary" disabled>不可用</button>
+      </div>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.btn-secondary</span><span class="ds-comp-desc">次要操作</span></div>
+      <div class="ds-preview" style="flex-wrap:wrap;">
+        <button class="btn-secondary">查看食譜</button>
+        <button class="btn-secondary sm">取消</button>
+        <button class="btn-secondary" disabled>不可用</button>
+      </div>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.btn-ghost</span><span class="ds-comp-desc">輔助低重量</span></div>
+      <div class="ds-preview">
+        <button class="btn-ghost">略過</button>
+        <button class="btn-ghost" disabled>不可用</button>
+      </div>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.btn-danger</span><span class="ds-comp-desc">危險操作</span></div>
+      <div class="ds-preview">
+        <button class="btn-danger">清空採買清單</button>
+        <button class="btn-danger" disabled>不可用</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ INPUTS ══ -->
+  <section class="ds-section" id="inputs">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">輸入框</h2>
+      <p class="ds-section-desc">五種狀態。高度 52px 符合 48dp 觸控規範（食材搜尋／份量輸入用）。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:400px; gap:20px;">
+      <div class="input-group">
+        <label class="input-label" for="t-default">搜尋食材</label>
+        <input class="input-field" id="t-default" type="text" placeholder="搜尋食材或菜名…">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Focus（模擬）</label>
+        <input class="input-field" type="text" value="胡蘿蔔" style="border-color:var(--primary); border-width:2px; box-shadow:0 0 0 3px var(--primary-lt); outline:none;">
+      </div>
+      <div class="input-group">
+        <label class="input-label">Error <span class="input-required">*</span></label>
+        <input class="input-field is-error" type="text" value="蘿菠">
+        <div class="input-error-msg is-visible" role="alert"><i class="fa-solid fa-triangle-exclamation"></i> 找不到此食材，請從清單挑選（例：胡蘿蔔）</div>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Disabled</label>
+        <input class="input-field" type="text" value="鹽（調味，預設恆有）" disabled>
+      </div>
+      <div class="input-group">
+        <label class="input-label">ReadOnly</label>
+        <input class="input-field is-readonly" type="text" value="2026-06-02（本週採買）" readonly>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CARDS ══ -->
+  <section class="ds-section" id="cards">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">卡片</h2>
+      <p class="ds-section-desc">三種基礎卡片。Phase 4 將衍生食譜燈號卡（result-card）。</p>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.card-flat</span><span class="ds-comp-desc">次要資訊</span></div>
+      <div class="ds-preview col" style="max-width:360px;">
+        <div class="card-flat" style="gap:8px;">
+          <div style="font-size:14px; font-weight:700;">備料提醒</div>
+          <div style="font-size:14px; color:var(--text-sec);">嫩豆腐隨用隨壓碎，絕對不可冷凍。</div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.card-elevated</span><span class="ds-comp-desc">主要資訊</span></div>
+      <div class="ds-preview col" style="max-width:360px;">
+        <div class="card-elevated" style="gap:12px;">
+          <div style="display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
+            <div style="font-size:16px; font-weight:700;">今日推薦</div>
+            <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> 可做</span>
+          </div>
+          <div style="font-size:20px; font-weight:700; font-family:var(--font-mono); color:var(--primary);">01:00</div>
+          <div style="font-size:13px; color:var(--muted);">電風扇吹涼 1 分鐘</div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.card-interactive</span><span class="ds-comp-desc">可點擊</span></div>
+      <div class="ds-preview col" style="max-width:360px;">
+        <div class="card-interactive" style="gap:8px;">
+          <div style="display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
+            <div style="font-size:15px; font-weight:700;">消防車紅蘿蔔飯糰</div>
+            <span style="font-size:14px; color:var(--muted);">›</span>
+          </div>
+          <div style="font-size:13px; color:var(--text-sec);">點開看步驟與計時</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BADGES ══ -->
+  <section class="ds-section" id="badges">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">Badge</h2>
+      <p class="ds-section-desc">5 種語意。對應食譜燈號與採買狀態。</p>
+    </div>
+    <div class="ds-preview" style="flex-wrap:wrap; gap:10px; align-items:center;">
+      <span class="badge badge-primary"><span class="badge-dot"></span>本次採買</span>
+      <span class="badge badge-success"><span class="badge-dot"></span>可做</span>
+      <span class="badge badge-warning"><span class="badge-dot"></span>差一樣</span>
+      <span class="badge badge-error"><span class="badge-dot"></span>食安注意</span>
+      <span class="badge badge-neutral"><span class="badge-dot"></span>未選</span>
+    </div>
+  </section>
+
+  <!-- ══ BOTTOM NAV ══ -->
+  <section class="ds-section" id="bottom-nav">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">底部導航</h2>
+      <p class="ds-section-desc">本案 3 個入口；採買頁帶未讀小點（已加入品項提示）。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:390px; padding:0; overflow:hidden; border-radius:var(--r-card); border:1.5px solid var(--border);">
+      <div style="background:var(--bg); padding:24px 20px; text-align:center; font-size:13px; color:var(--muted);">（頁面內容區）</div>
+      <div class="bottom-nav">
+        <button class="bottom-nav-item active"><span class="bottom-nav-icon"><i class="fa-solid fa-utensils"></i></span><span class="bottom-nav-label">烹飪</span></button>
+        <button class="bottom-nav-item">
+          <span class="bottom-nav-icon-wrap"><span class="bottom-nav-icon"><i class="fa-solid fa-cart-shopping"></i></span><span class="bottom-nav-badge-dot"></span></span>
+          <span class="bottom-nav-label">採買</span>
+        </button>
+        <button class="bottom-nav-item"><span class="bottom-nav-icon"><i class="fa-solid fa-snowflake"></i></span><span class="bottom-nav-label">備料</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ STEPPER ══ -->
+  <section class="ds-section" id="stepper">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">Stepper</h2>
+      <p class="ds-section-desc">線性步驟進度指示器（對應 Principle 5 進度清晰，用於烹飪引導）。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:400px;">
+      <div class="stepper">
+        <div class="stepper-step done">
+          <div class="stepper-node-row"><div class="stepper-line" style="visibility:hidden;"></div><div class="stepper-node done"></div><div class="stepper-line done"></div></div>
+          <div class="stepper-label">選食材</div>
+        </div>
+        <div class="stepper-step active">
+          <div class="stepper-node-row"><div class="stepper-line done"></div><div class="stepper-node active"><span>2</span></div><div class="stepper-line"></div></div>
+          <div class="stepper-label">看燈號</div>
+        </div>
+        <div class="stepper-step">
+          <div class="stepper-node-row"><div class="stepper-line"></div><div class="stepper-node default"><span>3</span></div><div class="stepper-line" style="visibility:hidden;"></div></div>
+          <div class="stepper-label">開始煮</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FEEDBACK ══ -->
+  <section class="ds-section" id="feedback">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">Toast 回饋</h2>
+      <p class="ds-section-desc">符合料理情境的回饋訊息（呼應 Principle 4 備料安心）。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:400px;">
+      <div class="toast toast-success"><div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div><div class="toast-text"><div class="toast-title">已複製採買清單</div><div class="toast-sub">貼到手機備忘錄即可帶去超市</div></div></div>
+      <div class="toast toast-error"><div class="toast-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="toast-text"><div class="toast-title">找不到此食材</div><div class="toast-sub">請從食材清單挑選（例：胡蘿蔔）</div></div></div>
+      <div class="toast toast-warning"><div class="toast-icon"><i class="fa-solid fa-bell"></i></div><div class="toast-text"><div class="toast-title">嫩豆腐不可冷凍</div><div class="toast-sub">冷藏保存，隨用隨壓碎</div></div></div>
+      <div class="toast toast-info"><div class="toast-icon"><i class="fa-solid fa-circle-info"></i></div><div class="toast-text"><div class="toast-title">已加入採買計畫</div><div class="toast-sub">胡蘿蔔已與其他菜色合併去重</div></div></div>
+    </div>
+  </section>
+
+  <!-- ══ STATES ══ -->
+  <section class="ds-section" id="states">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">特殊狀態</h2>
+      <p class="ds-section-desc">Spinner 與 Skeleton Shimmer，適用於所有 loading 場景。</p>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.spinner</span></div>
+      <div class="ds-preview center" style="gap:24px;">
+        <div class="spinner on-light" style="width:32px; height:32px; border-width:3px;"></div>
+      </div>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.skeleton</span><span class="ds-comp-desc">Shimmer 骨架屏</span></div>
+      <div class="ds-preview col" style="max-width:360px;">
+        <div style="display:flex; flex-direction:column; gap:10px; padding:20px; background:var(--surface); border-radius:var(--r-card); box-shadow:var(--sh);">
+          <div class="skeleton" style="height:16px; width:40%;"></div>
+          <div class="skeleton" style="height:28px; width:70%;"></div>
+          <div class="skeleton" style="height:13px; width:55%;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ ANIMATIONS ══ -->
+  <section class="ds-section" id="animations">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">動畫</h2>
+      <p class="ds-section-desc">四種 keyframe。點「重播」觸發動畫重新執行。</p>
+    </div>
+    <div class="anim-demo-grid">
+      <div class="anim-demo-card"><div class="anim-demo-box" id="anim-slide"><i class="fa-solid fa-file-lines"></i></div><div class="ds-swatch-name">slideUp</div><div class="ds-swatch-hex" style="font-size:12px;text-align:center;">進場 .35s</div><button class="anim-play-btn" onclick="replay('anim-slide','anim-slide-up')">重播</button></div>
+      <div class="anim-demo-card"><div class="anim-demo-box" id="anim-pop"><i class="fa-solid fa-star"></i></div><div class="ds-swatch-name">popIn</div><div class="ds-swatch-hex" style="font-size:12px;text-align:center;">彈入 .45s</div><button class="anim-play-btn" onclick="replay('anim-pop','anim-pop-in')">重播</button></div>
+      <div class="anim-demo-card"><div class="anim-demo-box anim-blink"><i class="fa-solid fa-bell"></i></div><div class="ds-swatch-name">blink</div><div class="ds-swatch-hex" style="font-size:12px;text-align:center;">閃爍 1.3s ∞</div><div style="font-size:11px;color:var(--muted);">持續中</div></div>
+      <div class="anim-demo-card"><div class="anim-demo-box"><div class="anim-pulse-dot" style="width:16px;height:16px;border-radius:50%;background:var(--primary);"></div></div><div class="ds-swatch-name">pulseDot</div><div class="ds-swatch-hex" style="font-size:12px;text-align:center;">脈動 2s ∞</div><div style="font-size:11px;color:var(--muted);">持續中</div></div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  (function() {
+    const sections = document.querySelectorAll('.ds-section');
+    const links    = document.querySelectorAll('.ds-nav-link');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          links.forEach(l => l.classList.remove('active'));
+          const l = document.querySelector(`.ds-nav-link[href="#${e.target.id}"]`);
+          if (l) l.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  })();
+
+  function replay(id, cls) {
+    const el = document.getElementById(id);
+    el.classList.remove(cls);
+    void el.offsetWidth;
+    el.classList.add(cls);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+{
+  "_comment": "Brand tokens — Recipe QuickCook。由 proposal theme-A（生活風格：無彩主體＋橄欖綠/暖黃點綴）轉化而來。",
+  "_meta": {
+    "project": "Recipe QuickCook（快速煮食食譜查看）",
+    "derivedFrom": "theme-A.json",
+    "themeName": "生活風格",
+    "note": "radius / shadow 為 theme-A 的專案調性值，於 Phase 3 寫入 design-system.md Section 0（sm8/md16/lg24、card陰影 0 10px 30px rgba(33,32,30,.06)）"
+  },
+
+  "color": {
+    "primary": {
+      "_comment": "主互動 / 強調色 — 橄欖綠（theme-A accentColor 展開完整色階）。僅用於強調，不作大面積背景。",
+      "50":  { "$value": "#F4F7F1", "$type": "color" },
+      "100": { "$value": "#E1EAD8", "$type": "color" },
+      "200": { "$value": "#C6D8B2", "$type": "color" },
+      "300": { "$value": "#A9C38B", "$type": "color" },
+      "400": { "$value": "#87A663", "$type": "color" },
+      "500": { "$value": "#688943", "$type": "color", "_note": "主色基準值（Base）" },
+      "600": { "$value": "#557235", "$type": "color" },
+      "700": { "$value": "#425928", "$type": "color" },
+      "800": { "$value": "#344420", "$type": "color" },
+      "900": { "$value": "#283317", "$type": "color" },
+      "950": { "$value": "#161E0C", "$type": "color" }
+    },
+
+    "secondary": {
+      "_comment": "次強調色 — 暖黃（theme-A accentColorAlt）。點綴用，面積應明顯小於 primary。",
+      "300": { "$value": "#F2C870", "$type": "color" },
+      "500": { "$value": "#E0A23C", "$type": "color" },
+      "700": { "$value": "#B27D24", "$type": "color" }
+    },
+
+    "neutral": {
+      "_comment": "暖調無彩灰 — 此主題視覺主角（佔 60–90%）。theme-A neutralColor，補一階 950。",
+      "0":   { "$value": "#FFFFFF", "$type": "color" },
+      "50":  { "$value": "#FAFAF9", "$type": "color" },
+      "100": { "$value": "#F2F1EF", "$type": "color" },
+      "200": { "$value": "#E4E3E0", "$type": "color" },
+      "300": { "$value": "#D1CFCB", "$type": "color" },
+      "400": { "$value": "#A8A6A1", "$type": "color" },
+      "500": { "$value": "#807E79", "$type": "color" },
+      "600": { "$value": "#5C5A56", "$type": "color" },
+      "700": { "$value": "#403F3C", "$type": "color" },
+      "800": { "$value": "#2A2927", "$type": "color" },
+      "900": { "$value": "#1A1918", "$type": "color" },
+      "950": { "$value": "#0F0E0E", "$type": "color" }
+    },
+
+    "semantic": {
+      "_comment": "功能色。success/warning 對齊品牌綠黃（＝食譜燈號 🟢🟡）；error 用警示紅（食安警告）；info 保留藍。",
+      "success": {
+        "light": { "$value": "#E1EAD8", "$type": "color" },
+        "base":  { "$value": "#688943", "$type": "color" },
+        "dark":  { "$value": "#557235", "$type": "color" }
+      },
+      "warning": {
+        "light": { "$value": "#FBE8CC", "$type": "color" },
+        "base":  { "$value": "#E0A23C", "$type": "color" },
+        "dark":  { "$value": "#B27D24", "$type": "color" }
+      },
+      "error": {
+        "light": { "$value": "#FEE2E2", "$type": "color" },
+        "base":  { "$value": "#DC2626", "$type": "color" },
+        "dark":  { "$value": "#B91C1C", "$type": "color" }
+      },
+      "info": {
+        "light": { "$value": "#DBEAFE", "$type": "color" },
+        "base":  { "$value": "#2563EB", "$type": "color" },
+        "dark":  { "$value": "#1D4ED8", "$type": "color" }
+      }
+    }
+  },
+
+  "typography": {
+    "fontFamily": {
+      "display": { "$value": "'Playfair Display', 'Noto Serif TC', serif", "$type": "fontFamily", "_note": "標題襯線，製造生活感（theme-A display）" },
+      "body":    { "$value": "'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', 'Helvetica Neue', Arial, sans-serif", "$type": "fontFamily" },
+      "mono":    { "$value": "'JetBrains Mono', 'Roboto Mono', monospace", "$type": "fontFamily", "_note": "計時秒數 / 份量數字用" }
+    },
+
+    "fontSize": {
+      "_comment": "基準字級 16px，4px base。",
+      "xs":   { "$value": "12px", "$type": "dimension" },
+      "sm":   { "$value": "14px", "$type": "dimension" },
+      "base": { "$value": "16px", "$type": "dimension" },
+      "lg":   { "$value": "18px", "$type": "dimension" },
+      "xl":   { "$value": "20px", "$type": "dimension" },
+      "2xl":  { "$value": "24px", "$type": "dimension" },
+      "3xl":  { "$value": "30px", "$type": "dimension" },
+      "4xl":  { "$value": "36px", "$type": "dimension" },
+      "5xl":  { "$value": "48px", "$type": "dimension" },
+      "6xl":  { "$value": "60px", "$type": "dimension" }
+    },
+
+    "fontWeight": {
+      "regular":   { "$value": 400 },
+      "medium":    { "$value": 500 },
+      "semibold":  { "$value": 600 },
+      "bold":      { "$value": 700 },
+      "extrabold": { "$value": 800 }
+    },
+
+    "lineHeight": {
+      "tight":   { "$value": 1.25 },
+      "snug":    { "$value": 1.375 },
+      "normal":  { "$value": 1.5 },
+      "relaxed": { "$value": 1.625 },
+      "loose":   { "$value": 2 }
+    },
+
+    "letterSpacing": {
+      "tight":  { "$value": "-0.025em" },
+      "normal": { "$value": "0em" },
+      "wide":   { "$value": "0.025em" },
+      "wider":  { "$value": "0.05em" },
+      "widest": { "$value": "0.1em" }
+    }
+  }
+}
