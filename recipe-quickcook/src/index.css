@@ -371,6 +371,9 @@ body {
 .prep-meta-item { display: inline-flex; align-items: center; gap: var(--sp-xs); font-size: var(--fs-caption); color: var(--text-sub); }
 .prep-meta-item > i { color: var(--primary); }
 .prep-steps { display: flex; flex-direction: column; gap: var(--sp-xs); padding-left: var(--sp-md); }
+/* 同一步驟內多行：各行獨立換行、行距略收 */
+.prep-steps .step-line { display: block; }
+.prep-steps .step-line + .step-line { margin-top: var(--sp-xxs); }
 .prep-steps li { font-size: var(--fs-body); line-height: 1.6; color: var(--text); list-style: decimal; }
 .prep-note { font-size: var(--fs-caption); color: var(--placeholder); }
 .prep-uses-block { display: flex; flex-direction: column; gap: var(--sp-xs); padding-top: var(--sp-sm); border-top: 1px dashed var(--border); }

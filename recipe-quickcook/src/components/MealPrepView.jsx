@@ -109,7 +109,16 @@ export default function MealPrepView({ onOpenRecipe }) {
                     </div>
                     <ol className="prep-steps">
                       {guide.steps.map((s, i) => (
-                        <li key={i}>{s}</li>
+                        // 步驟值可為字串，或字串陣列（同一編號內多行顯示）
+                        <li key={i}>
+                          {Array.isArray(s)
+                            ? s.map((line, j) => (
+                                <span key={j} className="step-line">
+                                  {line}
+                                </span>
+                              ))
+                            : s}
+                        </li>
                       ))}
                     </ol>
                     {guide.note && <p className="prep-note">{guide.note}</p>}
