@@ -1,10 +1,12 @@
 import { coreStatus, isReady } from "../data/helpers.js";
+import { TAG_VOCAB, METHOD_TAGS } from "../../data/scenarios.js";
 import RecipeCover from "./RecipeCover.jsx";
 
 // 食譜卡：封面 + 標題列（份數右上角）+ 核心食材 chip 或有/缺對照燈
 export default function RecipeCard({ recipe, mode, fridge, onOpen }) {
   const showMatch = mode === "fridge" && fridge.size > 0;
   const ready = showMatch && isReady(recipe, fridge);
+  const methods = METHOD_TAGS.filter((t) => (recipe.tags || []).includes(t));
 
   return (
     <button type="button" className={"recipe-card" + (ready ? " is-ready" : "")} onClick={() => onOpen(recipe)}>
@@ -19,6 +21,16 @@ export default function RecipeCard({ recipe, mode, fridge, onOpen }) {
           )}
           <span className="badge badge-info card-servings">{recipe.servings}</span>
         </div>
+
+        {methods.length > 0 && (
+          <div className="card-methods">
+            {methods.map((t) => (
+              <span key={t} className="badge badge-method">
+                <i className="fa-solid fa-utensils" /> {TAG_VOCAB[t]}
+              </span>
+            ))}
+          </div>
+        )}
 
         {showMatch ? (
           <div className="match-row">

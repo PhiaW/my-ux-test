@@ -11,7 +11,10 @@ export default function MealPrepView({ onOpenRecipe }) {
   const cardRefs = useRef({}); // name → 卡片 DOM，供平滑捲動
 
   const jumpTo = (name) => {
-    cardRefs.current[name]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setJumpOpen(false); // 吸頂時收合面板，跳轉後只留一條細 bar，不擋住目標卡片
+    requestAnimationFrame(() => {
+      cardRefs.current[name]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   };
 
   return (

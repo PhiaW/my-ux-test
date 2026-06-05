@@ -303,6 +303,7 @@ body {
 .cover-placeholder i { font-size: 52px; opacity: 0.85; }
 .card-body { display: flex; flex-direction: column; gap: var(--sp-sm); padding: var(--sp-md); }
 .card-titlebar { display: flex; align-items: center; gap: var(--sp-sm); }
+.card-methods { display: flex; flex-wrap: wrap; gap: var(--sp-xs); }
 .card-title { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; flex: 1; min-width: 0; }
 .card-servings { flex-shrink: 0; align-self: flex-start; white-space: nowrap; }
 .ready-flag { font-size: var(--fs-caption); font-weight: 700; color: var(--primary); display: inline-flex; align-items: center; gap: var(--sp-xs); }
@@ -355,9 +356,13 @@ body {
   display: flex; flex-direction: column; gap: var(--sp-sm);
   padding: var(--sp-md); border-radius: var(--r-card);
   background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card);
-  scroll-margin-top: var(--sp-md); /* 快速跳轉時頂端留一點呼吸空間 */
+  scroll-margin-top: calc(var(--sp-2xl) * 2); /* 跳轉時讓出吸頂 bar 的高度（約 96px） */
 }
-/* 快速跳轉面板：沿用 .picker 形式；chip 帶元件使用數徽章 */
+/* 快速跳轉面板：沿用 .picker 形式；捲動時吸頂 */
+.jump-nav {
+  position: sticky; top: var(--sp-sm); z-index: 15;
+  box-shadow: var(--shadow-lg); /* 吸頂浮在內容上時加強分層 */
+}
 .jump-chip { gap: var(--sp-sm); }
 .jump-chip .group-count { background: var(--text-sub); }
 .prep-card-head { display: flex; align-items: center; gap: var(--sp-sm); flex-wrap: wrap; }

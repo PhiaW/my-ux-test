@@ -824,20 +824,20 @@ export const RECIPES = [
     scenarios: ["dinner"],
     tags: ["one-pot", "kid-friendly"],
     ingredients: {
-      core: ["蛤蠣", "雞腿肉", "白米", "蒜頭", "洋蔥"],
+      core: ["蛤蠣", "雞腿肉", "白米", "洋蔥"],
       replaceable: [
         { original: "雞腿肉", substitutes: ["雞胸肉"] },
       ],
       seasonings: [
+        { name: "蒜頭" },
         { name: "鹽" },
-        { name: "水" },
         { name: "黑胡椒" },
         { name: "奶油" },
         { name: "義式香草", optional: true, note: "可省略" },
         { name: "白酒", optional: true, note: "可省略" },
       ],
     },
-    quantities: { "白米": "1.5杯", "雞腿肉": "一副", "蛤蠣": "1斤", "蒜頭": "3-5瓣（切末）", "洋蔥": "半顆（切丁）", "水": "350ml-400ml（可換高湯）" },
+    quantities: { "白米": "1.5杯", "雞腿肉": "一副", "蛤蠣": "1斤", "蒜頭": "3-5瓣（切末）", "洋蔥": "半顆（切丁）" },
     prepGuideRef: ["辛香料備料盒", "切塊雞腿肉", "洋蔥（切好備用）", "萬用高湯"],
     steps: {
       prep: [

@@ -32,6 +32,7 @@ export const INGREDIENTS = [
   { name: "牛腱心",     aliases: ["牛腱"],                       category: "protein" },
   { name: "油豆腐",     aliases: ["三角油豆腐", "豆腐泡"],         category: "protein" },
   { name: "香腸",       aliases: ["台式香腸"],                   category: "protein" },
+  { name: "蛤蠣",       aliases: ["文蛤", "蜊仔", "海瓜子"],       category: "protein" },
 
   // ── 蔬菜 vegetable ──
   { name: "南瓜",       aliases: [],                             category: "vegetable" },
@@ -89,6 +90,7 @@ export const INGREDIENTS = [
   { name: "橄欖油",     aliases: ["油", "食用油", "沙拉油"],       category: "seasoning" },
   { name: "清酒",       aliases: ["料理酒"],                     category: "seasoning" },
   { name: "米酒",       aliases: [],                             category: "seasoning" },
+  { name: "白酒",       aliases: ["白葡萄酒"],                   category: "seasoning" },
   { name: "醋",         aliases: ["白醋"],                       category: "seasoning" },
   { name: "味醂",       aliases: [],                             category: "seasoning" },
   { name: "白味噌",     aliases: ["味噌", "味噌醬"],              category: "seasoning" },
@@ -97,7 +99,7 @@ export const INGREDIENTS = [
   { name: "辣椒粉",     aliases: [],                             category: "seasoning" },
   { name: "昆布柴魚高湯", aliases: ["高湯", "柴魚高湯", "昆布高湯"], category: "seasoning" },
   { name: "西班牙煙燻紅椒粉", aliases: ["煙燻紅椒粉", "紅椒粉"],   category: "seasoning" },
-  { name: "綜合香料",   aliases: ["義式香料", "綜合香草"],         category: "seasoning" },
+  { name: "綜合香料",   aliases: ["義式香料", "綜合香草", "義式香草"], category: "seasoning" },
   { name: "伍斯特醬",   aliases: ["烏斯特醬", "辣醬油"],          category: "seasoning" },
   { name: "薑",         aliases: ["嫩薑", "薑絲", "薑片", "老薑"],  category: "seasoning" },
   { name: "芝麻油",     aliases: ["麻油", "香油"],               category: "seasoning" },
