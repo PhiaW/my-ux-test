@@ -10,6 +10,13 @@ export default function MealPrepView({ onOpenRecipe }) {
   const [jumpOpen, setJumpOpen] = useState(true); // 快速跳轉面板（預設展開，方便找）
   const cardRefs = useRef({}); // name → 卡片 DOM，供平滑捲動
   const navRef = useRef(null); // 跳轉面板 DOM，用於判斷是否已吸頂
+  const suppressUntil = useRef(0); // 手動操作後的免自動收合時間戳（避免展開瞬間被捲動事件收掉）
+
+  // 手動切換：開/收都先設免收合窗，避免展開造成的版面微動或觸控慣性立刻又收合
+  const toggleJump = () => {
+    suppressUntil.current = Date.now() + 500;
+    setJumpOpen((v) => !v);
+  };
 
   const jumpTo = (name) => {
     setJumpOpen(false); // 吸頂時收合面板，跳轉後只留一條細 bar，不擋住目標卡片
@@ -23,8 +30,9 @@ export default function MealPrepView({ onOpenRecipe }) {
     let lastY = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
-      const goingDown = y > lastY + 2;
+      const goingDown = y > lastY + 6; // 門檻 6px 過濾微動（點擊/版面位移）
       lastY = y;
+      if (Date.now() < suppressUntil.current) return; // 手動操作後短暫不自動收合
       // 面板頂端貼到吸頂位置（top:8px）即視為已 pinned
       if (goingDown && navRef.current && navRef.current.getBoundingClientRect().top <= 10) {
         setJumpOpen(false);
@@ -48,7 +56,7 @@ export default function MealPrepView({ onOpenRecipe }) {
             type="button"
             className="picker-head"
             aria-expanded={jumpOpen}
-            onClick={() => setJumpOpen((v) => !v)}
+            onClick={toggleJump}
           >
             <i className="fa-solid fa-bookmark" /> 備料元件
             <span className="count">{components.length} 個</span>
