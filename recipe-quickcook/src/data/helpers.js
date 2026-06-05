@@ -48,6 +48,20 @@ export function activeValues(recipes, getArr, order) {
   return order.filter((k) => set.has(k));
 }
 
+// 備料元件反向索引：prepGuideRef 名稱 → 使用它的食譜清單（依使用數由多到少）
+export function prepComponents(recipes) {
+  const map = new Map();
+  recipes.forEach((r) =>
+    (r.prepGuideRef || []).forEach((name) => {
+      if (!map.has(name)) map.set(name, []);
+      map.get(name).push(r);
+    })
+  );
+  return [...map.entries()]
+    .map(([name, used]) => ({ name, recipes: used }))
+    .sort((a, b) => b.recipes.length - a.recipes.length);
+}
+
 // 計時格式 mm:ss
 export const fmt = (s) =>
   `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;

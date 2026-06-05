@@ -77,7 +77,7 @@ export const RECIPES = [
       "雞胸肉": "350g", "番茄": "3個", "小黃瓜": "2根（約200g）", "白飯": "適量",
       "醬油": "2茶匙", "清酒": "1大匙", "醋": "1.5大匙", "白味噌": "20g", "蒜頭": "2-3瓣",
     },
-    prepGuideRef: [],
+    prepGuideRef: ["辛香料備料盒"],
     steps: {
       prep: [
         { text: "雞胸肉逆紋切成厚片。", timerSec: null },
@@ -105,14 +105,14 @@ export const RECIPES = [
     coverImage: "",
     servings: "3-4 人份",
     scenarios: ["dinner", "weekend"],
-    tags: ["one-pot", "kid-friendly"],
+    tags: ["one-pot", "電鍋", "kid-friendly"],
     ingredients: {
-      core: ["雞腿肉", "白蘿蔔", "白米","昆布柴魚高湯"],
+      core: ["雞腿肉", "白蘿蔔", "白米"],
       replaceable:  [
         { original: "雞腿肉", substitutes: ["雞胸肉"] },
-        { original: "昆布柴魚高湯", substitutes: ["水"] },
       ],
       seasonings: [
+        { name: "昆布柴魚高湯", note: "可用清水代替" },
         { name: "醬油" },
         { name: "味醂" },
         { name: "鹽" },
@@ -127,7 +127,7 @@ export const RECIPES = [
       "雞腿肉": "1隻", "白蘿蔔": "400g（去皮後）", "白米": "300g", "昆布柴魚高湯": "300g",
       "醬油": "2大匙", "味醂": "1大匙", "鹽": "4g", "糖": "4g",
     },
-    prepGuideRef: [],
+    prepGuideRef: ["切塊雞腿肉", "萬用高湯"],
     steps: {
       prep: [
         { text: "去骨雞腿肉切成等份塊狀，擦乾水分備用。", timerSec: null },
@@ -178,7 +178,7 @@ export const RECIPES = [
       "鮭魚": "450g", "高麗菜": "半顆", "洋蔥": "1顆", "胡蘿蔔": "1條", "綜合菇類": "1盒",
       "無鹽奶油": "10g", "清酒": "2大匙", "黑糖": "5g",
     },
-    prepGuideRef: [],
+    prepGuideRef: ["辛香料備料盒", "洋蔥（切好備用）"],
     steps: {
       prep: [
         { text: "鮭魚切除中央大骨（魚骨保留煮湯），並用拔毛夾拔除肉中細刺。", timerSec: null },
@@ -225,7 +225,7 @@ export const RECIPES = [
     quantities: {
       "番茄": "3顆", "雞蛋": "6顆", "蝦仁": "適量", "蔥": "1根", "蒜頭": "2瓣", "糖": "3-5g",
     },
-    prepGuideRef: [],
+    prepGuideRef: ["辛香料備料盒"],
     steps: {
       prep: [
         { text: "番茄頂部輕劃十字，放入熱水燙5秒，撈出沖冰水去皮並切成6等份塊狀。", timerSec: null },
@@ -275,7 +275,7 @@ export const RECIPES = [
       "胡蘿蔔": "1根", "鴻喜菇": "1盒", "蒜頭": "35g",
       "清酒": "70cc", "味醂": "50cc", "醬油": "35-40cc", "糖": "5g",
     },
-    prepGuideRef: [],
+    prepGuideRef: ["辛香料備料盒", "洋蔥（切好備用）"],
     steps: {
       prep: [
         { text: "豬肉片對切成適當大小並一片片分開，加入少許鹽、白胡椒粉、清酒抓勻醃製。", timerSec: null },
@@ -325,7 +325,7 @@ export const RECIPES = [
       "牛肋條": "750g", "番茄": "2-3顆", "洋蔥": "1顆", "義大利麵番茄醬": "340g", "麵條": "適量",
       "蒜頭": "35g", "西班牙煙燻紅椒粉": "7-10g", "伍斯特醬": "30ml",
     },
-    prepGuideRef: [],
+    prepGuideRef: ["辛香料備料盒", "洋蔥（切好備用）"],
     steps: {
       prep: [
         { text: "洋蔥切細丁，蒜頭切末，蒜苗蒜白切片，牛番茄切大丁備用。", timerSec: null },
@@ -375,7 +375,7 @@ export const RECIPES = [
       "雞腿肉": "約300g", "蔥": "3-4株（159g）", "薑": "約30g",
       "醬油": "10g", "蠔油": "7g", "糖": "2g", "清酒": "1大匙", "太白粉": "2小匙",
     },
-    prepGuideRef: [],
+    prepGuideRef: ["辛香料備料盒"],
     steps: {
       prep: [
         { text: "雞腿肉切成絲，加入少許鹽、糖、清酒、太白粉水與少量芝麻油拌勻，醃製。", timerSec: 600 },
@@ -421,7 +421,7 @@ export const RECIPES = [
       "鮮奶": "200ml", "鮮奶油": "200ml", "蒜頭": "30g", "無鹽奶油": "20g+20g（湯）／30g（白醬）",
       "麵粉": "30g", "清酒": "2大匙", "白味噌": "10g",
     },
-    prepGuideRef: [],
+    prepGuideRef: ["辛香料備料盒", "切塊雞腿肉", "洋蔥（切好備用）", "萬用高湯"],
     // ⚠ steps 為標準巧達濃湯作法推測（來源描述未附作法），待對影片校對。
     steps: {
       prep: [
@@ -604,6 +604,292 @@ export const RECIPES = [
         { text: "雙面稍微輕壓慢煎，確保內部的肉末與蛋液完全熟透後起鍋。", timerSec: null },
         { text: "放至微涼後，切成一口一個的厚蛋捲磚。", timerSec: null },
         { text: "開啟電風扇吹涼 1 分鐘，排出多餘熱氣後裝入外帶盒。", timerSec: 60 },
+      ],
+    },
+  },
+
+  // ── YouTube 批次匯入 2026-06-05（字幕/描述齊全，可直接上架）──
+  {
+    id: "recipe_XZy8HR5QlJE",
+    title: "台式壽喜燒",
+    sourceUrl: "https://www.youtube.com/watch?v=XZy8HR5QlJE",
+    coverImage: "",
+    servings: "2-3 人份",
+    scenarios: ["dinner", "weekend"],
+    tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["豬五花肉片", "洋蔥", "娃娃菜", "青江菜", "油豆腐", "鴻喜菇", "雪白菇", "金針菇", "鮮香菇", "胡蘿蔔"],
+      replaceable: [
+        { original: "豬五花肉片", substitutes: ["牛五花肉片", "豬梅花肉片"] },
+        { original: "娃娃菜", substitutes: ["高麗菜"] },
+        { original: "油豆腐", substitutes: ["嫩豆腐", "不加"] },
+        { original: "雪白菇", substitutes: ["鴻喜菇"] },
+        { original: "金針菇", substitutes: ["不加"] },
+      ],
+      seasonings: [
+        { name: "蒜頭" },
+        { name: "蔥" },
+        { name: "醬油膏" },
+        { name: "糖" },
+        { name: "醬油" },
+        { name: "米酒", optional: true, note: "含酒，給孩子可省略" },
+        { name: "雞骨高湯" },
+        { name: "無鹽奶油" },
+        { name: "芝麻油" },
+      ],
+    },
+    quantities: {
+      "豬五花肉片": "250g", "洋蔥": "半顆", "娃娃菜": "150g", "青江菜": "100g", "油豆腐": "6小塊",
+      "鴻喜菇": "50g", "雪白菇": "50g", "金針菇": "50g", "鮮香菇": "2朵", "胡蘿蔔": "片花6片",
+      "蒜頭": "20g", "蔥": "2支", "醬油膏": "3大匙", "糖": "1大匙", "醬油": "1大匙",
+      "米酒": "1大匙", "雞骨高湯": "100cc", "無鹽奶油": "20g", "芝麻油": "1大匙",
+    },
+    prepGuideRef: ["辛香料備料盒", "洋蔥（切好備用）", "萬用高湯"],
+    steps: {
+      prep: [
+        { text: "洋蔥切寬片狀；青蔥切小段並將蔥白、蔥綠分開；蒜頭備好。", timerSec: null },
+        { text: "豬五花肉片若過長，對切一刀成適口大小。", timerSec: null },
+        { text: "娃娃菜、青江菜洗淨切段；各式菇類去蒂剝開；油豆腐、胡蘿蔔片花備好。", timerSec: null },
+      ],
+      cook: [
+        { text: "湯鍋開中火，下芝麻油1大匙，放入蒜頭、洋蔥、蔥白，耐心煸出焦香。", timerSec: null },
+        { text: "下豬五花肉片煸炒，利用油脂煸出豬油香氣。", timerSec: null },
+        { text: "醬油膏3大匙下鍋炒出醬香，續入米酒1大匙、雞骨高湯100cc、醬油1大匙、糖1大匙。", timerSec: null },
+        { text: "依序放入娃娃菜、油豆腐、胡蘿蔔、菇類、蔥綠、金針菇，轉小火蓋上鍋蓋慢煮，逼出蔬菜鮮甜。", timerSec: 180 },
+        { text: "掀蓋下無鹽奶油20g，放入青江菜稍微整理，煮至醬汁略呈濃稠。", timerSec: null },
+        { text: "邊涮肉片邊享用，肉片不會過熟、軟嫩鮮甜。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_Av76_guazi",
+    title: "瓜仔肉丸蒸蛋（電鍋）",
+    sourceUrl: "https://www.youtube.com/watch?v=Av76E1bbm5c",
+    coverImage: "",
+    servings: "2-3 人份",
+    scenarios: ["dinner"],
+    tags: ["電鍋", "kid-friendly"],
+    ingredients: {
+      core: ["豬絞肉", "雞蛋"],
+      replaceable: [
+        { original: "豬絞肉", substitutes: ["雞肉絲"] },
+      ],
+      seasonings: [
+        { name: "醬瓜" },
+        { name: "太白粉" },
+        { name: "糖" },
+        { name: "白胡椒粉" },
+        { name: "蔥" },
+        { name: "薑" },
+      ],
+    },
+    quantities: {
+      "豬絞肉": "500g", "雞蛋": "3顆", "醬瓜": "100g（醬瓜汁3大匙）",
+      "太白粉": "1大匙", "糖": "1茶匙", "白胡椒粉": "1/2茶匙", "蔥": "20g（蔥花）", "薑": "10g（薑末）",
+    },
+    prepGuideRef: ["辛香料備料盒"],
+    steps: {
+      prep: [
+        { text: "雞蛋打成蛋液備用。", timerSec: null },
+        { text: "豬絞肉加糖、白胡椒粉、太白粉抓勻，摔打出黏性。", timerSec: null },
+        { text: "加入醬瓜、醬瓜汁、薑末、蔥花拌勻，捏成肉丸狀。", timerSec: null },
+      ],
+      cook: [
+        { text: "保鮮盒中放入肉丸，淋上蛋液。", timerSec: null },
+        { text: "電鍋外鍋一杯水，放入蒸至開關跳起即可。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_Av76_xiangchang",
+    title: "香腸蒸雞（電鍋）",
+    sourceUrl: "https://www.youtube.com/watch?v=Av76E1bbm5c",
+    coverImage: "",
+    servings: "2-3 人份",
+    scenarios: ["dinner", "weekend"],
+    tags: ["電鍋", "kid-friendly"],
+    ingredients: {
+      core: ["雞腿肉", "香腸"],
+      replaceable: [
+        { original: "雞腿肉", substitutes: ["雞胸肉"] },
+      ],
+      seasonings: [
+        { name: "薑" },
+        { name: "蔥" },
+        { name: "醬油" },
+        { name: "鹽" },
+        { name: "糖" },
+        { name: "太白粉" },
+        { name: "米酒", optional: true, note: "含酒，給孩子可省略" },
+        { name: "辣椒", optional: true, note: "怕辣可省略" },
+      ],
+    },
+    quantities: {
+      "雞腿肉": "2片（500g）", "香腸": "4根", "薑": "15g（薑末）", "蔥": "20g（蔥段）",
+      "辣椒": "20g（辣椒末）", "醬油": "1大匙", "鹽": "1/4茶匙", "糖": "1茶匙", "太白粉": "1大匙", "米酒": "1大匙",
+    },
+    prepGuideRef: ["辛香料備料盒", "切塊雞腿肉"],
+    steps: {
+      prep: [
+        { text: "雞腿排切塊放入保鮮盒，撒上薑末、辣椒末。", timerSec: null },
+        { text: "淋入醬油、鹽、糖、米酒、太白粉抓勻。", timerSec: null },
+        { text: "加入香腸片與蔥段拌勻。", timerSec: null },
+      ],
+      cook: [
+        { text: "電鍋外鍋一杯水，放入蒸至開關跳起即可。", timerSec: null },
+      ],
+    },
+  },
+
+  // ── YouTube 批次匯入 2026-06-05（步驟人工補齊後上架）──
+  {
+    id: "recipe_QD8Hcjt1Yu8",
+    title: "雞肉蔬菜風味飯（電鍋一鍋到底）",
+    sourceUrl: "https://www.youtube.com/watch?v=QD8Hcjt1Yu8",
+    coverImage: "",
+    servings: "2 人份",
+    scenarios: ["dinner"],
+    tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["白米", "雞胸肉", "鴻喜菇", "高麗菜", "胡蘿蔔"],
+      replaceable: [
+        { original: "雞胸肉", substitutes: ["雞腿肉"] },
+        { original: "鴻喜菇", substitutes: ["香菇", "金針菇"] },
+      ],
+      seasonings: [
+        { name: "鹽" },
+        { name: "醬油", optional: true, note: "可省略" },
+        { name: "香油" },
+        { name: "白胡椒粉", optional: true, note: "可省略" },
+      ],
+    },
+    quantities: {
+      "白米": "1.5杯", "雞胸肉": "1副（切一口大小）", "鴻喜菇": "50g", "高麗菜": "100g", "胡蘿蔔": "30g",
+      "鹽": "適量", "醬油": "1.5大匙",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "白米洗淨，放入電鍋內鍋，加入平常煮飯的水量", timerSec: null },
+        { text: "將鹽、醬油、香油與少許白胡椒粉加入米水中，稍微攪拌均勻。", timerSec: null },
+      ],
+      cook: [
+        { text: "將切好的雞肉塊、胡蘿蔔丁、菇類鋪在米飯上（建議最後鋪上高麗菜絲增加水分與甜味）。", timerSec: null },
+        { text: "在電鍋外鍋加入 1杯水，按下開關。", timerSec: null },
+        { text: "開關跳起後，先不要打開，續悶 10 分鐘讓風味融合。接著開蓋淋上香油（或放入奶油），用飯匙輕輕由下而上拌勻即可享用。", timerSec: 600 },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_I7R8V8xfeFU",
+    title: "南瓜豬肉杯餐",
+    sourceUrl: "https://www.youtube.com/watch?v=I7R8V8xfeFU",
+    coverImage: "",
+    servings: "2 杯",
+    scenarios: ["breakfast", "dinner"],
+    tags: ["heat-stable", "kid-friendly"],
+    ingredients: {
+      core: ["白米", "南瓜", "豬梅花肉片", "鴻喜菇", "洋蔥"],
+      replaceable: [],
+      seasonings: [
+        { name: "鹽" },
+        { name: "醬油" },
+        { name: "奶油", optional: true, note: "可省略" },
+        { name: "白胡椒粉", optional: true, note: "可省略" },
+      ],
+    },
+    quantities: { "白米": "1.5杯", "南瓜": "半顆或切丁", "豬梅花肉片": "200g", "鴻喜菇": "半包" },
+    prepGuideRef: ["洋蔥（切好備用）"],
+    steps: {
+      prep: [
+        { text: "食材鋪底：內鍋洗淨放入白米與對應水量，接著鋪上豬肉片、洋蔥丁與鴻禧菇", timerSec: null },
+        { text: "將切塊或切丁的南瓜均勻鋪在最上層。", timerSec: null },
+      ],
+      cook: [
+        { text: "外鍋加入 1 杯水，按下開關蒸煮，跳起後先不開蓋，繼續燜 10-15 分鐘讓米心熟透。", timerSec: 900 },
+        { text: "開蓋後加入醬油、奶油、鹽巴與胡椒粉，將所有食材輕輕翻攪均勻，即可享用。", timerSec: 900 },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_b7w1yqR2HPU",
+    title: "蛤蠣雞肉燉飯",
+    sourceUrl: "https://www.youtube.com/watch?v=b7w1yqR2HPU",
+    coverImage: "",
+    servings: "2-3 人份",
+    scenarios: ["dinner"],
+    tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["蛤蠣", "雞腿肉", "白米", "蒜頭", "洋蔥"],
+      replaceable: [
+        { original: "雞腿肉", substitutes: ["雞胸肉"] },
+      ],
+      seasonings: [
+        { name: "鹽" },
+        { name: "水" },
+        { name: "黑胡椒" },
+        { name: "奶油" },
+        { name: "義式香草", optional: true, note: "可省略" },
+        { name: "白酒", optional: true, note: "可省略" },
+      ],
+    },
+    quantities: { "白米": "1.5杯", "雞腿肉": "一副", "蛤蠣": "1斤", "蒜頭": "3-5瓣（切末）", "洋蔥": "半顆（切丁）", "水": "350ml-400ml（可換高湯）" },
+    prepGuideRef: ["辛香料備料盒", "切塊雞腿肉", "洋蔥（切好備用）", "萬用高湯"],
+    steps: {
+      prep: [
+        { text: "蛤蠣事先泡鹽水吐沙。", timerSec: null },
+        { text: "雞腿肉切一口大小。", timerSec: null },
+      ],
+      cook: [
+        { text: "熱鍋倒入適量橄欖油，將雞腿肉塊下鍋煎至金黃上色（約8分熟），先起鍋備用。", timerSec: null },
+        { text: "用原鍋殘留的雞油爆香蒜末與洋蔥丁，炒至洋蔥呈現透明軟化。", timerSec: null },
+        { text: "倒入生米翻炒，讓每粒米都裹上油脂。接著倒入白酒嗆鍋，讓酒精揮發。", timerSec: null },
+        { text: "分次加入高湯，邊煮邊攪拌。當湯汁被吸收得差不多時，再補高湯，持續約 15-20 分鐘至米心熟透。", timerSec: 1200 },
+        { text: "將步驟1煎好的雞肉塊與蛤蠣一起放入鍋中，蓋上鍋蓋燜煮至蛤蠣全開。", timerSec: 1200 },
+        { text: "加入少許奶油與黑胡椒提味，快速翻拌均勻即可起鍋享用。", timerSec: 1200 },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_xJkUhM-paik",
+    title: "香菇麻油雞飯",
+    sourceUrl: "https://www.youtube.com/watch?v=xJkUhM-paik",
+    coverImage: "",
+    servings: "3-4 人份",
+    scenarios: ["dinner", "weekend"],
+    tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["雞腿肉", "鮮香菇", "白米"],
+      replaceable: [
+        { original: "雞腿肉", substitutes: ["雞胸肉"] },
+      ],
+      seasonings: [
+        { name: "芝麻油" },
+        { name: "薑" },
+        { name: "鹽" },
+        { name: "醬油" },
+        { name: "米酒", optional: true, note: "原片用全酒香氣濃，給孩子請減量或用半酒" },
+        { name: "蔥花", optional: true, note: "可省略" },
+      ],
+    },
+    quantities: { "鮮香菇": "70-100g" },
+    prepGuideRef: ["辛香料備料盒", "切塊雞腿肉"],
+    steps: {
+      prep: [
+        { text: "乾香菇泡開。", timerSec: 1800 },
+        { text: "雞腿肉切丁，香菇切絲。", timerSec: null },
+      ],
+      cook: [
+        { text: "冷鍋倒入黑麻油，放入老薑片，用小火慢慢煸至薑片邊緣捲曲、飄出香味（避免大火將麻油燒苦）。", timerSec: null },
+        { text: "放入切好的香菇絲炒香，接著加入雞腿肉，將雞肉煎至表面微微變白上色", timerSec: null },
+        { text: "加入醬油、米酒嗆出香氣，接著倒入洗淨的白米一起翻炒，讓每粒米都沾附到油脂", timerSec: null },
+        { text: "將所有炒好的食材倒入電鍋內鍋中，加入「香菇水」與適量清水（總水量約 1.5～2 杯，喜愛較軟口感可放 2 杯）", timerSec: null },
+        { text: "外鍋倒入 1 杯水，按下炊飯鍵。跳起後不要馬上打開，繼續悶 15-20 分鐘，開蓋撒點蔥花拌勻即可享用", timerSec: null },
       ],
     },
   },

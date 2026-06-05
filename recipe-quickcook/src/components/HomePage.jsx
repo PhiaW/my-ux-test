@@ -1,8 +1,7 @@
 import { RECIPES } from "../data/recipes.js";
 import { isReady, matchCount } from "../data/helpers.js";
-import ModeSwitch from "./ModeSwitch.jsx";
 import IngredientPicker from "./IngredientPicker.jsx";
-import FilterTabs from "./FilterTabs.jsx";
+import FilterDropdowns from "./FilterDropdowns.jsx";
 import RecipeCard from "./RecipeCard.jsx";
 import Pager from "./Pager.jsx";
 
@@ -10,20 +9,27 @@ const PAGE_SIZE = 6;
 
 export default function HomePage({
   mode,
-  route,
+  routes, // Set：情境複選（空＝全部）
+  methods, // Set：方法複選（空＝全部）
   page,
   fridge,
   pickerOpen,
   openCats,
   moreCats,
-  onChangeMode,
   onChangeRoute,
+  onChangeMethod,
+  onClearRoutes,
+  onClearMethods,
   onChangePage,
   picker, // { onTogglePickerOpen, onToggleCat, onToggleMore, onToggleIngredient, onClear }
   onOpenRecipe,
 }) {
-  // 篩選 + 排序（依食材選且有勾：可做的排前面）
-  let list = RECIPES.filter((r) => route === "all" || (r.scenarios || []).includes(route));
+  // 篩選（情境 × 方法，複選 OR；空集合＝不篩選）+ 排序（依食材選且有勾：可做的排前面）
+  let list = RECIPES.filter(
+    (r) =>
+      (routes.size === 0 || (r.scenarios || []).some((s) => routes.has(s))) &&
+      (methods.size === 0 || (r.tags || []).some((t) => methods.has(t)))
+  );
   if (mode === "fridge" && fridge.size > 0) {
     // 可做的優先，其次依「已備齊主食材數」由多到少（部分符合也會上浮）
     list = [...list].sort(
@@ -37,8 +43,6 @@ export default function HomePage({
 
   return (
     <main className="view">
-      <ModeSwitch mode={mode} onChange={onChangeMode} />
-
       {mode === "fridge" && (
         <IngredientPicker
           fridge={fridge}
@@ -50,7 +54,14 @@ export default function HomePage({
       )}
 
       <div className="block">
-        <FilterTabs route={route} onChange={onChangeRoute} />
+        <FilterDropdowns
+          routes={routes}
+          methods={methods}
+          onChangeRoute={onChangeRoute}
+          onChangeMethod={onChangeMethod}
+          onClearRoutes={onClearRoutes}
+          onClearMethods={onClearMethods}
+        />
 
         {list.length === 0 ? (
           <div className="empty">

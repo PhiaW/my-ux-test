@@ -48,7 +48,11 @@ function cleanVtt(vtt) {
   const seen = new Set();
   const out = [];
   for (let line of vtt.split("\n")) {
-    line = line.replace(/<[^>]+>/g, "").trim();
+    // 先還原 HTML 實體（人工字幕常見 &lt;font&gt; 包裝），再去標籤
+    line = line
+      .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&#39;/g, "'").replace(/&quot;/g, '"')
+      .replace(/<[^>]+>/g, "")
+      .trim();
     if (!line) continue;
     if (line === "WEBVTT" || line.startsWith("Kind:") || line.startsWith("Language:")) continue;
     if (line.includes("-->")) continue;
@@ -64,10 +68,13 @@ function fetchOne(url) {
   const id = videoId(url);
   if (!id) { console.warn(`⚠ 略過無法解析的連結：${url}`); return null; }
 
+  // 用乾淨的單片 watch URL，避免 &list=/&index= 讓 yt-dlp 去追整個播放清單（撞到私人影片會失敗）
+  const watchUrl = `https://www.youtube.com/watch?v=${id}`;
+
   // metadata（標題 + 描述）
   let title = "", description = "";
   try {
-    const json = JSON.parse(execFileSync("yt-dlp", ["--skip-download", "--no-warnings", "--dump-single-json", url], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }));
+    const json = JSON.parse(execFileSync("yt-dlp", ["--skip-download", "--no-warnings", "--dump-single-json", watchUrl], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 }));
     title = json.title || "";
     description = json.description || "";
   } catch (e) {
@@ -77,21 +84,26 @@ function fetchOne(url) {
   // 字幕（優先繁中，退而求其次簡中/英；含自動字幕）
   let transcript = "";
   const subTmpl = join(rawDir, `${id}.%(ext)s`);
+  const ownVtts = () => readdirSync(rawDir).filter((f) => f.startsWith(`${id}.`) && f.endsWith(".vtt"));
+  // 下載前先清掉此 id 的殘留 vtt（避免上次中斷留下的舊檔被誤讀）
+  ownVtts().forEach((f) => rmSync(join(rawDir, f)));
   try {
     execFileSync("yt-dlp", [
       "--skip-download", "--no-warnings",
       "--write-subs", "--write-auto-subs",
       "--sub-langs", "zh-Hant,zh-TW,zh-Hans,zh,en",
       "--sub-format", "vtt",
-      "-o", subTmpl, url,
+      "-o", subTmpl, watchUrl,
     ], { stdio: "pipe" });
-    const vttFiles = readdirSync(rawDir).filter((f) => f.startsWith(`${id}.`) && f.endsWith(".vtt"));
+    const vttFiles = ownVtts();
     // 偏好繁中字幕
     vttFiles.sort((a, b) => (/zh-(Hant|TW)/.test(b) ? 1 : 0) - (/zh-(Hant|TW)/.test(a) ? 1 : 0));
     if (vttFiles[0]) transcript = cleanVtt(readFileSync(join(rawDir, vttFiles[0]), "utf8"));
-    vttFiles.forEach((f) => rmSync(join(rawDir, f))); // 清掉 vtt，只留彙整 txt
   } catch (e) {
     console.warn(`⚠ ${id} 取得字幕失敗（可能無字幕）：${e.message.split("\n")[0]}`);
+  } finally {
+    // 無論成功失敗都清掉此 id 的 vtt，只留彙整 txt（防殘留汙染下一輪）
+    ownVtts().forEach((f) => rmSync(join(rawDir, f)));
   }
 
   const body = `# ${title}\nsourceUrl: https://www.youtube.com/watch?v=${id}\n\n【影片描述】\n${description || "（無）"}\n\n【逐字稿】\n${transcript || "（無字幕，請以描述為主）"}\n`;

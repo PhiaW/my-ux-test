@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { SCENARIO_LABEL } from "../data/recipes.js";
+import { TAG_VOCAB, METHOD_TAGS } from "../../data/scenarios.js";
 import { coreStatus } from "../data/helpers.js";
 import Timer from "./Timer.jsx";
 import RecipeCover from "./RecipeCover.jsx";
@@ -123,6 +124,11 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) 
               {SCENARIO_LABEL[s] || s}
             </span>
           ))}
+          {METHOD_TAGS.filter((t) => (recipe.tags || []).includes(t)).map((t) => (
+            <span key={t} className="badge badge-method">
+              <i className="fa-solid fa-utensils" /> {TAG_VOCAB[t]}
+            </span>
+          ))}
         </div>
         {recipe.sourceUrl && (
           <a className="btn btn-ghost source-link" href={recipe.sourceUrl} target="_blank" rel="noopener">
@@ -130,20 +136,6 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) 
           </a>
         )}
       </div>
-
-      {recipe.safetyNotes && recipe.safetyNotes.length > 0 && (
-        <div className="safety-note" role="alert">
-          <i className="fa-solid fa-triangle-exclamation" />
-          <div className="safety-body">
-            <div className="safety-title">食安提醒</div>
-            <ul>
-              {recipe.safetyNotes.map((n, i) => (
-                <li key={i}>{n}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
 
       <div className="block detail-block">
         <div className="section-title">
@@ -215,6 +207,21 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) 
       </div>
 
       <hr className="detail-divider" />
+
+      {recipe.prepGuideRef && recipe.prepGuideRef.length > 0 && (
+        <div className="block detail-block">
+          <div className="section-title">
+            <i className="fa-solid fa-box-open" /> 用到的備餐元件
+          </div>
+          <div className="prep-guide-chips">
+            {recipe.prepGuideRef.map((p) => (
+              <span key={p} className="badge badge-ing">
+                {p}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="block detail-block">
         <div className="section-title">

@@ -1,6 +1,9 @@
 import { useRef, useState } from "react";
 import HomePage from "./components/HomePage.jsx";
+import MealPrepView from "./components/MealPrepView.jsx";
+import ModeSwitch from "./components/ModeSwitch.jsx";
 import RecipeDetail from "./components/RecipeDetail.jsx";
+import ScrollTopButton from "./components/ScrollTopButton.jsx";
 import Toast from "./components/Toast.jsx";
 import headerDish from "./assets/header-dish.svg";
 
@@ -13,7 +16,8 @@ const toggleInSet = (set, key) => {
 
 export default function App() {
   const [mode, setMode] = useState("menu");
-  const [route, setRoute] = useState("all");
+  const [routes, setRoutes] = useState(() => new Set()); // 情境複選（空＝全部）
+  const [methods, setMethods] = useState(() => new Set()); // 方法複選（空＝全部）
   const [page, setPage] = useState(1);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [openCats, setOpenCats] = useState(() => new Set());
@@ -34,7 +38,19 @@ export default function App() {
     setPage(1);
   };
   const changeRoute = (r) => {
-    setRoute(r);
+    setRoutes((s) => toggleInSet(s, r));
+    setPage(1);
+  };
+  const changeMethod = (m) => {
+    setMethods((s) => toggleInSet(s, m));
+    setPage(1);
+  };
+  const clearRoutes = () => {
+    setRoutes(new Set());
+    setPage(1);
+  };
+  const clearMethods = () => {
+    setMethods(new Set());
     setPage(1);
   };
 
@@ -80,24 +96,33 @@ export default function App() {
           onBack={closeDetail}
           onToast={showToast}
         />
+      ) : mode === "prep" ? (
+        <MealPrepView onOpenRecipe={openRecipe} />
       ) : (
         <HomePage
           mode={mode}
-          route={route}
+          routes={routes}
+          methods={methods}
           page={page}
           fridge={fridge}
           pickerOpen={pickerOpen}
           openCats={openCats}
           moreCats={moreCats}
-          onChangeMode={changeMode}
           onChangeRoute={changeRoute}
+          onChangeMethod={changeMethod}
+          onClearRoutes={clearRoutes}
+          onClearMethods={clearMethods}
           onChangePage={setPage}
           picker={picker}
           onOpenRecipe={openRecipe}
         />
       )}
 
+      {/* 詳情頁時隱藏底部導覽，避免干擾閱讀 */}
+      {!selected && <ModeSwitch mode={mode} onChange={changeMode} />}
+
       <Toast message={toastMsg} />
+      <ScrollTopButton />
     </div>
   );
 }

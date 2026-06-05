@@ -30,6 +30,8 @@ export const INGREDIENTS = [
   { name: "牛肋條",     aliases: ["牛肋"],                       category: "protein" },
   { name: "牛腩",       aliases: [],                             category: "protein" },
   { name: "牛腱心",     aliases: ["牛腱"],                       category: "protein" },
+  { name: "油豆腐",     aliases: ["三角油豆腐", "豆腐泡"],         category: "protein" },
+  { name: "香腸",       aliases: ["台式香腸"],                   category: "protein" },
 
   // ── 蔬菜 vegetable ──
   { name: "南瓜",       aliases: [],                             category: "vegetable" },
@@ -49,6 +51,9 @@ export const INGREDIENTS = [
   { name: "雪白菇",     aliases: [],                             category: "vegetable" },
   { name: "綜合菇類",   aliases: ["菇類"],                       category: "vegetable" },
   { name: "蒜苗",       aliases: ["青蒜"],                       category: "vegetable" },
+  { name: "娃娃菜",     aliases: ["娃娃白菜", "小白菜"],          category: "vegetable" },
+  { name: "青江菜",     aliases: ["青江白菜"],                   category: "vegetable" },
+  { name: "金針菇",     aliases: [],                             category: "vegetable" },
 
   // ── 主食 grain ──
   { name: "白飯",       aliases: ["米飯", "飯"],                 category: "grain" },
@@ -73,6 +78,9 @@ export const INGREDIENTS = [
   // ── 調味料 seasoning（食譜中放 seasonings） ──
   { name: "鹽",         aliases: ["食鹽"],                       category: "seasoning" },
   { name: "醬油",       aliases: [],                             category: "seasoning" },
+  { name: "醬油膏",     aliases: [],                             category: "seasoning" },
+  { name: "雞骨高湯",   aliases: ["雞高湯"],                     category: "seasoning" },
+  { name: "醬瓜",       aliases: ["蔭瓜", "花瓜"],               category: "seasoning" },
   { name: "糖",         aliases: ["砂糖", "白糖"],               category: "seasoning" },
   { name: "黑糖",       aliases: [],                             category: "seasoning" },
   { name: "白胡椒粉",   aliases: ["白胡椒", "胡椒粉"],            category: "seasoning" },

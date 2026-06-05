@@ -57,6 +57,11 @@
   --size-timer-btn: 32px;
   --size-count: 22px;
   --size-page-btn: 40px;
+  --size-fab: 48px;
+  --size-bottom-nav: 64px;
+  /* 回頂鍵半透明底（沿用 --text 26,25,24 神經色，比照 shadow 用 rgba） */
+  --fab-bg: rgba(26, 25, 24, 0.55);
+  --fab-bg-hover: rgba(26, 25, 24, 0.8);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -116,24 +121,28 @@ body {
 /* 對齊工具：避免在 column flex 中被拉伸 */
 .align-start { align-self: flex-start; }
 
-/* ── mode switch（依菜單挑 / 依食材選） ── */
-.mode-switch {
-  display: flex; gap: var(--sp-xs);
-  padding: var(--sp-xs);
+/* ── bottom nav（依菜單挑 / 依食材選 / 備餐計畫，吸底） ── */
+.bottom-nav {
+  position: sticky; bottom: 0; z-index: 20;
+  display: flex; align-items: stretch;
+  margin-top: auto; /* 內容不足時仍貼齊底部 */
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--r-pill);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -6px 20px rgba(33, 32, 30, 0.06);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-.mode-btn {
-  flex: 1; min-height: 44px;
-  display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-sm);
-  font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 700;
+.bottom-nav-btn {
+  flex: 1; min-height: var(--size-bottom-nav);
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-xs);
+  font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700;
   color: var(--text-sub); background: transparent; border: none;
-  border-radius: var(--r-pill); cursor: pointer; transition: all 0.15s ease;
+  cursor: pointer; transition: color 0.15s ease;
 }
-.mode-btn:hover { color: var(--primary); }
-.mode-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-.mode-btn.is-active { background: var(--primary); color: #fff; }
+.bottom-nav-btn > i { font-size: var(--fs-h4); }
+.bottom-nav-label { font-size: var(--fs-caption); }
+.bottom-nav-btn:hover { color: var(--primary); }
+.bottom-nav-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.bottom-nav-btn.is-active { color: var(--primary); }
 
 /* ── fridge picker（可收合） ── */
 .picker {
@@ -213,21 +222,59 @@ body {
 .btn-block { width: 100%; }
 .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* ── 情境篩選 tabs（scenario） ── */
-.filters { display: flex; flex-direction: column; gap: var(--sp-md); }
-.filter-group { display: flex; flex-direction: column; gap: var(--sp-sm); }
-.filter-group-label { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; color: var(--text); }
-.filter-row { display: flex; flex-wrap: wrap; gap: var(--sp-sm); }
-.filter-tab {
+/* ── 情境 / 方法 篩選（複選下拉） ── */
+.filter-dropdowns { display: flex; flex-wrap: wrap; gap: var(--sp-md); }
+.multiselect { position: relative; display: flex; flex-direction: column; gap: var(--sp-sm); flex: 1; min-width: 140px; }
+.multiselect-label { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; color: var(--text); }
+.multiselect-trigger {
   min-height: 44px; padding: 0 var(--sp-md);
-  display: inline-flex; align-items: center; gap: var(--sp-xs);
+  display: inline-flex; align-items: center; gap: var(--sp-sm);
   font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub);
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-pill);
   cursor: pointer; transition: all 0.15s ease;
 }
-.filter-tab:hover { border-color: var(--primary); color: var(--primary); }
-.filter-tab:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-.filter-tab.is-active { background: var(--primary-lt); border-color: var(--primary); color: var(--primary-active); }
+.multiselect-trigger:hover { border-color: var(--primary); color: var(--primary); }
+.multiselect-trigger:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.multiselect-trigger.is-open { border-color: var(--primary); color: var(--primary-active); }
+.multiselect-summary { flex: 1; min-width: 0; text-align: left; }
+.multiselect-control { position: relative; display: flex; }
+.multiselect-control .multiselect-trigger { flex: 1; }
+/* chevron 固定貼右；summary 預留 chevron 寬度 */
+.multiselect-trigger { padding-right: calc(var(--sp-md) + 1.4em); }
+/* 已選時：summary 再多留清除鈕的空間，避免文字被蓋住 */
+.multiselect-trigger.has-clear { padding-right: calc(var(--sp-md) + 1.4em + var(--size-count) + var(--sp-sm)); }
+.multiselect-trigger .chevron {
+  position: absolute; top: 50%; right: var(--sp-md); transform: translateY(-50%);
+  color: var(--text-sub); transition: transform 0.2s ease;
+}
+.multiselect-trigger.is-open .chevron { transform: translateY(-50%) rotate(180deg); color: var(--primary); }
+/* 清除鈕：浮在原數量徽章位置（chevron 左側） */
+.multiselect-clear {
+  position: absolute; top: 50%; right: calc(var(--sp-md) + 1.4em + var(--sp-sm)); transform: translateY(-50%);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--size-count); height: var(--size-count); padding: 0;
+  color: var(--placeholder); background: none; border: none; border-radius: var(--r-circle);
+  font-size: var(--fs-label); cursor: pointer; transition: color 0.15s ease;
+}
+.multiselect-clear:hover { color: var(--primary); }
+.multiselect-clear:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.multiselect-panel {
+  position: absolute; top: calc(100% + var(--sp-xs)); left: 0; right: 0; z-index: 30;
+  display: flex; flex-direction: column; gap: var(--sp-xxs); list-style: none;
+  padding: var(--sp-xs); background: var(--surface);
+  border: 1px solid var(--border); border-radius: var(--r-card); box-shadow: var(--shadow-card);
+}
+.multiselect-option {
+  width: 100%; min-height: 44px; padding: 0 var(--sp-sm);
+  display: inline-flex; align-items: center; gap: var(--sp-sm); text-align: left;
+  font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 500; color: var(--text);
+  background: none; border: none; border-radius: var(--r-btn); cursor: pointer; transition: all 0.15s ease;
+}
+.multiselect-option:hover { background: var(--primary-lt); }
+.multiselect-option:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.multiselect-option > i { color: var(--placeholder); }
+.multiselect-option.is-active { color: var(--primary-active); font-weight: 700; }
+.multiselect-option.is-active > i { color: var(--primary); }
 
 /* ── recipe cards ── */
 .recipe-list { display: flex; flex-direction: column; gap: var(--sp-md); }
@@ -266,7 +313,11 @@ body {
   padding: var(--sp-xs) var(--sp-md); font-size: var(--fs-caption); font-weight: 700; border-radius: var(--r-pill);
 }
 .badge-info { background: var(--primary-lt); color: var(--primary-active); }
+.badge-method { background: var(--secondary-lt); color: var(--subbed-text); }
 .badge-ing { background: var(--bg); color: var(--text-sub); border: 1px solid var(--border); font-weight: 500; }
+
+/* 詳情頁：用到的備餐元件 chip 列 */
+.prep-guide-chips { display: flex; flex-wrap: wrap; gap: var(--sp-xs); }
 
 /* 核心食材 chip 列（依菜單挑模式卡片內） */
 .ing-row-chips { display: flex; flex-wrap: wrap; gap: var(--sp-xs); padding-top: var(--sp-xs); border-top: 1px dashed var(--border); }
@@ -291,6 +342,58 @@ body {
 .empty i { font-size: 48px; color: var(--border); }
 .empty h3 { font-family: var(--font-display); font-size: 18px; color: var(--text); }
 
+/* ── 備餐計畫（備料元件 → 食譜對照） ── */
+.prep-intro {
+  display: flex; align-items: flex-start; gap: var(--sp-sm);
+  padding: var(--sp-md); border-radius: var(--r-card);
+  background: var(--primary-lt); color: var(--text-sub);
+}
+.prep-intro > i { color: var(--primary); font-size: var(--fs-h4); margin-top: 2px; flex-shrink: 0; }
+.prep-intro p { font-size: var(--fs-body); line-height: 1.6; min-width: 0; }
+.prep-list { display: flex; flex-direction: column; gap: var(--sp-md); }
+.prep-card {
+  display: flex; flex-direction: column; gap: var(--sp-sm);
+  padding: var(--sp-md); border-radius: var(--r-card);
+  background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card);
+  scroll-margin-top: var(--sp-md); /* 快速跳轉時頂端留一點呼吸空間 */
+}
+/* 快速跳轉面板：沿用 .picker 形式；chip 帶元件使用數徽章 */
+.jump-chip { gap: var(--sp-sm); }
+.jump-chip .group-count { background: var(--text-sub); }
+.prep-card-head { display: flex; align-items: center; gap: var(--sp-sm); flex-wrap: wrap; }
+.prep-name { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; color: var(--text); }
+.prep-meta { display: flex; flex-wrap: wrap; gap: var(--sp-xs) var(--sp-md); }
+.prep-meta-item { display: inline-flex; align-items: center; gap: var(--sp-xs); font-size: var(--fs-caption); color: var(--text-sub); }
+.prep-meta-item > i { color: var(--primary); }
+.prep-steps { display: flex; flex-direction: column; gap: var(--sp-xs); padding-left: var(--sp-md); }
+.prep-steps li { font-size: var(--fs-body); line-height: 1.6; color: var(--text); list-style: decimal; }
+.prep-note { font-size: var(--fs-caption); color: var(--placeholder); }
+.prep-uses-block { display: flex; flex-direction: column; gap: var(--sp-xs); padding-top: var(--sp-sm); border-top: 1px dashed var(--border); }
+.prep-uses-label { font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub); }
+.prep-uses { display: flex; flex-wrap: wrap; gap: var(--sp-xs); }
+.prep-use-chip {
+  display: inline-flex; align-items: center; gap: var(--sp-xs);
+  padding: var(--sp-xs) var(--sp-md); font-size: var(--fs-caption); font-weight: 500;
+  color: var(--text-sub); background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--r-pill); cursor: pointer; transition: all 0.15s ease;
+}
+.prep-use-chip:hover { color: var(--primary); border-color: var(--primary); }
+.prep-use-chip > i { color: var(--primary); }
+
+/* ── 全域回頂鍵（右下角圓形半透明） ── */
+.scroll-top {
+  position: fixed; right: var(--sp-lg); bottom: var(--sp-lg); z-index: 50;
+  width: var(--size-fab); height: var(--size-fab); border-radius: var(--r-circle);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--fab-bg); color: var(--surface); border: none;
+  font-size: var(--fs-h4); cursor: pointer;
+  box-shadow: var(--shadow-lg); backdrop-filter: blur(4px);
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.15s ease, visibility 0.2s;
+}
+.scroll-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.scroll-top:hover { background: var(--fab-bg-hover); }
+
 /* ── pagination ── */
 .pager { display: flex; justify-content: center; align-items: center; gap: var(--sp-sm); }
 .page-btn {
@@ -309,18 +412,6 @@ body {
 .detail-cover { height: 200px; background-size: cover; background-position: center; background-color: var(--border); border-radius: var(--r-card); }
 .detail-head { display: flex; flex-direction: column; gap: var(--sp-sm); }
 .detail-head h2 { font-family: var(--font-display); font-size: 26px; font-weight: 700; }
-
-/* 食安警告 */
-.safety-note {
-  display: flex; gap: var(--sp-sm); align-items: flex-start;
-  padding: var(--sp-md); border-radius: var(--r-btn);
-  background: var(--error-lt); border: 1px solid var(--error);
-}
-.safety-note > i { color: var(--error-strong); font-size: var(--fs-body); margin-top: 2px; flex-shrink: 0; }
-.safety-body { display: flex; flex-direction: column; gap: var(--sp-xs); min-width: 0; }
-.safety-title { font-size: var(--fs-body); font-weight: 700; color: var(--error-strong); }
-.safety-note ul { display: flex; flex-direction: column; gap: var(--sp-xs); padding-left: var(--sp-md); }
-.safety-note li { font-size: var(--fs-body); line-height: 1.6; color: var(--text); }
 
 .ing-block { display: flex; flex-direction: column; gap: var(--sp-sm); background: var(--primary-lt); padding: var(--sp-sm); border-radius: var(--r-card); }
 .ing-sub-label { font-size: var(--fs-label); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: var(--sp-xs); }
