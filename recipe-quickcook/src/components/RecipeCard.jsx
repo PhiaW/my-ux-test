@@ -1,5 +1,4 @@
-import { coreStatus, isReady } from "../data/helpers.js";
-import { TAG_VOCAB, METHOD_TAGS } from "../../data/scenarios.js";
+import { coreStatus, isReady, TAG_VOCAB, METHOD_TAGS } from "../data";
 import RecipeCover from "./RecipeCover.jsx";
 
 // 食譜卡：封面 + 標題列（份數右上角）+ 核心食材 chip 或有/缺對照燈

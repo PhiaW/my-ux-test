@@ -1576,7 +1576,7 @@ export const RECIPES = [
       replaceable: [{ original: "雞腿肉", substitutes: ["雞胸肉"] }],
       seasonings: [{ name: "咖哩塊" }],
     },
-    quantities: {}, prepGuideRef: ["切塊雞腿肉", "洋蔥切好備用"],
+    quantities: {}, prepGuideRef: ["切塊雞腿肉", "洋蔥（切好備用）"],
     steps: {
       prep: [{ text: "雞腿、馬鈴薯、胡蘿蔔、洋蔥切塊。", timerSec: null }],
       cook: [
@@ -1761,7 +1761,7 @@ export const RECIPES = [
       replaceable: [{ original: "豬梅花肉片", substitutes: ["豬五花肉片"] }],
       seasonings: [{ name: "薑" }, { name: "醬油" }, { name: "味醂" }, { name: "糖" }],
     },
-    quantities: {}, prepGuideRef: ["洋蔥切好備用"],
+    quantities: {}, prepGuideRef: ["洋蔥（切好備用）"],
     steps: {
       prep: [{ text: "洋蔥切絲，薑磨泥；醬油、味醂、糖、薑泥調成醬。", timerSec: null }],
       cook: [
@@ -1799,7 +1799,7 @@ export const RECIPES = [
       replaceable: [],
       seasonings: [{ name: "醬油" }, { name: "味醂" }, { name: "糖" }],
     },
-    quantities: {}, prepGuideRef: ["洋蔥切好備用"],
+    quantities: {}, prepGuideRef: ["洋蔥（切好備用）"],
     steps: {
       prep: [{ text: "馬鈴薯、胡蘿蔔切塊，洋蔥切絲，豬肉片切段。", timerSec: null }],
       cook: [
@@ -1837,7 +1837,7 @@ export const RECIPES = [
       replaceable: [],
       seasonings: [{ name: "咖哩塊" }],
     },
-    quantities: {}, prepGuideRef: ["洋蔥切好備用"],
+    quantities: {}, prepGuideRef: ["洋蔥（切好備用）"],
     steps: {
       prep: [{ text: "洋蔥切絲，豬肉片切段。", timerSec: null }],
       cook: [
@@ -1967,7 +1967,7 @@ export const RECIPES = [
       replaceable: [{ original: "雞腿肉", substitutes: ["雞胸肉"] }],
       seasonings: [{ name: "醬油" }, { name: "味醂" }, { name: "糖" }],
     },
-    quantities: {}, prepGuideRef: ["切塊雞腿肉", "洋蔥切好備用"],
+    quantities: {}, prepGuideRef: ["切塊雞腿肉", "洋蔥（切好備用）"],
     steps: {
       prep: [{ text: "雞腿切小塊，洋蔥切絲，雞蛋打散。", timerSec: null }],
       cook: [

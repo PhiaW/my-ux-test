@@ -1,4 +1,4 @@
-import { PICKABLE, COMMON, CATEGORY_LABELS, CATEGORY_ICONS } from "../data/ingredients.js";
+import { PICKABLE, COMMON, CATEGORY_LABELS, CATEGORY_ICONS } from "../data";
 
 // 收合時預設顯示的食材數（約 2 排）；超過才出現「顯示更多」
 const INITIAL_VISIBLE = 8;

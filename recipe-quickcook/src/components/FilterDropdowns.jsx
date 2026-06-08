@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { SCENARIO_LABEL, RECIPES } from "../data/recipes.js";
-import { TAG_VOCAB, METHOD_TAGS } from "../../data/scenarios.js";
-import { activeValues } from "../data/helpers.js";
+import { SCENARIO_LABEL, RECIPES, TAG_VOCAB, METHOD_TAGS, activeValues } from "../data";
 
 // 單一複選下拉：標題 + 計數/清除鈕 + 可收合選項面板
 function MultiSelect({ label, opts, selected, onToggle, onClear }) {

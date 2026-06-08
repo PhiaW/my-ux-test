@@ -1,17 +1,9 @@
-// 食材選擇器資料：分類、常用清單、可勾選食材
-export const CATEGORY_LABELS = { protein: "蛋白質", vegetable: "蔬菜", grain: "主食", other: "其他" };
-export const CATEGORY_ICONS = { protein: "fa-drumstick-bite", vegetable: "fa-carrot", grain: "fa-bowl-rice", other: "fa-shrimp" };
-
-export const PICKABLE = {
-  protein: ["豬絞肉", "雞肉絲", "雞胸肉", "雞腿肉", "鮭魚", "鱸魚", "虱目魚", "蝦仁", "雞蛋", "嫩豆腐", "板豆腐", "鮪魚罐頭", "毛豆", "豬五花肉片", "豬梅花肉片", "牛五花肉片", "梅花牛肉片", "牛肋條", "牛腩", "牛腱心"],
-  vegetable: ["胡蘿蔔", "番茄", "小黃瓜", "白蘿蔔", "馬鈴薯", "高麗菜", "洋蔥", "蔥", "青椒", "彩椒", "南瓜", "綠花椰菜", "玉米", "玉米筍", "娃娃菜", "青江菜", "金針菇", "綜合菇類", "鮮香菇", "鴻喜菇", "雪白菇"],
-  grain: ["白飯", "白米", "麵條", "義大利麵", "烏龍麵", "吐司", "麵包", "地瓜", "燕麥"],
-  other: ["海苔", "鮮奶", "無糖豆漿", "優格", "鮮奶油", "蔓越莓乾", "葡萄乾", "綜合堅果", "紅棗", "枸杞", "昆布柴魚高湯", "義大利麵番茄醬", "番茄糊", "整粒番茄罐頭"],
+// 食材 picker 的 UI 圖示對照（UI 專屬，非食材資料）
+// 食材資料（PICKABLE / COMMON / CATEGORY_LABELS）一律由根目錄 data/ingredients.js
+// 主檔推導，請從 barrel（src/data）import，勿在此另寫死食材名單。
+export const CATEGORY_ICONS = {
+  protein: "fa-drumstick-bite",
+  vegetable: "fa-carrot",
+  grain: "fa-bowl-rice",
+  other: "fa-shrimp",
 };
-
-// 常用食材（各類優先露出，其餘收在「顯示更多」）
-export const COMMON = new Set([
-  "雞蛋", "雞胸肉", "雞腿肉", "豬絞肉", "豬梅花肉片", "鮭魚", "嫩豆腐", "板豆腐", "鮪魚罐頭",
-  "胡蘿蔔", "番茄", "洋蔥", "蔥", "馬鈴薯", "高麗菜", "南瓜", "玉米", "金針菇",
-  "白飯", "白米", "吐司", "地瓜", "燕麥", "海苔", "鮮奶", "無糖豆漿",
-]);
