@@ -13,6 +13,8 @@ export default function HomePage({
   methods, // Set：方法複選（空＝全部）
   page,
   fridge,
+  query, // 食譜名稱／食材搜尋字串
+  onChangeQuery,
   pickerOpen,
   openCats,
   moreCats,
@@ -35,10 +37,14 @@ export default function HomePage({
     return s;
   });
 
-  // 篩選（情境 × 方法，複選 OR；空集合＝不篩選）+ 排序
+  // 菜名搜尋只用在「依菜單」模式；「依食材」改用食材勾選器內的食材搜尋
+  const q = mode === "menu" ? (query || "").trim() : "";
   const list = useMemo(() => {
     const filtered = RECIPES.filter(
       (r) =>
+        (q === "" ||
+          r.title.includes(q) ||
+          (r.core || []).some((c) => c.includes(q))) &&
         (routes.size === 0 || (r.scenarios || []).some((s) => routes.has(s))) &&
         (methods.size === 0 || (r.tags || []).some((t) => methods.has(t)))
     );
@@ -49,7 +55,7 @@ export default function HomePage({
       );
     }
     return shuffleSeeded(filtered, seed);
-  }, [routes, methods, fridgeSorted, fridge, seed]);
+  }, [q, routes, methods, fridgeSorted, fridge, seed]);
 
   const reshuffle = () => {
     const s = Math.floor(Math.random() * 1e6);
@@ -83,6 +89,24 @@ export default function HomePage({
       )}
 
       <div className="block">
+        {mode === "menu" && (
+          <div className="plan-search">
+            <i className="fa-solid fa-magnifying-glass" />
+            <input
+              type="text"
+              aria-label="搜尋食譜名稱或食材"
+              placeholder="搜尋菜名或食材…"
+              value={query}
+              onChange={(e) => onChangeQuery(e.target.value)}
+            />
+            {q && (
+              <button type="button" className="plan-search-clear" aria-label="清除搜尋" onClick={() => onChangeQuery("")}>
+                <i className="fa-solid fa-xmark" />
+              </button>
+            )}
+          </div>
+        )}
+
         <FilterDropdowns
           routes={routes}
           methods={methods}
@@ -95,8 +119,8 @@ export default function HomePage({
         {list.length === 0 ? (
           <div className="empty">
             <i className="fa-solid fa-utensils" />
-            <h3>這個分類還沒有菜</h3>
-            <p>換個情境標籤看看</p>
+            <h3>{q ? `找不到「${q}」` : "這個分類還沒有菜"}</h3>
+            <p>{q ? "換個關鍵字，或清除搜尋與篩選" : "換個情境標籤看看"}</p>
           </div>
         ) : (
           <>

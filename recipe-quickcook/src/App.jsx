@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HomePage from "./components/HomePage.jsx";
 import MealPrepView from "./components/MealPrepView.jsx";
 import ModeSwitch from "./components/ModeSwitch.jsx";
@@ -14,6 +14,16 @@ const toggleInSet = (set, key) => {
   return next;
 };
 
+// localStorage Set 讀寫（冰箱食材持久化用）
+const FRIDGE_KEY = "rqc-fridge";
+const loadSet = (k) => {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(k) || "[]"));
+  } catch {
+    return new Set();
+  }
+};
+
 export default function App() {
   const [mode, setMode] = useState("menu");
   const [routes, setRoutes] = useState(() => new Set()); // 情境複選（空＝全部）
@@ -22,10 +32,27 @@ export default function App() {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [openCats, setOpenCats] = useState(() => new Set());
   const [moreCats, setMoreCats] = useState(() => new Set());
-  const [fridge, setFridge] = useState(() => new Set());
+  const [fridge, setFridge] = useState(() => loadSet(FRIDGE_KEY));
+  const [query, setQuery] = useState(""); // 首頁食譜搜尋
   const [selected, setSelected] = useState(null);
   const [toastMsg, setToastMsg] = useState("");
   const toastTimer = useRef(null);
+
+  // 冰箱食材持久化（與備餐計畫的 plan/done 一致）
+  useEffect(() => {
+    try {
+      localStorage.setItem(FRIDGE_KEY, JSON.stringify([...fridge]));
+    } catch {
+      /* localStorage 不可用時靜默略過 */
+    }
+  }, [fridge]);
+
+  const changeQuery = (q) => {
+    setQuery(q);
+    setPage(1); // 搜尋變動回第 1 頁，才看得到結果
+  };
+
+  const clearFridge = () => setFridge(new Set()); // 清除「我冰箱有」（詳情頁／備餐頁誤選時用）
 
   const showToast = (msg) => {
     setToastMsg(msg);
@@ -36,6 +63,7 @@ export default function App() {
   const changeMode = (m) => {
     setMode(m);
     setPage(1);
+    window.scrollTo(0, 0); // 切換模式回頁首，讓使用者看出已換頁
   };
   const changeRoute = (r) => {
     setRoutes((s) => toggleInSet(s, r));
@@ -95,9 +123,10 @@ export default function App() {
           fridge={fridge}
           onBack={closeDetail}
           onToast={showToast}
+          onClearFridge={clearFridge}
         />
       ) : mode === "prep" ? (
-        <MealPrepView onOpenRecipe={openRecipe} />
+        <MealPrepView fridge={fridge} onClearFridge={clearFridge} onOpenRecipe={openRecipe} />
       ) : (
         <HomePage
           mode={mode}
@@ -105,6 +134,8 @@ export default function App() {
           methods={methods}
           page={page}
           fridge={fridge}
+          query={query}
+          onChangeQuery={changeQuery}
           pickerOpen={pickerOpen}
           openCats={openCats}
           moreCats={moreCats}
