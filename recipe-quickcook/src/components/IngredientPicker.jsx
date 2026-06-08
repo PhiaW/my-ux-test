@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { PICKABLE, COMMON, CATEGORY_LABELS, CATEGORY_ICONS } from "../data";
 
 // 收合時預設顯示的食材數（約 2 排）；超過才出現「顯示更多」
 const INITIAL_VISIBLE = 8;
+// 全部可勾食材（搜尋用，跨分類）
+const ALL_NAMES = Object.values(PICKABLE).flat();
 
-// 食材勾選器：可收合面板 + 分類 Accordion（可多類同時展開）+ 常用優先／顯示更多
+// 食材勾選器：可收合面板 + 食材搜尋 + 分類 Accordion（可多類同時展開）+ 常用優先／顯示更多
 export default function IngredientPicker({
   fridge,
   pickerOpen,
@@ -15,6 +18,10 @@ export default function IngredientPicker({
   onToggleIngredient,
   onClear,
 }) {
+  const [q, setQ] = useState(""); // 食材搜尋（找冰箱有的食材）
+  const query = q.trim();
+  const matches = query ? ALL_NAMES.filter((n) => n.includes(query)) : [];
+
   return (
     <div className={"picker" + (pickerOpen ? " is-open" : "")}>
       <button type="button" className="picker-head" aria-expanded={pickerOpen} onClick={onTogglePickerOpen}>
@@ -25,7 +32,46 @@ export default function IngredientPicker({
 
       {pickerOpen && (
         <div className="picker-body">
-          {Object.entries(PICKABLE).map(([cat, names]) => {
+          <div className="plan-search">
+            <i className="fa-solid fa-magnifying-glass" />
+            <input
+              type="text"
+              aria-label="搜尋食材"
+              placeholder="搜尋食材，找你冰箱有的…"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+            />
+            {q && (
+              <button type="button" className="plan-search-clear" aria-label="清除搜尋" onClick={() => setQ("")}>
+                <i className="fa-solid fa-xmark" />
+              </button>
+            )}
+          </div>
+
+          {query ? (
+            // 搜尋時：跨分類扁平結果
+            matches.length === 0 ? (
+              <p className="prep-note">找不到「{query}」相關食材</p>
+            ) : (
+              <div className="chip-row">
+                {matches.map((name) => {
+                  const on = fridge.has(name);
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      className={"chip" + (on ? " is-selected" : "")}
+                      aria-pressed={on}
+                      onClick={() => onToggleIngredient(name)}
+                    >
+                      <i className={"fa-solid " + (on ? "fa-circle-check" : "fa-plus")} /> {name}
+                    </button>
+                  );
+                })}
+              </div>
+            )
+          ) : (
+            Object.entries(PICKABLE).map(([cat, names]) => {
             const selCount = names.filter((n) => fridge.has(n)).length;
             const isOpen = openCats.has(cat);
             // 常用優先排序：常用在前、其餘在後
@@ -86,11 +132,12 @@ export default function IngredientPicker({
                 )}
               </div>
             );
-          })}
+            })
+          )}
 
           <button
             type="button"
-            className="btn btn-ghost btn-block"
+            className="btn btn-secondary btn-block"
             onClick={onClear}
             disabled={fridge.size === 0}
           >

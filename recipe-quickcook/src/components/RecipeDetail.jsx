@@ -33,7 +33,7 @@ function IngredientRow({ name, qty, checked, onToggle, cls = "", tag = null, opt
   );
 }
 
-export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) {
+export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast, onClearFridge }) {
   const inFridge = mode === "fridge" && fridge.size > 0;
   const status = coreStatus(recipe, fridge);
 
@@ -58,6 +58,13 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) 
     }
     setChecked(new Set());
     onToast("已清空採買勾選");
+  };
+
+  // 清除冰箱已有：清空全域「我冰箱有」，主食材全部回到「要買」並預設勾起
+  const clearFridge = () => {
+    onClearFridge?.();
+    setChecked(new Set(recipe.core));
+    onToast("已清除冰箱食材");
   };
 
   const copyBuy = () => {
@@ -107,7 +114,7 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) 
 
   return (
     <main className="view">
-      <button type="button" className="btn btn-ghost btn-block" onClick={onBack}>
+      <button type="button" className="btn btn-secondary btn-block" onClick={onBack}>
         <i className="fa-solid fa-arrow-left" /> 回列表
       </button>
 
@@ -129,7 +136,7 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) 
           ))}
         </div>
         {recipe.sourceUrl && (
-          <a className="btn btn-ghost source-link" href={recipe.sourceUrl} target="_blank" rel="noopener">
+          <a className="btn btn-secondary source-link" href={recipe.sourceUrl} target="_blank" rel="noopener">
             <i className="fa-brands fa-youtube" /> 看原始影片
           </a>
         )}
@@ -195,13 +202,19 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) 
         </div>
 
         <div className="copy-bar">
-          <button type="button" className="btn btn-ghost btn-clear" onClick={clearChecked}>
+          <button type="button" className="btn btn-secondary btn-clear" onClick={clearChecked}>
             <i className="fa-solid fa-eraser" /> 清空
           </button>
           <button type="button" className="btn btn-primary btn-copy" onClick={copyBuy}>
             <i className="fa-solid fa-copy" /> 複製需購食材
           </button>
         </div>
+
+        {inFridge && (
+          <button type="button" className="btn btn-ghost btn-block" onClick={clearFridge}>
+            <i className="fa-solid fa-basket-shopping" /> 清除冰箱已有
+          </button>
+        )}
       </div>
 
       <hr className="detail-divider" />
@@ -235,7 +248,7 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast }) 
         <div className="step-list">{renderSteps(recipe.steps.cook)}</div>
       </div>
 
-      <button type="button" className="btn btn-ghost btn-block" onClick={onBack}>
+      <button type="button" className="btn btn-secondary btn-block" onClick={onBack}>
         <i className="fa-solid fa-arrow-left" /> 回列表
       </button>
     </main>
