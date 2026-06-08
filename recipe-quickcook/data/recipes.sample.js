@@ -18,7 +18,7 @@ export const RECIPES = [
     title: "消防車紅蘿蔔肉末海苔飯糰",
     sourceUrl: "https://instagram.com/p/xxxxxx",
     coverImage: "",
-    servings: "1 兒童份",
+    servings: "1 人份",
     scenarios: ["breakfast", "dinner"],
     tags: ["finger-food", "heat-stable", "no-fresh", "freezer-friendly", "kid-friendly"],
     ingredients: {
@@ -578,7 +578,7 @@ export const RECIPES = [
     title: "消防車蔬菜肉末蛋捲",
     sourceUrl: "",
     coverImage: "",
-    servings: "1 兒童份",
+    servings: "1 人份",
     scenarios: ["breakfast", "dinner"],
     tags: ["finger-food", "heat-stable", "freezer-friendly", "quick", "kid-friendly"],
     ingredients: {
@@ -890,6 +890,1203 @@ export const RECIPES = [
         { text: "加入醬油、米酒嗆出香氣，接著倒入洗淨的白米一起翻炒，讓每粒米都沾附到油脂", timerSec: null },
         { text: "將所有炒好的食材倒入電鍋內鍋中，加入「香菇水」與適量清水（總水量約 1.5～2 杯，喜愛較軟口感可放 2 杯）", timerSec: null },
         { text: "外鍋倒入 1 杯水，按下炊飯鍵。跳起後不要馬上打開，繼續悶 15-20 分鐘，開蓋撒點蔥花拌勻即可享用", timerSec: null },
+      ],
+    },
+  },
+
+  // ════════════════════════════════════════════════════════════════
+  // 可攜帶早餐 — AI 原創簡易食譜（使用者授權從無到有產製，非 YT 來源）
+  // 規格：可裝盒攜帶、不灑湯水、小孩友善、避免起司＋蛋同盤
+  // 步驟為原創家常做法（食材/步驟/份量同一手，無來源不一致問題）
+  // sourceUrl 留空 → 走品牌佔位圖
+  // ════════════════════════════════════════════════════════════════
+  {
+    id: "recipe_b01",
+    title: "蔓越莓堅果隔夜燕麥",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1 人份",
+    scenarios: ["breakfast"],
+    tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["燕麥", "鮮奶", "蔓越莓乾", "綜合堅果"],
+      replaceable: [{ original: "鮮奶", substitutes: ["無糖豆漿", "優格"] }],
+      seasonings: [],
+    },
+    quantities: {},
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "取一個附蓋容器，倒入燕麥約 4 大匙、鮮奶（或無糖豆漿）約 120ml，攪拌均勻。", timerSec: null },
+        { text: "蓋上蓋子冷藏一夜，讓燕麥吸飽水分軟化（前一晚備好）。", timerSec: null },
+      ],
+      cook: [
+        { text: "早晨取出，鋪上蔓越莓乾與綜合堅果。", timerSec: null },
+        { text: "喜歡更滑順可加一匙優格拌勻，蓋好即可帶走。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b05",
+    title: "紅棗枸杞稠燕麥粥",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1 人份",
+    scenarios: ["breakfast"],
+    tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["燕麥", "紅棗", "枸杞"],
+      replaceable: [],
+      seasonings: [{ name: "黑糖", optional: true, note: "可省略或減量" }],
+    },
+    quantities: {},
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "紅棗去核切小塊，枸杞稍微沖洗瀝乾。", timerSec: null },
+      ],
+      cook: [
+        { text: "小鍋加入燕麥約 4 大匙、水或鮮奶 200ml、紅棗，中小火煮滾。", timerSec: 180 },
+        { text: "轉小火邊煮邊攪至濃稠，關火前加入枸杞略煮，可依喜好加少許黑糖。", timerSec: 60 },
+        { text: "裝入保溫盒帶走。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b06",
+    title: "鮪魚玉米鹹燕麥",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1 人份",
+    scenarios: ["breakfast"],
+    tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["燕麥", "鮪魚罐頭", "玉米"],
+      replaceable: [{ original: "鮪魚罐頭", substitutes: ["雞蛋"] }],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {},
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "鮪魚罐頭瀝掉湯汁，玉米粒備好。", timerSec: null },
+      ],
+      cook: [
+        { text: "小鍋加燕麥約 4 大匙與水 200ml，中小火煮成稠粥。", timerSec: 180 },
+        { text: "加入鮪魚、玉米拌勻，以少許鹽調味，再煮約 1 分鐘。", timerSec: 60 },
+        { text: "裝入保溫盒帶走。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b10",
+    title: "鮭魚海苔飯糰",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1 人份",
+    scenarios: ["breakfast"],
+    tags: ["finger-food", "heat-stable", "no-fresh", "freezer-friendly", "kid-friendly"],
+    ingredients: {
+      core: ["鮭魚", "海苔", "白飯"],
+      replaceable: [{ original: "鮭魚", substitutes: ["鮪魚罐頭"] }],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {},
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "鮭魚抹上少許鹽，海苔裁成適當大小。", timerSec: null },
+      ],
+      cook: [
+        { text: "平底鍋小火將鮭魚煎熟，去皮去骨後撥成魚鬆。", timerSec: 360 },
+        { text: "溫熱白飯與鮭魚鬆拌勻，捏成方便手拿的小飯糰。", timerSec: null },
+        { text: "包上海苔，用電風扇吹涼後再蓋盒蓋（避免海苔濕軟）。", timerSec: 60 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b14",
+    title: "鮭魚海苔炒飯",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1-2 人份",
+    scenarios: ["breakfast"],
+    tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["鮭魚", "海苔", "白飯", "雞蛋"],
+      replaceable: [{ original: "鮭魚", substitutes: ["鮪魚罐頭"] }],
+      seasonings: [{ name: "鹽" }, { name: "醬油" }],
+    },
+    quantities: {},
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "鮭魚煎熟撥碎（或用前晚備好的鮭魚鬆），雞蛋打散。", timerSec: null },
+      ],
+      cook: [
+        { text: "熱鍋下少許油，倒入蛋液炒成蛋碎後盛起。", timerSec: 60 },
+        { text: "同鍋下白飯炒鬆，加入鮭魚與蛋碎，沿鍋邊嗆少許醬油、加鹽調味。", timerSec: 180 },
+        { text: "起鍋前撒上剪碎的海苔拌勻，裝盒。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b20",
+    title: "玉米玉子燒",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1-2 人份",
+    scenarios: ["breakfast"],
+    tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["雞蛋", "玉米"],
+      replaceable: [{ original: "玉米", substitutes: ["海苔", "不加"] }],
+      seasonings: [{ name: "鹽" }, { name: "糖", optional: true } ],
+    },
+    quantities: {},
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "雞蛋約 3 顆打散，加少許鹽（可加少許糖）與瀝乾的玉米粒拌勻。", timerSec: null },
+      ],
+      cook: [
+        { text: "玉子燒鍋抹薄油小火熱鍋，分 2-3 次倒入蛋液，每次半凝固時由一端捲起。", timerSec: 240 },
+        { text: "全部捲好後放涼定型，切成厚片裝盒。", timerSec: 120 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b25",
+    title: "鮪魚玉米熱壓吐司",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1 人份",
+    scenarios: ["breakfast"],
+    tags: ["finger-food", "heat-stable", "no-fresh", "quick", "kid-friendly"],
+    ingredients: {
+      core: ["吐司", "鮪魚罐頭", "玉米"],
+      replaceable: [{ original: "玉米", substitutes: ["起司片", "不加"] }],
+      seasonings: [{ name: "美乃滋", optional: true }],
+    },
+    quantities: {},
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "鮪魚瀝油，與玉米、少許美乃滋拌成內餡；熱壓機預熱。", timerSec: 180 },
+      ],
+      cook: [
+        { text: "兩片吐司夾入鮪魚玉米餡。", timerSec: null },
+        { text: "放入熱壓機壓 3-4 分鐘至金黃，對切後用紙包好帶走。", timerSec: 240 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b29",
+    title: "氣炸地瓜塊＋水煮蛋",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1 人份",
+    scenarios: ["breakfast"],
+    tags: ["finger-food", "heat-stable", "no-fresh", "freezer-friendly", "kid-friendly"],
+    ingredients: {
+      core: ["地瓜", "雞蛋"],
+      replaceable: [{ original: "地瓜", substitutes: ["南瓜"] }],
+      seasonings: [],
+    },
+    quantities: {},
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "地瓜洗淨切塊，雞蛋備好。", timerSec: null },
+      ],
+      cook: [
+        { text: "雞蛋冷水入鍋煮約 10 分鐘成全熟，撈起泡冷水後剝殼。", timerSec: 600 },
+        { text: "地瓜塊以氣炸鍋 180°C 約 15 分鐘至外酥內軟。", timerSec: 900 },
+        { text: "地瓜與水煮蛋一起裝盒。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b02",
+    title: "葡萄乾燕麥布丁",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["燕麥", "鮮奶", "葡萄乾"],
+      replaceable: [{ original: "鮮奶", substitutes: ["無糖豆漿", "優格"] }],
+      seasonings: [],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "容器倒入燕麥約 4 大匙、鮮奶 120ml 拌勻，蓋上冷藏一夜。", timerSec: null }],
+      cook: [{ text: "早晨取出，拌入葡萄乾即可帶走，喜歡更濃可加一匙優格。", timerSec: null }],
+    },
+  },
+  {
+    id: "recipe_b03",
+    title: "南瓜泥燕麥杯",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["南瓜", "燕麥", "鮮奶"],
+      replaceable: [{ original: "鮮奶", substitutes: ["無糖豆漿"] }],
+      seasonings: [],
+    },
+    quantities: {}, prepGuideRef: ["南瓜泥"],
+    steps: {
+      prep: [
+        { text: "南瓜切塊蒸熟壓成泥（或用前晚備好的南瓜泥）。", timerSec: 600 },
+        { text: "容器放入燕麥約 4 大匙、鮮奶 120ml、南瓜泥拌勻，蓋上冷藏一夜。", timerSec: null },
+      ],
+      cook: [{ text: "早晨取出，可撒少許綜合堅果即可帶走。", timerSec: null }],
+    },
+  },
+  {
+    id: "recipe_b04",
+    title: "地瓜泥燕麥杯",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["地瓜", "燕麥", "無糖豆漿"],
+      replaceable: [{ original: "無糖豆漿", substitutes: ["鮮奶"] }],
+      seasonings: [],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "地瓜蒸熟壓成泥。", timerSec: 600 },
+        { text: "容器放入燕麥約 4 大匙、無糖豆漿 120ml、地瓜泥拌勻，蓋上冷藏一夜。", timerSec: null },
+      ],
+      cook: [{ text: "早晨取出即可帶走，喜歡可加少許葡萄乾。", timerSec: null }],
+    },
+  },
+  {
+    id: "recipe_b07",
+    title: "雞蛋蔥花鹹燕麥",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["燕麥", "雞蛋", "蔥"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "蔥切成蔥花，雞蛋打散。", timerSec: null }],
+      cook: [
+        { text: "小鍋加燕麥約 4 大匙與水 200ml，中小火煮成稠粥。", timerSec: 180 },
+        { text: "淋入蛋液拌成蛋花，加少許鹽調味，撒蔥花。", timerSec: 60 },
+        { text: "裝入保溫盒帶走。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b08",
+    title: "香菇雞蛋稠粥",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly", "電鍋"],
+    ingredients: {
+      core: ["鮮香菇", "雞蛋", "白米"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "白米洗淨，香菇切片；前晚設定電子鍋預約煮粥（米水比約 1:6）。", timerSec: null }],
+      cook: [
+        { text: "粥煮好後趁熱打入蛋液拌成蛋花，加少許鹽調味。", timerSec: 60 },
+        { text: "稍涼後裝入保溫盒帶走。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b09",
+    title: "虱目魚稠粥",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly", "one-pot"],
+    ingredients: {
+      core: ["虱目魚", "白米"],
+      replaceable: [],
+      seasonings: [{ name: "薑" }, { name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "白米洗淨，虱目魚確認去刺、切小塊，薑切絲。", timerSec: null }],
+      cook: [
+        { text: "白米加水煮成稠粥。", timerSec: 1200 },
+        { text: "放入虱目魚與薑絲煮熟，加鹽調味。", timerSec: 300 },
+        { text: "稍涼後裝入保溫盒帶走。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b11",
+    title: "鮪魚美乃滋飯糰",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["鮪魚罐頭", "白飯", "海苔"],
+      replaceable: [],
+      seasonings: [{ name: "美乃滋" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "鮪魚瀝油，拌入少許美乃滋成餡；海苔裁好。", timerSec: null }],
+      cook: [
+        { text: "溫熱白飯包入鮪魚美乃滋餡，捏成小飯糰。", timerSec: null },
+        { text: "包上海苔，吹涼後再蓋盒蓋。", timerSec: 60 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b12",
+    title: "玉米雞蛋飯糰",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["玉米", "雞蛋", "白飯"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "雞蛋打散，玉米粒瀝乾。", timerSec: null }],
+      cook: [
+        { text: "熱鍋下少許油，蛋液與玉米炒成金黃蛋碎，加少許鹽。", timerSec: 120 },
+        { text: "與溫熱白飯拌勻，捏成小飯糰，吹涼裝盒。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b13",
+    title: "海苔玉子燒飯糰",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["雞蛋", "海苔", "白飯"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "雞蛋打散加少許鹽。", timerSec: null }],
+      cook: [
+        { text: "玉子燒鍋分次倒蛋液捲成玉子燒，切小塊。", timerSec: 240 },
+        { text: "溫熱白飯捏成飯糰，放上玉子燒、包海苔，吹涼裝盒。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b15",
+    title: "肉片玉米炒飯",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["豬梅花肉片", "玉米", "白飯"],
+      replaceable: [{ original: "豬梅花肉片", substitutes: ["雞胸肉"] }],
+      seasonings: [{ name: "醬油" }, { name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "豬肉片切小片，玉米瀝乾。", timerSec: null }],
+      cook: [
+        { text: "熱鍋下油炒香肉片，加入玉米略炒。", timerSec: 120 },
+        { text: "下白飯炒鬆，沿鍋邊嗆醬油、加鹽調味，炒勻裝盒。", timerSec: 180 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b16",
+    title: "雞蛋醬油海苔炒飯",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["雞蛋", "白飯", "海苔"],
+      replaceable: [],
+      seasonings: [{ name: "醬油" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "雞蛋打散。", timerSec: null }],
+      cook: [
+        { text: "熱鍋下油，倒蛋液稍凝固後下白飯炒鬆。", timerSec: 120 },
+        { text: "沿鍋邊嗆少許醬油炒勻，起鍋前撒剪碎海苔，裝盒。", timerSec: 60 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b17",
+    title: "高麗菜豬肉炒飯",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["高麗菜", "豬梅花肉片", "白飯"],
+      replaceable: [{ original: "豬梅花肉片", substitutes: ["豬五花肉片"] }],
+      seasonings: [{ name: "醬油" }, { name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "高麗菜切細絲，豬肉片切小片。", timerSec: null }],
+      cook: [
+        { text: "熱鍋炒香豬肉片，加高麗菜炒軟。", timerSec: 180 },
+        { text: "下白飯炒鬆，以醬油、鹽調味炒勻裝盒。", timerSec: 120 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b18",
+    title: "番茄雞蛋炒飯",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["番茄", "雞蛋", "白飯"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "番茄切小丁，雞蛋打散。", timerSec: null }],
+      cook: [
+        { text: "熱鍋炒蛋盛起；同鍋炒番茄丁至軟出汁。", timerSec: 120 },
+        { text: "下白飯與蛋炒勻，加鹽調味，裝盒。", timerSec: 120 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b19",
+    title: "玉子燒（海苔捲）",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["雞蛋", "海苔"],
+      replaceable: [{ original: "海苔", substitutes: ["不加"] }],
+      seasonings: [{ name: "鹽" }, { name: "糖", optional: true }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "雞蛋約 3 顆打散，加少許鹽（可加少許糖）。", timerSec: null }],
+      cook: [
+        { text: "玉子燒鍋抹薄油，倒第一層蛋液鋪上海苔，半凝固時捲起。", timerSec: 120 },
+        { text: "分次補蛋液續捲，全部捲好放涼切厚片裝盒。", timerSec: 180 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b21",
+    title: "馬鈴薯絲煎餅",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["馬鈴薯", "雞蛋"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }, { name: "麵粉", optional: true, note: "幫助定型，可省略" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "馬鈴薯刨成細絲沖去澱粉、瀝乾，加雞蛋、少許鹽（可加一匙麵粉）拌勻。", timerSec: null }],
+      cook: [
+        { text: "平底鍋下油，鋪平馬鈴薯絲，中小火煎至兩面金黃定型。", timerSec: 480 },
+        { text: "放涼切塊裝盒。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b22",
+    title: "高麗菜蛋煎（大阪燒風）",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["高麗菜", "雞蛋"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }, { name: "麵粉" }, { name: "美乃滋", optional: true }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "高麗菜切細絲，與雞蛋、少許麵粉、鹽拌成麵糊。", timerSec: null }],
+      cook: [
+        { text: "平底鍋下油，倒入麵糊鋪平，中小火煎至兩面金黃。", timerSec: 480 },
+        { text: "放涼切塊，可擠少許美乃滋，裝盒。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b23",
+    title: "玉米筍炒蛋",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["玉米筍", "雞蛋"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "玉米筍切小段，雞蛋打散。", timerSec: null }],
+      cook: [
+        { text: "熱鍋炒玉米筍略熟，倒入蛋液炒成滑蛋，加鹽調味。", timerSec: 180 },
+        { text: "放涼裝盒。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b24",
+    title: "板豆腐煎切塊",
+    sourceUrl: "", coverImage: "", servings: "1-2 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["板豆腐"],
+      replaceable: [],
+      seasonings: [{ name: "醬油" }, { name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "板豆腐切厚片，用廚房紙巾吸乾表面水分。", timerSec: null }],
+      cook: [
+        { text: "平底鍋下油，中火將豆腐兩面煎至金黃，淋少許醬油。", timerSec: 360 },
+        { text: "放涼切成方便手拿的小塊，裝盒。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_b26",
+    title: "味噌豬肉片熱壓吐司",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "quick", "kid-friendly"],
+    ingredients: {
+      core: ["吐司", "豬梅花肉片"],
+      replaceable: [],
+      seasonings: [{ name: "白味噌" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "豬肉片煎熟，抹上薄薄一層味噌；熱壓機預熱。", timerSec: 180 },],
+      cook: [
+        { text: "兩片吐司夾入味噌豬肉片。", timerSec: null },
+        { text: "放入熱壓機壓 3-4 分鐘至金黃，對切紙包帶走。", timerSec: 240 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b27",
+    title: "地瓜泥堅果熱壓吐司",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["吐司", "地瓜", "綜合堅果"],
+      replaceable: [{ original: "綜合堅果", substitutes: ["蔓越莓乾", "不加"] }],
+      seasonings: [],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "地瓜蒸熟壓泥；熱壓機預熱。", timerSec: 600 }],
+      cook: [
+        { text: "吐司抹上地瓜泥、撒綜合堅果碎後夾起。", timerSec: null },
+        { text: "放入熱壓機壓 3-4 分鐘，對切紙包帶走。", timerSec: 240 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b28",
+    title: "南瓜泥熱壓吐司",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["吐司", "南瓜"],
+      replaceable: [{ original: "南瓜", substitutes: ["地瓜"] }],
+      seasonings: [],
+    },
+    quantities: {}, prepGuideRef: ["南瓜泥"],
+    steps: {
+      prep: [{ text: "南瓜蒸熟壓泥；熱壓機預熱。", timerSec: 600 }],
+      cook: [
+        { text: "吐司抹上南瓜泥夾起。", timerSec: null },
+        { text: "放入熱壓機壓 3-4 分鐘，對切紙包帶走。", timerSec: 240 },
+      ],
+    },
+  },
+  {
+    id: "recipe_b30",
+    title: "蒸南瓜塊＋葡萄乾優格盒",
+    sourceUrl: "", coverImage: "", servings: "1 人份",
+    scenarios: ["breakfast"], tags: ["finger-food", "heat-stable", "no-fresh", "kid-friendly"],
+    ingredients: {
+      core: ["南瓜", "葡萄乾", "優格"],
+      replaceable: [{ original: "葡萄乾", substitutes: ["蔓越莓乾"] }],
+      seasonings: [],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "南瓜切成方便手拿的塊狀。", timerSec: null }],
+      cook: [
+        { text: "南瓜塊蒸熟放涼。", timerSec: 600 },
+        { text: "南瓜裝盒，優格與葡萄乾另用小盒分裝（食用前再淋，避免出水）。", timerSec: null },
+      ],
+    },
+  },
+
+  // ════════════════════════════════════════════════════════════════
+  // 午晚餐 — AI 原創簡易食譜（使用者授權從無到有產製，非 YT 來源）
+  // 規格：30 分內為主、不辣不香菜、小孩友善、1-2 人份（可放大 4 份備餐）
+  // ════════════════════════════════════════════════════════════════
+  {
+    id: "recipe_d31",
+    title: "氣炸鹽味雞腿＋花椰菜",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["雞腿肉", "綠花椰菜"],
+      replaceable: [{ original: "綠花椰菜", substitutes: ["玉米筍", "娃娃菜"] }],
+      seasonings: [{ name: "鹽" }, { name: "黑胡椒", optional: true }],
+    },
+    quantities: {}, prepGuideRef: ["切塊雞腿肉"],
+    steps: {
+      prep: [{ text: "雞腿肉抹鹽（可加黑胡椒）略醃，花椰菜切小朵。", timerSec: 600 }],
+      cook: [
+        { text: "雞腿放氣炸鍋 180°C 約 18 分鐘，中途翻面。", timerSec: 1080 },
+        { text: "花椰菜水煮或氣炸至熟，與雞腿一起盛盤。", timerSec: 300 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d32",
+    title: "味噌雞腿照燒丼",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["雞腿肉", "白飯"],
+      replaceable: [{ original: "雞腿肉", substitutes: ["雞胸肉"] }],
+      seasonings: [{ name: "白味噌" }, { name: "醬油" }, { name: "味醂" }, { name: "糖" }],
+    },
+    quantities: {}, prepGuideRef: ["切塊雞腿肉"],
+    steps: {
+      prep: [{ text: "雞腿切塊；味噌、醬油、味醂、糖調成照燒醬。", timerSec: null }],
+      cook: [
+        { text: "雞腿皮面朝下煎出油、煎至金黃。", timerSec: 360 },
+        { text: "倒入照燒醬燒至收汁亮澤，鋪在白飯上。", timerSec: 240 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d33",
+    title: "日式咖哩雞",
+    sourceUrl: "", coverImage: "", servings: "3-4 人份",
+    scenarios: ["weekend"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["雞腿肉", "馬鈴薯", "胡蘿蔔", "洋蔥"],
+      replaceable: [{ original: "雞腿肉", substitutes: ["雞胸肉"] }],
+      seasonings: [{ name: "咖哩塊" }],
+    },
+    quantities: {}, prepGuideRef: ["切塊雞腿肉", "洋蔥切好備用"],
+    steps: {
+      prep: [{ text: "雞腿、馬鈴薯、胡蘿蔔、洋蔥切塊。", timerSec: null }],
+      cook: [
+        { text: "鍋中炒香洋蔥與雞腿，加入根莖菜略炒。", timerSec: 300 },
+        { text: "加水蓋過食材燉煮至軟。", timerSec: 900 },
+        { text: "關火放入咖哩塊融化，再小火煮至濃稠。", timerSec: 300 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d34",
+    title: "電鍋蔥油雞胸",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["電鍋", "kid-friendly"],
+    ingredients: {
+      core: ["雞胸肉", "蔥"],
+      replaceable: [{ original: "雞胸肉", substitutes: ["雞腿肉"] }],
+      seasonings: [{ name: "鹽" }, { name: "薑" }, { name: "芝麻油" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "雞胸抹鹽，鋪上薑片、部分蔥段；另把蔥花備好。", timerSec: null }],
+      cook: [
+        { text: "電鍋外鍋一杯水，蒸熟雞胸。", timerSec: 1200 },
+        { text: "雞胸切片，淋上熱芝麻油拌蔥花的蔥油。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_d35",
+    title: "雞胸肉炒高麗菜",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["quick", "kid-friendly"],
+    ingredients: {
+      core: ["雞胸肉", "高麗菜"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }, { name: "醬油" }, { name: "蒜頭" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "雞胸切片略抓鹽，高麗菜剝小片，蒜頭切末。", timerSec: null }],
+      cook: [
+        { text: "熱鍋炒香蒜末與雞胸至變白。", timerSec: 180 },
+        { text: "下高麗菜炒軟，加醬油、鹽調味炒勻。", timerSec: 180 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d36",
+    title: "香菇雞湯",
+    sourceUrl: "", coverImage: "", servings: "3-4 人份",
+    scenarios: ["weekend"], tags: ["電鍋", "one-pot"],
+    ingredients: {
+      core: ["雞腿肉", "鮮香菇"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }, { name: "薑" }, { name: "米酒", optional: true, note: "給孩子可省略" }],
+    },
+    quantities: {}, prepGuideRef: ["切塊雞腿肉"],
+    steps: {
+      prep: [{ text: "雞腿切塊汆燙，香菇切片，薑切片。", timerSec: null }],
+      cook: [
+        { text: "雞腿、香菇、薑片放入內鍋加水，電鍋外鍋兩杯水蒸燉。", timerSec: 2400 },
+        { text: "起鍋加鹽調味（可加少許米酒）。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_d37",
+    title: "氣炸鹽烤鮭魚＋娃娃菜",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["鮭魚", "娃娃菜"],
+      replaceable: [{ original: "娃娃菜", substitutes: ["青江菜", "綠花椰菜"] }],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "鮭魚抹鹽，娃娃菜對半切。", timerSec: null }],
+      cook: [
+        { text: "鮭魚氣炸 180°C 約 12 分鐘。", timerSec: 720 },
+        { text: "娃娃菜水煮或清炒至熟，與鮭魚一起盛盤。", timerSec: 180 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d38",
+    title: "味噌鮭魚燒",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["鮭魚"],
+      replaceable: [],
+      seasonings: [{ name: "白味噌" }, { name: "味醂" }, { name: "醬油" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "味噌、味醂、醬油調勻，抹在鮭魚上醃 15 分鐘。", timerSec: 900 }],
+      cook: [{ text: "鮭魚以烤箱或氣炸 180°C 烤至熟、表面微焦香。", timerSec: 720 }],
+    },
+  },
+  {
+    id: "recipe_d39",
+    title: "電鍋清蒸鱸魚",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["電鍋", "kid-friendly"],
+    ingredients: {
+      core: ["鱸魚"],
+      replaceable: [],
+      seasonings: [{ name: "薑" }, { name: "蔥" }, { name: "醬油" }, { name: "米酒", optional: true, note: "給孩子可省略" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "鱸魚洗淨擦乾，表面劃刀，鋪上薑絲、蔥段。", timerSec: null }],
+      cook: [
+        { text: "電鍋外鍋一杯水蒸熟。", timerSec: 900 },
+        { text: "倒掉腥水，換新蔥絲，淋熱油與少許醬油。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_d40",
+    title: "香煎虱目魚肚",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["quick", "kid-friendly"],
+    ingredients: {
+      core: ["虱目魚"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "虱目魚肚擦乾水分，兩面抹少許鹽。", timerSec: null }],
+      cook: [{ text: "平底鍋熱油，魚皮朝下中火煎至金黃酥脆，翻面煎熟。", timerSec: 480 }],
+    },
+  },
+  {
+    id: "recipe_d41",
+    title: "鱸魚味噌湯",
+    sourceUrl: "", coverImage: "", servings: "2-3 人份",
+    scenarios: ["weekend"], tags: ["one-pot"],
+    ingredients: {
+      core: ["鱸魚", "板豆腐"],
+      replaceable: [{ original: "板豆腐", substitutes: ["嫩豆腐"] }],
+      seasonings: [{ name: "白味噌" }, { name: "薑" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "鱸魚切塊，豆腐切丁，薑切片。", timerSec: null }],
+      cook: [
+        { text: "水加薑片煮滾，下鱸魚與豆腐煮熟。", timerSec: 420 },
+        { text: "關小火，把味噌調散入湯（勿大滾），即可。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_d42",
+    title: "虱目魚粥",
+    sourceUrl: "", coverImage: "", servings: "2-3 人份",
+    scenarios: ["weekend"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["虱目魚", "白米"],
+      replaceable: [],
+      seasonings: [{ name: "薑" }, { name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "白米洗淨，虱目魚去刺切塊，薑切絲。", timerSec: null }],
+      cook: [
+        { text: "白米加水煮成粥。", timerSec: 1200 },
+        { text: "下虱目魚與薑絲煮熟，加鹽調味。", timerSec: 300 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d43",
+    title: "薑燒豬肉片",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["quick", "kid-friendly"],
+    ingredients: {
+      core: ["豬梅花肉片", "洋蔥"],
+      replaceable: [{ original: "豬梅花肉片", substitutes: ["豬五花肉片"] }],
+      seasonings: [{ name: "薑" }, { name: "醬油" }, { name: "味醂" }, { name: "糖" }],
+    },
+    quantities: {}, prepGuideRef: ["洋蔥切好備用"],
+    steps: {
+      prep: [{ text: "洋蔥切絲，薑磨泥；醬油、味醂、糖、薑泥調成醬。", timerSec: null }],
+      cook: [
+        { text: "熱鍋炒軟洋蔥，下豬肉片炒至變色。", timerSec: 240 },
+        { text: "倒入薑燒醬炒勻收汁。", timerSec: 120 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d44",
+    title: "豬肉味噌炒高麗菜",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["quick", "kid-friendly"],
+    ingredients: {
+      core: ["豬梅花肉片", "高麗菜"],
+      replaceable: [],
+      seasonings: [{ name: "白味噌" }, { name: "醬油" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "高麗菜剝小片，豬肉片切小片；味噌加少許水化開。", timerSec: null }],
+      cook: [
+        { text: "熱鍋炒香豬肉片，下高麗菜炒軟。", timerSec: 240 },
+        { text: "倒入味噌醬炒勻。", timerSec: 60 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d45",
+    title: "馬鈴薯燉肉",
+    sourceUrl: "", coverImage: "", servings: "3-4 人份",
+    scenarios: ["weekend"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["豬梅花肉片", "馬鈴薯", "洋蔥", "胡蘿蔔"],
+      replaceable: [],
+      seasonings: [{ name: "醬油" }, { name: "味醂" }, { name: "糖" }],
+    },
+    quantities: {}, prepGuideRef: ["洋蔥切好備用"],
+    steps: {
+      prep: [{ text: "馬鈴薯、胡蘿蔔切塊，洋蔥切絲，豬肉片切段。", timerSec: null }],
+      cook: [
+        { text: "炒香洋蔥與豬肉片，加入根莖菜略炒。", timerSec: 300 },
+        { text: "加水至半淹，下醬油、味醂、糖，中小火燉至馬鈴薯鬆軟。", timerSec: 1200 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d46",
+    title: "豬肉金針菇捲",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["豬五花肉片", "金針菇"],
+      replaceable: [{ original: "豬五花肉片", substitutes: ["豬梅花肉片"] }],
+      seasonings: [{ name: "醬油" }, { name: "味醂" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "金針菇分成小束，用豬五花肉片捲起。", timerSec: null }],
+      cook: [
+        { text: "肉捲收口朝下入鍋煎至定型上色。", timerSec: 300 },
+        { text: "淋醬油、味醂燒至收汁。", timerSec: 180 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d47",
+    title: "咖哩豬肉烏龍",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["豬梅花肉片", "烏龍麵", "洋蔥"],
+      replaceable: [],
+      seasonings: [{ name: "咖哩塊" }],
+    },
+    quantities: {}, prepGuideRef: ["洋蔥切好備用"],
+    steps: {
+      prep: [{ text: "洋蔥切絲，豬肉片切段。", timerSec: null }],
+      cook: [
+        { text: "炒香洋蔥與豬肉片，加水煮滾。", timerSec: 300 },
+        { text: "放入咖哩塊融化煮稠，下烏龍麵煮熟。", timerSec: 300 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d48",
+    title: "蔥爆豬肉",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["quick"],
+    ingredients: {
+      core: ["豬梅花肉片", "蔥", "洋蔥"],
+      replaceable: [{ original: "洋蔥", substitutes: ["不加"] }],
+      seasonings: [{ name: "醬油" }, { name: "蒜頭" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "蔥切段，洋蔥切絲，蒜頭切片，豬肉片切段。", timerSec: null }],
+      cook: [
+        { text: "大火炒香蒜片與豬肉片至上色。", timerSec: 180 },
+        { text: "下洋蔥與蔥段、嗆醬油快炒至蔥香。", timerSec: 120 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d49",
+    title: "不辣麻婆豆腐",
+    sourceUrl: "", coverImage: "", servings: "2-3 人份",
+    scenarios: ["weekend"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["板豆腐", "豬絞肉"],
+      replaceable: [{ original: "板豆腐", substitutes: ["嫩豆腐"] }],
+      seasonings: [{ name: "白味噌" }, { name: "醬油" }, { name: "蒜頭" }, { name: "太白粉" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "豆腐切丁汆燙瀝乾，蒜頭切末；太白粉加水備芡汁。", timerSec: null }],
+      cook: [
+        { text: "炒香蒜末與豬絞肉，加味噌、醬油與少許水煮滾。", timerSec: 240 },
+        { text: "下豆腐輕推煮入味，最後勾薄芡。", timerSec: 180 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d50",
+    title: "玉米筍毛豆炒蛋",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["quick", "kid-friendly"],
+    ingredients: {
+      core: ["玉米筍", "毛豆", "雞蛋"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "玉米筍切小段，毛豆退冰，雞蛋打散。", timerSec: null }],
+      cook: [
+        { text: "玉米筍與毛豆下鍋炒熟。", timerSec: 180 },
+        { text: "倒入蛋液炒成滑蛋，加鹽調味。", timerSec: 120 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d51",
+    title: "日式茶碗蒸",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["電鍋", "kid-friendly"],
+    ingredients: {
+      core: ["雞蛋", "鮮香菇", "玉米筍"],
+      replaceable: [{ original: "玉米筍", substitutes: ["不加"] }],
+      seasonings: [{ name: "鹽" }, { name: "昆布柴魚高湯" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "雞蛋打散與放涼的高湯以 1:3 混合過篩，香菇、玉米筍切小片放入碗中。", timerSec: null }],
+      cook: [{ text: "電鍋外鍋半杯水、鍋蓋留縫蒸至凝固（避免大火起蜂窩）。", timerSec: 900 }],
+    },
+  },
+  {
+    id: "recipe_d52",
+    title: "番茄豆腐蛋花煮",
+    sourceUrl: "", coverImage: "", servings: "2-3 人份",
+    scenarios: ["weekend"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["番茄", "板豆腐", "雞蛋"],
+      replaceable: [{ original: "板豆腐", substitutes: ["嫩豆腐"] }],
+      seasonings: [{ name: "鹽" }, { name: "醬油" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "番茄切塊，豆腐切丁，雞蛋打散。", timerSec: null }],
+      cook: [
+        { text: "炒番茄出汁，加水與豆腐煮滾，加鹽、醬油調味。", timerSec: 300 },
+        { text: "淋入蛋液成蛋花即可。", timerSec: 60 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d53",
+    title: "照燒板豆腐排",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["板豆腐"],
+      replaceable: [],
+      seasonings: [{ name: "醬油" }, { name: "味醂" }, { name: "糖" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "板豆腐切厚片吸乾水分；醬油、味醂、糖調成照燒醬。", timerSec: null }],
+      cook: [
+        { text: "平底鍋將豆腐兩面煎至金黃。", timerSec: 360 },
+        { text: "倒入照燒醬燒至收汁亮澤。", timerSec: 120 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d54",
+    title: "親子丼",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["quick", "kid-friendly"],
+    ingredients: {
+      core: ["雞腿肉", "雞蛋", "洋蔥", "白飯"],
+      replaceable: [{ original: "雞腿肉", substitutes: ["雞胸肉"] }],
+      seasonings: [{ name: "醬油" }, { name: "味醂" }, { name: "糖" }],
+    },
+    quantities: {}, prepGuideRef: ["切塊雞腿肉", "洋蔥切好備用"],
+    steps: {
+      prep: [{ text: "雞腿切小塊，洋蔥切絲，雞蛋打散。", timerSec: null }],
+      cook: [
+        { text: "醬油、味醂、糖加水煮滾，下洋蔥與雞腿煮熟。", timerSec: 360 },
+        { text: "淋入蛋液半熟即關火，蓋飯上。", timerSec: 60 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d55",
+    title: "鮭魚炊飯",
+    sourceUrl: "", coverImage: "", servings: "3-4 人份",
+    scenarios: ["weekend"], tags: ["電鍋", "one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["鮭魚", "胡蘿蔔", "白米"],
+      replaceable: [],
+      seasonings: [{ name: "醬油" }, { name: "味醂" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "白米洗淨，胡蘿蔔切細丁。", timerSec: null }],
+      cook: [
+        { text: "米加水與醬油、味醂，鋪上鮭魚與胡蘿蔔，按電子鍋炊飯。", timerSec: null },
+        { text: "跳起後悶 10 分鐘，取出鮭魚去骨拆碎拌勻。", timerSec: 600 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d56",
+    title: "味噌烏龍湯麵",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["one-pot"],
+    ingredients: {
+      core: ["烏龍麵", "板豆腐", "金針菇"],
+      replaceable: [{ original: "板豆腐", substitutes: ["嫩豆腐"] }],
+      seasonings: [{ name: "白味噌" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "豆腐切丁，金針菇剝散。", timerSec: null }],
+      cook: [
+        { text: "水煮滾下豆腐、金針菇與烏龍麵煮熟。", timerSec: 300 },
+        { text: "關小火把味噌調散入湯（勿大滾）。", timerSec: null },
+      ],
+    },
+  },
+  {
+    id: "recipe_d57",
+    title: "高麗菜豬肉炒烏龍",
+    sourceUrl: "", coverImage: "", servings: "2 人份",
+    scenarios: ["weekend"], tags: ["quick", "one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["烏龍麵", "豬梅花肉片", "高麗菜"],
+      replaceable: [],
+      seasonings: [{ name: "醬油" }, { name: "蠔油" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "高麗菜剝小片，豬肉片切段，烏龍麵稍微汆燙散開。", timerSec: null }],
+      cook: [
+        { text: "炒香豬肉片，下高麗菜炒軟。", timerSec: 240 },
+        { text: "下烏龍麵，加醬油、蠔油炒勻。", timerSec: 180 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d58",
+    title: "玉米雞肉炊飯",
+    sourceUrl: "", coverImage: "", servings: "3-4 人份",
+    scenarios: ["weekend"], tags: ["電鍋", "one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["雞腿肉", "玉米", "白米"],
+      replaceable: [{ original: "雞腿肉", substitutes: ["雞胸肉"] }],
+      seasonings: [{ name: "醬油" }, { name: "味醂" }],
+    },
+    quantities: {}, prepGuideRef: ["切塊雞腿肉"],
+    steps: {
+      prep: [{ text: "白米洗淨，雞腿切小塊，玉米粒備好。", timerSec: null }],
+      cook: [
+        { text: "米加水與醬油、味醂，鋪上雞腿與玉米，按電子鍋炊飯。", timerSec: null },
+        { text: "跳起後悶 10 分鐘，拌勻即可。", timerSec: 600 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d59",
+    title: "南瓜雞肉鹹燉飯",
+    sourceUrl: "", coverImage: "", servings: "2-3 人份",
+    scenarios: ["weekend"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["南瓜", "雞胸肉", "白飯"],
+      replaceable: [{ original: "雞胸肉", substitutes: ["雞腿肉"] }],
+      seasonings: [{ name: "鹽" }, { name: "鮮奶", optional: true, note: "增加滑順，可省略" }],
+    },
+    quantities: {}, prepGuideRef: ["南瓜泥"],
+    steps: {
+      prep: [{ text: "南瓜蒸熟壓泥，雞胸切丁。", timerSec: 600 }],
+      cook: [
+        { text: "炒熟雞胸丁，加入南瓜泥與少許水（可加鮮奶）煮成濃稠醬。", timerSec: 300 },
+        { text: "拌入白飯煮至收汁，加鹽調味。", timerSec: 180 },
+      ],
+    },
+  },
+  {
+    id: "recipe_d60",
+    title: "蔬菜味噌湯定食",
+    sourceUrl: "", coverImage: "", servings: "2-3 人份",
+    scenarios: ["weekend"], tags: ["one-pot"],
+    ingredients: {
+      core: ["高麗菜", "胡蘿蔔", "板豆腐"],
+      replaceable: [{ original: "板豆腐", substitutes: ["嫩豆腐"] }],
+      seasonings: [{ name: "白味噌" }, { name: "昆布柴魚高湯" }],
+    },
+    quantities: {}, prepGuideRef: [],
+    steps: {
+      prep: [{ text: "高麗菜剝小片，胡蘿蔔切薄片，豆腐切丁。", timerSec: null }],
+      cook: [
+        { text: "高湯煮滾，下胡蘿蔔、高麗菜、豆腐煮軟。", timerSec: 480 },
+        { text: "關小火把味噌調散入湯（勿大滾），配白飯成定食。", timerSec: null },
       ],
     },
   },

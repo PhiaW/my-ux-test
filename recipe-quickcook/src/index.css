@@ -402,8 +402,25 @@ body {
 .scroll-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
 .scroll-top:hover { background: var(--fab-bg-hover); }
 
+/* ── 清單工具列：總數 + 隨機排序 ── */
+.list-toolbar {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--sp-sm);
+  margin-bottom: var(--sp-md);
+}
+.list-count { font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub); }
+.btn-shuffle {
+  display: inline-flex; align-items: center; gap: var(--sp-xs);
+  padding: var(--sp-xs) var(--sp-sm);
+  font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700; color: var(--primary);
+  background: var(--primary-lt); border: 1px solid transparent; border-radius: var(--r-btn);
+  cursor: pointer; transition: all 0.15s ease;
+}
+.btn-shuffle:hover { border-color: var(--primary); }
+.btn-shuffle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
 /* ── pagination ── */
-.pager { display: flex; justify-content: center; align-items: center; gap: var(--sp-sm); }
+.pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--sp-sm); }
+.pager-total { margin-left: var(--sp-xs); font-family: var(--font-body); font-size: var(--fs-caption); color: var(--text-sub); }
 .page-btn {
   min-width: var(--size-page-btn); min-height: var(--size-page-btn); padding: 0 var(--sp-sm);
   display: inline-flex; align-items: center; justify-content: center;
@@ -415,6 +432,11 @@ body {
 .page-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .page-btn.is-active { background: var(--primary); color: #fff; border-color: var(--primary); }
 .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.page-ellipsis {
+  min-width: var(--size-page-btn); text-align: center;
+  font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-sub);
+  user-select: none; align-self: center;
+}
 
 /* ── detail ── */
 .detail-cover { height: 200px; background-size: cover; background-position: center; background-color: var(--border); border-radius: var(--r-card); }

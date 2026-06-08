@@ -33,6 +33,9 @@ export const INGREDIENTS = [
   { name: "油豆腐",     aliases: ["三角油豆腐", "豆腐泡"],         category: "protein" },
   { name: "香腸",       aliases: ["台式香腸"],                   category: "protein" },
   { name: "蛤蠣",       aliases: ["文蛤", "蜊仔", "海瓜子"],       category: "protein" },
+  { name: "板豆腐",     aliases: ["傳統豆腐", "老豆腐"],          category: "protein" },
+  { name: "鮪魚罐頭",   aliases: ["鮪魚", "水煮鮪魚", "油漬鮪魚"], category: "protein" },
+  { name: "毛豆",       aliases: ["冷凍毛豆", "毛豆仁"],          category: "protein" },
 
   // ── 蔬菜 vegetable ──
   { name: "南瓜",       aliases: [],                             category: "vegetable" },
@@ -55,6 +58,8 @@ export const INGREDIENTS = [
   { name: "娃娃菜",     aliases: ["娃娃白菜", "小白菜"],          category: "vegetable" },
   { name: "青江菜",     aliases: ["青江白菜"],                   category: "vegetable" },
   { name: "金針菇",     aliases: [],                             category: "vegetable" },
+  { name: "玉米",       aliases: ["玉米粒", "甜玉米"],            category: "vegetable" },
+  { name: "玉米筍",     aliases: [],                             category: "vegetable" },
 
   // ── 主食 grain ──
   { name: "白飯",       aliases: ["米飯", "飯"],                 category: "grain" },
@@ -62,6 +67,10 @@ export const INGREDIENTS = [
   { name: "麵條",       aliases: ["麵"],                         category: "grain" },
   { name: "義大利麵",   aliases: ["義大利麵條", "義麵"],          category: "grain" },
   { name: "烏龍麵",     aliases: [],                             category: "grain" },
+  { name: "地瓜",       aliases: ["番薯", "甘藷", "烤地瓜"],       category: "grain" },
+  { name: "吐司",       aliases: ["白吐司", "全麥吐司", "土司"],   category: "grain" },
+  { name: "麵包",       aliases: ["餐包", "歐包", "貝果"],         category: "grain" },
+  { name: "燕麥",       aliases: ["燕麥片", "即食燕麥", "大燕麥片"], category: "grain" },
 
   // ── 乳製 dairy ──
   { name: "起司片",     aliases: ["乳酪片", "起士片"],            category: "dairy" },
@@ -69,12 +78,19 @@ export const INGREDIENTS = [
   { name: "鮮奶",       aliases: ["牛奶", "牛乳"],               category: "dairy" },
   { name: "鮮奶油",     aliases: ["動物性鮮奶油", "鮮奶油醬"],     category: "dairy" },
   { name: "帕瑪森乾酪", aliases: ["帕瑪森起司", "起司粉", "乳酪粉"], category: "dairy" },
+  { name: "優格",       aliases: ["無糖優格", "優酪乳"],          category: "dairy" },
 
   // ── 海苔、醬料基底等 other ──
   { name: "海苔",       aliases: ["壽司海苔", "紫菜"],            category: "other" },
   { name: "義大利麵番茄醬", aliases: ["番茄紅醬", "義式番茄醬", "紅醬"], category: "other" },
   { name: "番茄糊",     aliases: [],                             category: "other" },
   { name: "整粒番茄罐頭", aliases: ["番茄罐頭"],                  category: "other" },
+  { name: "無糖豆漿",   aliases: ["豆漿"],                       category: "other" },
+  { name: "蔓越莓乾",   aliases: ["蔓越莓"],                     category: "other" },
+  { name: "葡萄乾",     aliases: [],                             category: "other" },
+  { name: "綜合堅果",   aliases: ["堅果", "堅果碎"],              category: "other" },
+  { name: "紅棗",       aliases: ["紅棗乾"],                     category: "other" },
+  { name: "枸杞",       aliases: [],                             category: "other" },
 
   // ── 調味料 seasoning（食譜中放 seasonings） ──
   { name: "鹽",         aliases: ["食鹽"],                       category: "seasoning" },
@@ -109,6 +125,8 @@ export const INGREDIENTS = [
   { name: "肉豆蔻",     aliases: [],                             category: "seasoning" },
   { name: "乾蝦仁",     aliases: ["蝦米", "蝦皮"],               category: "seasoning" },
   { name: "乾干貝絲",   aliases: ["干貝絲"],                     category: "seasoning" },
+  { name: "咖哩塊",     aliases: ["咖哩", "咖哩醬"],              category: "seasoning" },
+  { name: "美乃滋",     aliases: ["沙拉醬", "美奶滋", "蛋黃醬"],   category: "seasoning" },
 ];
 
 // 別名 → 標準名 對照表（比對時用）

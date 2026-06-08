@@ -62,6 +62,17 @@ export function prepComponents(recipes) {
     .sort((a, b) => b.recipes.length - a.recipes.length);
 }
 
+// 種子洗牌：同一 seed 順序穩定（翻頁不變），改 seed 才重新打亂。
+// 讓新加入的食譜也有機會排到前面，而非永遠沉底。
+export function shuffleSeeded(arr, seed) {
+  const keyOf = (id) => {
+    let h = seed >>> 0;
+    for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+    return h;
+  };
+  return [...arr].sort((a, b) => keyOf(a.id) - keyOf(b.id));
+}
+
 // 計時格式 mm:ss
 export const fmt = (s) =>
   `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
