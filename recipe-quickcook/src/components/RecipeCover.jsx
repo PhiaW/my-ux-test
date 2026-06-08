@@ -1,4 +1,4 @@
-import { coverImageUrl, placeholderColor } from "../data/helpers.js";
+import { coverImageUrl, placeholderColor } from "../data";
 
 // 封面：有真實圖 → 背景圖；無圖 → 品牌色底 + FA fire-burner 佔位
 export default function RecipeCover({ recipe, className }) {

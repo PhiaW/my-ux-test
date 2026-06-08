@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { fmt } from "../data/helpers.js";
+import { fmt } from "../data";
 
 // 步驟計時器：play / pause / reset，倒數結束標記 is-done
 export default function Timer({ seconds }) {

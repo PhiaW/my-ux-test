@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { SCENARIO_LABEL } from "../data/recipes.js";
-import { TAG_VOCAB, METHOD_TAGS } from "../../data/scenarios.js";
-import { coreStatus } from "../data/helpers.js";
+import { SCENARIO_LABEL, TAG_VOCAB, METHOD_TAGS, coreStatus } from "../data";
 import Timer from "./Timer.jsx";
 import RecipeCover from "./RecipeCover.jsx";
 

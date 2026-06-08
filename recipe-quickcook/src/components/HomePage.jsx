@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
-import { RECIPES, SCENARIO_LABEL, TAG_VOCAB } from "../data/recipes.js";
-import { isReady, matchCount, shuffleSeeded } from "../data/helpers.js";
+import { RECIPES, SCENARIO_LABEL, TAG_VOCAB, isReady, matchCount, shuffleSeeded } from "../data";
 import IngredientPicker from "./IngredientPicker.jsx";
 import FilterDropdowns from "./FilterDropdowns.jsx";
 import RecipeCard from "./RecipeCard.jsx";
