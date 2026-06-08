@@ -388,6 +388,60 @@ body {
 .prep-use-chip:hover { color: var(--primary); border-color: var(--primary); }
 .prep-use-chip > i { color: var(--primary); }
 
+/* ── 備餐計畫：選菜搜尋框 ── */
+.plan-search {
+  display: flex; align-items: center; gap: var(--sp-sm);
+  padding: 0 var(--sp-md); background: var(--bg);
+  border: 1px solid var(--border); border-radius: var(--r-pill);
+}
+.plan-search:focus-within { border-color: var(--primary); }
+.plan-search > i { color: var(--placeholder); font-size: var(--fs-caption); flex-shrink: 0; }
+.plan-search input {
+  flex: 1; min-width: 0; border: none; background: transparent;
+  padding: var(--sp-sm) 0; font-family: inherit; font-size: var(--fs-body); color: var(--text);
+}
+.plan-search input:focus { outline: none; } /* focus ring 由 .plan-search:focus-within 容器呈現 */
+.plan-search input::placeholder { color: var(--placeholder); }
+.plan-search-clear {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 24px; height: 24px; border: none; background: transparent;
+  color: var(--text-sub); cursor: pointer; border-radius: var(--r-circle);
+}
+.plan-search-clear:hover { color: var(--text); background: var(--border); }
+.plan-search-clear:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+/* 選菜清單：可捲動，避免 81 道菜撐爆面板 */
+.plan-pick-list { max-height: 264px; overflow-y: auto; align-content: flex-start; }
+
+/* ── 計畫摘要 + 進度條 ── */
+.plan-status { display: flex; flex-direction: column; gap: var(--sp-sm); }
+.plan-summary { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-sm); font-size: var(--fs-caption); color: var(--text-sub); }
+.plan-stat strong { font-family: var(--font-mono); font-size: var(--fs-body); color: var(--text); }
+.plan-dot { color: var(--placeholder); }
+.plan-progress { height: 6px; background: var(--border); border-radius: var(--r-pill); overflow: hidden; }
+.plan-progress-fill { display: block; height: 100%; background: var(--primary); border-radius: var(--r-pill); transition: width 0.3s ease; }
+
+/* ── 元件卡：已備 checkbox + 完成狀態 ── */
+.prep-check { display: inline-flex; flex-shrink: 0; cursor: pointer; }
+.prep-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.prep-check-box {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border-radius: var(--r-check);
+  border: 2px solid var(--border); background: var(--surface);
+  color: transparent; transition: all 0.15s ease;
+}
+.prep-check-box > i { font-size: var(--fs-caption); }
+.prep-check input:checked + .prep-check-box { background: var(--primary); border-color: var(--primary); color: #fff; }
+.prep-check input:focus-visible + .prep-check-box { outline: 2px solid var(--primary); outline-offset: 2px; }
+.prep-card.is-done { opacity: 0.6; }
+.prep-card.is-done .prep-name { text-decoration: line-through; text-decoration-color: var(--placeholder); }
+
+/* 螢幕閱讀器專用文字 */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
 /* ── 全域回頂鍵（右下角圓形半透明） ── */
 .scroll-top {
   position: fixed; right: var(--sp-lg); bottom: var(--sp-lg); z-index: 50;
