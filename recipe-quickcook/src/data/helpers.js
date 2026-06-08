@@ -14,11 +14,13 @@ const hashStr = (s) => [...String(s)].reduce((a, c) => a + c.charCodeAt(0), 0);
 export const placeholderColor = (r) =>
   PLACEHOLDER_PALETTE[hashStr(r.id || r.title) % PLACEHOLDER_PALETTE.length];
 
-// 真實封面網址：自填 coverImage > YouTube 縮圖；皆無則回傳 null（改用 FA 佔位圖）
+// 封面網址優先序：自填 coverImage > YouTube 縮圖 > 通用分類圖；皆無則 null（改用 FA 佔位圖）
 export const coverImageUrl = (r) => {
   if (r.coverImage?.trim()) return r.coverImage.trim();
   const yt = youtubeId(r.sourceUrl);
-  return yt ? `https://img.youtube.com/vi/${yt}/hqdefault.jpg` : null;
+  if (yt) return `https://img.youtube.com/vi/${yt}/hqdefault.jpg`;
+  if (r.imgCat) return `${import.meta.env.BASE_URL}cover/${r.imgCat}.jpg`;
+  return null;
 };
 
 // ───────── 主食材狀態：HAVE / SUBBED / OPTIONAL(可不加) / MISSING ─────────
