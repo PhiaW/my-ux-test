@@ -34,3 +34,6 @@
 - 食材勾選刻意不存 localStorage（避免「常備清單」變成隱性帳號）；未來若做需明確設計。
 - 食材破百再加搜尋框（濕手情境僅輔助）。
 - 功能 backlog（非 ds-template 流程）：React Router、採買頁/備料指引頁、來源 icon 判斷。
+
+
+"docs: 測試加一行"
