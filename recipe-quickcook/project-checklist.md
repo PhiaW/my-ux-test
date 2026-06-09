@@ -129,13 +129,3 @@ font-family: "Microsoft JhengHei", "Noto Sans TC", "PingFang TC", "蘋方體", "
 |------|------|
 | `tokens/base.json` | spacing / radius / shadow — 各案通用，不動 |
 | `design-system.md` Section 2–4 | 元件規格和 Coding Rules — 只在有意圖更新規格時改動 |
-
----
-
-## 📌 待辦：回推母版（ux-workflow repo）
-
-> **2026-06-04 於 recipe-quickcook 試跑時發現 Phase 5 缺口並修正本案副本。**
-> 若本案 Phase 5（5A/5B 拆分 + 5B 畫面組裝回灌 + Phase 6 對照成品）跑起來順暢，
-> **記得把以下改動同步回 `ux-workflow` repo 的 ds-template 母版 `project-checklist.md`**：
-> - Phase 5 拆成 5A 建系統 / 5B 美化畫面（含匯入畫面、用元件拼畫面、畫面級美化、回灌原型、並列對照）
-> - Phase 6 補「對照對象＝ 5B 回灌後成品」
