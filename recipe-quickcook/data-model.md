@@ -26,7 +26,7 @@ recipe-quickcook/
 | `id` | string | 唯一鍵（recipe_001…） |
 | `title` | string | 菜名 |
 | `sourceUrl` | string | 原始影片連結（**優先用 YouTube**；IG 嵌入常擋，YT 可外跳回看） |
-| `coverImage` | string | 封面圖 URL（自製食譜套真照片就填這裡）。**留空時 fallback：YT 連結→YT 縮圖；非 YT（純文字/自製）→品牌佔位圖**（菜名首字 monogram，見 `media.js`） |
+| `coverImage` | string | 封面圖 URL（自製食譜套真照片就填這裡，**優先序最高**）。留空時 fallback 序：**YT 連結→YT 縮圖；否則→通用分類圖 `public/cover/<imgCat>.jpg`；皆無→FA fire-burner 佔位**（見 `helpers.js` `coverImageUrl`）。替換實拍照流程見 §2.1 |
 | `servings` | string | 份量（選填，如「2-3 人份」） |
 | `scenarios` | string[] | 適用時段（對應 scenarios.js 的 id） |
 | `tags` | string[] | 屬性標籤（只能用 TAG_VOCAB 內的 key） |
@@ -43,6 +43,30 @@ recipe-quickcook/
 > ⚠️ **core / seasonings 分界**：判斷食譜燈號的是「主食材」。鹽、糖、油、醬油、清酒、味醂、太白粉、蒜頭等廚房常備調味一律進 `seasonings`；放進 core 會讓使用者永遠勾不齊 → 全紅燈，破壞核心功能。
 >
 > ⚠️ **數量不入 core 字串**：core 只放純標準名（`"雞胸肉"`），份量另存 `quantities` map，確保正規化與燈號比對乾淨。
+
+---
+
+## 2.1 封面圖：替換實拍照 SOP
+
+> 用途：某道菜實際做過、拍了照，想把通用分類圖換成自己的照片。
+
+**優先序**：`coverImage`（自填）> YouTube 縮圖 > 通用分類圖 > FA 佔位圖。
+只要填了 `coverImage` 就會蓋過後面所有 fallback，**不必動 `imgCat`**（留著當備援）。
+
+**步驟**
+
+1. **壓圖**：裁成約 **4:3、寬 ~800px、JPG**（封面卡顯示高 140px、詳情頁 200px，不需高解析；避免 repo 變肥）。
+2. **放檔**：丟進 `public/cover/photos/`，**用 recipe id 命名**便於對應：
+   ```
+   public/cover/photos/recipe_d61.jpg
+   ```
+3. **填欄位**：在 `data/recipes.sample.js` 對應那筆加一行（路徑開頭用 `/`，對應 public 根）：
+   ```js
+   coverImage: "/cover/photos/recipe_d61.jpg",
+   ```
+4. 存檔即生效。**退回通用圖**：刪掉該行或設 `coverImage: ""`。
+
+**批次**：多張就重複「丟檔 → 加一行」即可；命名統一用 id，日後一眼對得上。
 
 ---
 
