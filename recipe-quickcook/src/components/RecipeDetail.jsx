@@ -4,15 +4,19 @@ import Timer from "./Timer.jsx";
 import RecipeCover from "./RecipeCover.jsx";
 
 // 食材列（主食材 / 調味料共用）
-function IngredientRow({ name, qty, checked, onToggle, cls = "", tag = null, optNote, children }) {
+// 三態換皮：要買=橘勾＋橘「要買」；冰箱有不買=灰勾＋灰「已有」；其餘不買=空白
+// tag＝替代/可省略等狀態標（與採買狀態不同功能，需保留）
+function IngredientRow({ name, qty, buying, inFridge, onToggle, cls = "", tag = null, optNote, children }) {
+  const checkCls = buying ? " buy" : inFridge ? " have" : "";
+  const label = buying ? "要買" : inFridge ? "已有" : "";
   return (
     <div className={"ing-row " + cls}>
       <div className="ing-main">
         <button
           type="button"
-          className={"ing-check" + (checked ? " checked" : "")}
-          aria-label={checked ? "已加入採買" : "加入採買"}
-          aria-pressed={checked}
+          className={"ing-check" + checkCls}
+          aria-label={(buying ? "改為不買：" : "加入採買：") + name}
+          aria-pressed={buying}
           onClick={onToggle}
         >
           <i className="fa-solid fa-check" />
@@ -25,8 +29,19 @@ function IngredientRow({ name, qty, checked, onToggle, cls = "", tag = null, opt
             </span>
           )}
         </div>
-        <span className="qty">{qty}</span>
+        {qty && <span className="qty">{qty}</span>}
         {tag}
+        {label && (
+          <button
+            type="button"
+            className={"buy-toggle" + (buying ? "" : " have")}
+            aria-hidden="true"
+            tabIndex={-1}
+            onClick={onToggle}
+          >
+            {label}
+          </button>
+        )}
       </div>
       {children}
     </div>
@@ -37,69 +52,69 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast, on
   const inFridge = mode === "fridge" && fridge.size > 0;
   const status = coreStatus(recipe, fridge);
 
-  // 初始採買勾選：依食材選模式下，缺的主食材預設勾起
-  const [checked, setChecked] = useState(() => {
+  // 採買狀態：have 集合＝已有（不用買）。預設依冰箱：在冰箱的主食材→已有，缺的→要買
+  const initialHave = () => {
     const init = new Set();
-    if (inFridge) status.forEach((d) => d.state === "MISSING" && init.add(d.name));
+    if (inFridge) status.forEach((d) => d.state !== "MISSING" && init.add(d.name));
     return init;
-  });
+  };
+  const [have, setHave] = useState(initialHave);
+  const isBuying = (name) => !have.has(name);
+  const allNames = [...recipe.core, ...recipe.seasonings.map((s) => s.name)];
+  const buyingCount = allNames.filter(isBuying).length;
 
   const toggle = (name) =>
-    setChecked((prev) => {
+    setHave((prev) => {
       const next = new Set(prev);
       next.has(name) ? next.delete(name) : next.add(name);
       return next;
     });
 
-  const clearChecked = () => {
-    if (checked.size === 0) {
-      onToast("還沒勾選要買的食材");
-      return;
-    }
-    setChecked(new Set());
-    onToast("已清空採買勾選");
+  // 重置：清掉橘勾（要買）→ 冰箱有的回灰勾(已有)、其餘回空白
+  const resetBuy = () => {
+    setHave(new Set(allNames));
+    onToast("已重置採買清單");
+  };
+  // 預設勾選：把空白選成要買；灰勾(冰箱已有)維持不動
+  const selectDefault = () => {
+    setHave((prev) => new Set([...prev].filter((n) => inFridge && fridge.has(n))));
+    onToast("已預設勾選要買");
   };
 
-  // 清除冰箱已有：清空全域「我冰箱有」，主食材全部回到「要買」並預設勾起
+  // 清除冰箱已有：清空全域「我冰箱有」，全部回到「要買」
   const clearFridge = () => {
     onClearFridge?.();
-    setChecked(new Set(recipe.core));
+    setHave(new Set());
     onToast("已清除冰箱食材");
   };
 
   const copyBuy = () => {
     const all = [...recipe.core, ...recipe.seasonings.map((s) => s.name)];
     const items = all
-      .filter((n) => checked.has(n))
+      .filter((n) => isBuying(n))
       .map((n) => {
         const q = recipe.quantities[n] || "";
         return `• ${n}${q ? ` ${q}` : ""}`;
       });
     if (items.length === 0) {
-      onToast("還沒勾選要買的食材");
+      onToast("需購食材都已標示為已有");
       return;
     }
-    const text = `🛒 ${recipe.title} 採買清單\n${items.join("\n")}`;
+    const text = `🛒 ${recipe.title} 需購食材\n${items.join("\n")}`;
     navigator.clipboard
       .writeText(text)
       .then(() => onToast(`已複製 ${items.length} 項`))
       .catch(() => onToast("複製失敗"));
   };
 
+  // 替代/可省略狀態標（與採買勾不同功能）：僅依食材選模式顯示
   const tagFor = (d) => {
     if (!inFridge) return null;
-    if (d.state === "HAVE") return <span className="tag-mini">有</span>;
     if (d.state === "SUBBED") return <span className="tag-mini">用 {d.via}</span>;
     if (d.state === "OPTIONAL") return <span className="tag-mini tag-mini--opt">可不加</span>;
-    return <span className="tag-mini tag-mini--buy">要買</span>;
+    return null;
   };
-  const clsFor = (d) => {
-    if (!inFridge) return "";
-    if (d.state === "HAVE") return "have";
-    if (d.state === "SUBBED") return "subbed";
-    if (d.state === "MISSING") return "missing";
-    return "";
-  };
+  const clsFor = (d) => (inFridge && d.state === "SUBBED" ? "subbed" : "");
 
   const renderSteps = (arr) =>
     arr.map((s, i) => (
@@ -157,7 +172,8 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast, on
                 key={d.name}
                 name={d.name}
                 qty={recipe.quantities[d.name] || ""}
-                checked={checked.has(d.name)}
+                buying={isBuying(d.name)}
+                inFridge={inFridge && fridge.has(d.name)}
                 onToggle={() => toggle(d.name)}
                 cls={clsFor(d)}
                 tag={tagFor(d)}
@@ -194,7 +210,8 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast, on
               key={s.name}
               name={s.name}
               qty={recipe.quantities[s.name] || ""}
-              checked={checked.has(s.name)}
+              buying={isBuying(s.name)}
+              inFridge={inFridge && fridge.has(s.name)}
               onToggle={() => toggle(s.name)}
               optNote={s.optional ? s.note || "" : undefined}
             />
@@ -202,10 +219,16 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast, on
         </div>
 
         <div className="copy-bar">
-          <button type="button" className="btn btn-secondary btn-clear" onClick={clearChecked}>
-            <i className="fa-solid fa-eraser" /> 清空
-          </button>
-          <button type="button" className="btn btn-primary btn-copy" onClick={copyBuy}>
+          {buyingCount > 0 ? (
+            <button type="button" className="btn btn-secondary btn-clear" onClick={resetBuy}>
+              <i className="fa-solid fa-rotate-left" /> 重置
+            </button>
+          ) : (
+            <button type="button" className="btn btn-secondary btn-clear" onClick={selectDefault}>
+              <i className="fa-solid fa-check-double" /> 預設勾選
+            </button>
+          )}
+          <button type="button" className="btn btn-primary btn-copy" onClick={copyBuy} disabled={buyingCount === 0}>
             <i className="fa-solid fa-copy" /> 複製需購食材
           </button>
         </div>
@@ -222,7 +245,7 @@ export default function RecipeDetail({ recipe, mode, fridge, onBack, onToast, on
       {recipe.prepGuideRef && recipe.prepGuideRef.length > 0 && (
         <div className="block detail-block">
           <div className="section-title">
-            <i className="fa-solid fa-box-open" /> 用到的備餐元件
+            <i className="fa-solid fa-box-open" /> 食材備料
           </div>
           <div className="prep-guide-chips">
             {recipe.prepGuideRef.map((p) => (

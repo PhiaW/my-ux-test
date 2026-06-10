@@ -53,6 +53,7 @@
   --fs-mono-lg: 24px;
   /* sizes */
   --size-check: 24px;
+  --size-touch: 44px;
   --size-step-no: 32px;
   --size-timer-btn: 32px;
   --size-count: 22px;
@@ -114,7 +115,7 @@ body {
 .detail-divider { align-self: stretch; height: 1px; background: var(--border); border: 0; }
 .section-title {
   display: flex; align-items: center; gap: var(--sp-sm);
-  font-family: var(--font-display); font-size: 20px; font-weight: 600;
+  font-family: var(--font-display); font-size: var(--fs-h3); font-weight: 600;
 }
 .section-title > i { color: var(--primary); }
 
@@ -150,9 +151,11 @@ body {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card);
   padding: var(--sp-md) var(--sp-lg);
 }
+/* 吸頂 picker（備餐頁本週菜單）：滑動時停在頂端 */
+.picker-sticky { position: sticky; top: var(--sp-sm); z-index: 5; box-shadow: var(--shadow-card); }
 .picker-head {
   display: flex; align-items: center; gap: var(--sp-sm);
-  min-height: 44px; cursor: pointer; background: none; border: none;
+  min-height: var(--size-touch); cursor: pointer; background: none; border: none;
   font-family: var(--font-body); font-size: var(--fs-label); font-weight: 700; color: var(--text);
 }
 .picker-head:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
@@ -164,7 +167,7 @@ body {
 
 .ingredient-group { display: flex; flex-direction: column; gap: var(--sp-sm); border-top: 1px solid var(--border); padding-top: var(--sp-sm); }
 .group-head {
-  display: flex; align-items: center; gap: var(--sp-sm); min-height: 44px;
+  display: flex; align-items: center; gap: var(--sp-sm); min-height: var(--size-touch);
   background: none; border: none; cursor: pointer; text-align: left;
   font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 700; color: var(--text);
 }
@@ -208,7 +211,7 @@ body {
 /* ── buttons ── */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-sm);
-  min-height: 44px; padding: 0 var(--sp-md);
+  min-height: var(--size-touch); padding: 0 var(--sp-md);
   font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 700;
   border-radius: var(--r-btn); border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease;
 }
@@ -232,7 +235,7 @@ body {
 .multiselect { position: relative; display: flex; flex-direction: column; gap: var(--sp-sm); flex: 1; min-width: 140px; }
 .multiselect-label { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; color: var(--text); }
 .multiselect-trigger {
-  min-height: 44px; padding: 0 var(--sp-md);
+  min-height: var(--size-touch); padding: 0 var(--sp-md);
   display: inline-flex; align-items: center; gap: var(--sp-sm);
   font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub);
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-pill);
@@ -270,7 +273,7 @@ body {
   border: 1px solid var(--border); border-radius: var(--r-card); box-shadow: var(--shadow-card);
 }
 .multiselect-option {
-  width: 100%; min-height: 44px; padding: 0 var(--sp-sm);
+  width: 100%; min-height: var(--size-touch); padding: 0 var(--sp-sm);
   display: inline-flex; align-items: center; gap: var(--sp-sm); text-align: left;
   font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 500; color: var(--text);
   background: none; border: none; border-radius: var(--r-btn); cursor: pointer; transition: all 0.15s ease;
@@ -346,7 +349,7 @@ body {
   min-height: 240px; justify-content: center; text-align: center; color: var(--text-sub);
 }
 .empty i { font-size: 48px; color: var(--border); }
-.empty h3 { font-family: var(--font-display); font-size: 18px; color: var(--text); }
+.empty h3 { font-family: var(--font-display); font-size: var(--fs-h4); color: var(--text); }
 
 /* ── 備餐計畫（備料元件 → 食譜對照） ── */
 .prep-intro {
@@ -405,11 +408,11 @@ body {
   flex: 1; min-width: 0; border: none; background: transparent;
   padding: var(--sp-sm) 0; font-family: inherit; font-size: var(--fs-body); color: var(--text);
 }
-.plan-search input:focus { outline: none; } /* focus ring 由 .plan-search:focus-within 容器呈現 */
+/* focus ring 由 .plan-search:focus-within 容器邊框 + input 原生 outline 呈現（不可消除 outline，Coding Rule 7） */
 .plan-search input::placeholder { color: var(--placeholder); }
 .plan-search-clear {
   display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
-  width: 24px; height: 24px; border: none; background: transparent;
+  width: var(--size-check); height: var(--size-check); border: none; background: transparent;
   color: var(--text-sub); cursor: pointer; border-radius: var(--r-circle);
 }
 .plan-search-clear:hover { color: var(--text); background: var(--border); }
@@ -431,14 +434,16 @@ body {
 .prep-check input { position: absolute; opacity: 0; width: 0; height: 0; }
 .prep-check-box {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 24px; height: 24px; border-radius: var(--r-check);
-  border: 2px solid var(--border); background: var(--surface);
+  width: var(--size-check); height: var(--size-check); border-radius: var(--r-check);
+  border: 1px solid var(--border); background: var(--surface);
   color: transparent; transition: all 0.15s ease;
 }
 .prep-check-box > i { font-size: var(--fs-caption); }
-.prep-check input:checked + .prep-check-box { background: var(--primary); border-color: var(--primary); color: #fff; }
+/* 已備＝灰勾（與採買「已有」一致）；未備＝空白 */
+.prep-check input:checked + .prep-check-box { background: var(--gray-light); border-color: var(--gray-light); color: #fff; }
 .prep-check input:focus-visible + .prep-check-box { outline: 2px solid var(--primary); outline-offset: 2px; }
-.prep-card.is-done { opacity: 0.6; }
+/* 已備：整張卡片淡化（灰勾不夠明顯，補強視覺） */
+.prep-card.is-done { opacity: 0.5; }
 .prep-card.is-done .prep-name { text-decoration: line-through; text-decoration-color: var(--placeholder); }
 
 /* ── 合併採買清單（食材列沿用詳情頁 .ing-row 樣式：要買橘勾、已有綠標可改勾） ── */
@@ -505,7 +510,7 @@ body {
 /* ── detail ── */
 .detail-cover { height: 200px; background-size: cover; background-position: center; background-color: var(--border); border-radius: var(--r-card); }
 .detail-head { display: flex; flex-direction: column; gap: var(--sp-sm); }
-.detail-head h2 { font-family: var(--font-display); font-size: 26px; font-weight: 700; }
+.detail-head h2 { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: 700; }
 
 .ing-block { display: flex; flex-direction: column; gap: var(--sp-sm); background: var(--primary-lt); padding: var(--sp-sm); border-radius: var(--r-card); }
 .ing-sub-label { font-size: var(--fs-label); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: var(--sp-xs); }
@@ -525,7 +530,24 @@ body {
 }
 .ing-check:hover { border-color: var(--primary); }
 .ing-check:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-.ing-check.checked { background: var(--secondary); border-color: var(--secondary); color: #fff; }
+/* 要買：橘勾（在採買清單上）*/
+.ing-check.buy { background: var(--secondary); border-color: var(--secondary); color: #fff; }
+/* 已有（不用買）：灰勾、看似 disabled、不加刪除線 */
+.ing-check.have { background: var(--gray-light); border-color: var(--gray-light); color: #fff; }
+
+/* 採買狀態切換鈕（無框 ghost）：要買橘 / 已有綠 */
+.buy-toggle {
+  display: inline-flex; align-items: center; gap: var(--sp-xs); flex-shrink: 0;
+  padding: var(--sp-xxs) var(--sp-xs);
+  font-size: var(--fs-caption); font-weight: 700;
+  color: var(--secondary); background: transparent;
+  border: none; border-radius: var(--r-pill);
+  cursor: pointer; transition: all 0.15s ease;
+}
+.buy-toggle:hover { background: var(--secondary-lt); }
+.buy-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.buy-toggle.have { color: var(--text-sub); }
+.buy-toggle.have:hover { background: var(--border); }
 .name-block { display: flex; flex-direction: column; flex: 1; min-width: 0; }
 .name-block .name { font-weight: 500; }
 .name-block .opt-flag { font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub); display: inline-flex; align-items: center; gap: var(--sp-xs); }
