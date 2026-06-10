@@ -5,94 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!--
     ╔══════════════════════════════════════════════════════════════╗
-    ║  BiteSync Design System Template — 空白模板                  ║
-    ║  使用方式：                                                    ║
-    ║  1. 複製此檔，重新命名為 design-system.html 放到專案資料夾      ║
-    ║  2. 在 Section [FILL] 填入你的 brand token 值                ║
-    ║  3. 更新 [BRAND NAME] 與 [TAGLINE]                           ║
-    ║  4. 所有元件預覽會自動套用新的色彩                             ║
+    ║  Recipe QuickCook — Design System（對齊實際 app）            ║
+    ║  Token 與元件 class 直接鏡射 src/index.css，為單一來源。       ║
+    ║  改 token 只改下方 :root；元件 CSS 與 app 同名同值。          ║
     ╚══════════════════════════════════════════════════════════════╝
   -->
   <title>Design System — Recipe QuickCook</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <!--
-    [FILL] 替換字體：把下方的 Anton 和 Noto+Sans+TC 改為你的 brand 字體
-    display font 參考：Anton / Archivo Black / DM Serif Display / Syne
-    body font 參考：Noto Sans TC / Plus Jakarta Sans / DM Sans
-  -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     button { font-family: inherit; border: none; cursor: pointer; background: none; }
 
     /* ════════════════════════════════════════════════
-       [FILL] BRAND TOKENS — 每案只改這個區塊
-       所有元件自動套用，禁止在下方 hardcode 數值
+       BRAND TOKENS — 鏡射 src/index.css（單一來源）
+       改值請同步 src/index.css，禁止在下方 hardcode
     ════════════════════════════════════════════════ */
     :root {
-      /* Primary — 主品牌色
-         [FILL] 替換為你的 primary 色階 */
-      --primary:     #688943;   /* primary.500 — 橄欖綠基準色 */
-      --primary-hv:  #557235;   /* primary.600 — Hover */
-      --primary-act: #425928;   /* primary.700 — Active */
-      --primary-lt:  #F4F7F1;   /* primary.50  — 淺色背景 */
-
-      /* Secondary — 暖黃（點綴用，面積應小於 primary） */
-      --secondary:   #E0A23C;   /* secondary.500 */
-      --secondary-lt:#FBE8CC;   /* secondary 淺底 */
-
-      /* Neutral — 暖調無彩灰（此主題視覺主角，佔 60–90%） */
-      --bg:          #FAFAF9;   /* neutral.50  — 頁面底色 */
-      --surface:     #FFFFFF;   /* neutral.0   — 卡片底色 */
-      --subtle:      #F2F1EF;   /* neutral.100 — 次要區塊底色 */
-      --border:      #E4E3E0;   /* neutral.200 — 邊框 */
-      --border-str:  #D1CFCB;   /* neutral.300 — 強調邊框 */
-      --text:        #1A1918;   /* neutral.900 — 主文字 */
-      --text-sec:    #5C5A56;   /* neutral.600 — 次文字 */
-      --muted:       #A8A6A1;   /* neutral.400 — Placeholder */
-
-      /* Semantic — success/warning 對齊品牌綠黃（＝食譜燈號 🟢🟡）；error 警示紅（食安） */
-      --success:     #688943;   /* 綠燈：完全符合 */
-      --success-lt:  #E1EAD8;
-      --warning:     #E0A23C;   /* 黃燈：差一樣 / 可替代 */
-      --warning-lt:  #FBE8CC;
-      --error:       #DC2626;   /* 食安警告 */
-      --error-lt:    #FEE2E2;
-      --info:        #2563EB;
-      --info-lt:     #DBEAFE;
-
-      /* Shadows — 含蓄質感（theme-A 調性） */
-      --sh:          0 2px 16px rgba(33,32,30,.05);
-      --sh-lg:       0 10px 30px rgba(33,32,30,.06);
-      --sh-primary:  0 4px 24px rgba(104,137,67,.22); /* primary.500 的 rgb */
-
-      /* Border Radius — 柔和（btn 8 / card 16 / badge 膠囊） */
-      --r-btn:   8px;
-      --r-card:  16px;
-      --r-badge: 9999px;
-
-      /* Typography — Playfair 襯線標題（生活感）+ Noto Sans 內文 */
-      --font-display: 'Playfair Display', 'Noto Serif TC', serif;
-      --font-body:    'Noto Sans TC', 'Microsoft JhengHei', 'PingFang TC', 'Helvetica Neue', Arial, sans-serif;
-      --font-mono:    'JetBrains Mono', 'Roboto Mono', monospace;
-
-      /* Spacing — 4px base，通常不需修改 */
-      --sp-xs:  4px;
-      --sp-sm:  8px;
-      --sp-md:  16px;
-      --sp-lg:  24px;
-      --sp-xl:  32px;
+      /* Primary */
+      --primary: #688943;
+      --primary-hover: #557235;
+      --primary-active: #425928;
+      --primary-lt: #f4f7f1;
+      /* Secondary（暖黃，點綴用） */
+      --secondary: #e0a23c;
+      --secondary-lt: #fbf1df;
+      /* Neutral */
+      --bg: #fafaf9;
+      --surface: #ffffff;
+      --text: #1a1918;
+      --text-sub: #5c5a56;
+      --placeholder: #a8a6a1;
+      --border: #e4e3e0;
+      /* Semantic */
+      --success: #688943;   /* 綠燈：完全符合 */
+      --warning: #e0a23c;   /* 黃燈：差一樣 / 可替代 */
+      --error: #dc2626;     /* 食安警告 */
+      --error-strong: #b91c1c;
+      --error-lt: #fee2e2;
+      --gray-light: #c9c7c2;   /* 已有/已備的灰勾 */
+      --subbed-text: #8a5e16;  /* 替代食材文字 */
+      /* Radius */
+      --r-btn: 8px;
+      --r-card: 16px;
+      --r-pill: 9999px;
+      --r-check: 6px;
+      --r-circle: 50%;
+      /* Spacing（4px base） */
+      --sp-xxs: 2px;
+      --sp-xs: 4px;
+      --sp-sm: 8px;
+      --sp-md: 16px;
+      --sp-lg: 24px;
+      --sp-xl: 32px;
       --sp-2xl: 48px;
-      --sp-3xl: 64px;
+      /* Shadows */
+      --shadow-card: 0 10px 30px rgba(33, 32, 30, 0.06);
+      --shadow-lg: 0 16px 40px rgba(33, 32, 30, 0.12);
+      --shadow-glow: 0 0 0 1px var(--primary), 0 10px 28px rgba(104, 137, 67, 0.16);
+      /* Typography */
+      --font-display: "Playfair Display", "Noto Serif TC", serif;
+      --font-body: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+      --font-mono: "JetBrains Mono", "Roboto Mono", monospace;
+      /* Type scale（對齊 Figma Text Styles，全偶數） */
+      --fs-h1: 28px;     /* App title */
+      --fs-h2: 26px;     /* Detail head */
+      --fs-h3: 20px;     /* Section title */
+      --fs-h4: 18px;     /* Card title */
+      --fs-body: 16px;
+      --fs-btn: 16px;
+      --fs-label: 16px;
+      --fs-caption: 14px;
+      --fs-mono-lg: 24px;  /* Timer */
+      /* Sizes */
+      --size-check: 24px;
+      --size-touch: 44px;       /* WCAG AA 最小觸控 */
+      --size-step-no: 32px;
+      --size-timer-btn: 32px;
+      --size-count: 22px;
+      --size-page-btn: 40px;
+      --size-fab: 48px;
+      --size-bottom-nav: 64px;
+      /* 回頂鍵半透明底 */
+      --fab-bg: rgba(26, 25, 24, 0.55);
+      --fab-bg-hover: rgba(26, 25, 24, 0.8);
 
-      /* Design System page-only tokens — 不影響 app 畫面 */
+      /* Design System page-only tokens — 不在 app 內 */
       --ds-sidebar-w: 220px;
-      --ds-surface-2: #F2F1EF;
-      --ds-code-bg:   #E4E3E0;
+      --ds-surface-2: #f2f1ef;
+      --ds-code-bg: #e4e3e0;
     }
     /* ════════════════════════════════════════════════
-       [FILL] END — 以下禁止直接寫顏色數值
+       BRAND TOKENS END — 以下禁止直接寫顏色數值
     ════════════════════════════════════════════════ */
 
     /* ── Layout ── */
@@ -117,118 +122,57 @@
       overflow-y: auto;
       z-index: 100;
     }
-
     .ds-sidebar-header {
       padding: 28px 20px 20px;
       border-bottom: 1.5px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+      display: flex; flex-direction: column; gap: 4px;
     }
-
-    .ds-sidebar-app {
-      font-family: var(--font-display);
-      font-size: 20px;
-      color: var(--text);
-      letter-spacing: -0.02em;
-    }
+    .ds-sidebar-app { font-family: var(--font-display); font-size: 20px; color: var(--text); letter-spacing: -0.02em; }
     .ds-sidebar-app-accent { color: var(--primary); }
-
-    .ds-sidebar-badge {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--primary);
-      background: var(--primary-lt);
-      padding: 2px 8px;
-      border-radius: 100px;
-      width: fit-content;
-    }
-
-    .ds-nav {
-      padding: 16px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      flex: 1;
-    }
-
-    .ds-nav-group {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 12px 8px 6px;
-    }
-
-    .ds-nav-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 10px;
-      border-radius: 10px;
-      font-size: 13px;
-      color: var(--text-sec);
-      text-decoration: none;
-      transition: all .15s ease;
-      cursor: pointer;
-    }
+    .ds-sidebar-badge { font-size: 11px; font-weight: 500; color: var(--primary); background: var(--primary-lt); padding: 2px 8px; border-radius: 100px; width: fit-content; }
+    .ds-sidebar-date { font-family: var(--font-mono); font-size: 11px; color: var(--placeholder); }
+    .ds-nav { padding: 16px 12px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .ds-nav-group { font-size: 11px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--placeholder); padding: 12px 8px 6px; }
+    .ds-nav-link { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: 10px; font-size: 13px; color: var(--text-sub); text-decoration: none; transition: all .15s ease; cursor: pointer; }
     .ds-nav-link:hover  { background: var(--ds-surface-2); color: var(--text); }
     .ds-nav-link.active { background: var(--primary-lt); color: var(--primary); font-weight: 500; }
     .ds-nav-icon { font-size: 14px; flex-shrink: 0; }
-
-    .ds-main {
-      margin-left: var(--ds-sidebar-w);
-      flex: 1;
-      min-width: 0;
-      padding: 48px 48px 120px;
-      max-width: 900px;
-    }
+    .ds-main { margin-left: var(--ds-sidebar-w); flex: 1; min-width: 0; padding: 48px 48px 120px; max-width: 900px; }
 
     /* ── Page Header ── */
-    .ds-page-header {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      padding-bottom: 40px;
-      border-bottom: 1.5px solid var(--border);
-      margin-bottom: 56px;
-    }
-
-    .ds-page-title {
-      font-family: var(--font-display);
-      font-size: 44px;
-      letter-spacing: -0.02em;
-      line-height: 1.05;
-    }
+    .ds-page-header { display: flex; flex-direction: column; gap: 8px; padding-bottom: 40px; border-bottom: 1.5px solid var(--border); margin-bottom: 56px; }
+    .ds-page-title { font-family: var(--font-display); font-size: 44px; letter-spacing: -0.02em; line-height: 1.05; }
     .ds-page-title-accent { color: var(--primary); }
-    .ds-page-desc { font-size: 15px; color: var(--text-sec); line-height: 1.6; max-width: 480px; }
+    .ds-page-desc { font-size: 15px; color: var(--text-sub); line-height: 1.6; max-width: 480px; }
+    .ds-page-link { display: inline-flex; align-items: center; gap: 6px; width: fit-content; margin-top: 4px; font-family: var(--font-mono); font-size: 13px; color: var(--primary); text-decoration: none; transition: color .15s ease; }
+    .ds-page-link:hover { color: var(--primary-active); text-decoration: underline; }
+    .ds-page-link:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
     /* ── Sections ── */
     .ds-section { margin-bottom: 72px; display: flex; flex-direction: column; gap: 32px; scroll-margin-top: 32px; }
     .ds-section-header { display: flex; flex-direction: column; gap: 6px; padding-bottom: 20px; border-bottom: 1.5px solid var(--border); }
     .ds-section-title { font-size: 22px; font-weight: 700; }
-    .ds-section-desc  { font-size: 14px; color: var(--text-sec); }
+    .ds-section-desc  { font-size: 14px; color: var(--text-sub); }
     .ds-subsection       { display: flex; flex-direction: column; gap: 12px; }
-    .ds-subsection-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    .ds-subsection-title { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--placeholder); }
 
     /* ── Token UI ── */
     .ds-token-grid { display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; }
     .ds-color-swatch { display: flex; flex-direction: column; gap: 8px; min-width: 110px; flex: 1; }
     .ds-swatch-box   { height: 60px; border-radius: var(--r-btn); border: 1.5px solid var(--border); }
     .ds-swatch-name  { font-family: var(--font-mono); font-size: 12px; font-weight: 500; color: var(--text); }
-    .ds-swatch-hex   { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+    .ds-swatch-hex   { font-family: var(--font-mono); font-size: 11px; color: var(--placeholder); }
 
     .ds-type-row            { display: flex; flex-direction: row; align-items: baseline; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--border); }
     .ds-type-row:last-child { border-bottom: none; }
-    .ds-type-meta  { display: flex; flex-direction: column; gap: 3px; width: 160px; flex-shrink: 0; }
-    .ds-type-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--muted); }
-    .ds-type-value { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+    .ds-type-meta  { display: flex; flex-direction: column; gap: 3px; width: 180px; flex-shrink: 0; }
+    .ds-type-label { font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--placeholder); }
+    .ds-type-value { font-family: var(--font-mono); font-size: 11px; color: var(--placeholder); }
 
     .ds-radius-grid  { display: flex; flex-direction: row; gap: 16px; flex-wrap: wrap; }
     .ds-radius-item  { display: flex; flex-direction: column; align-items: center; gap: 10px; }
     .ds-radius-box   { width: 80px; height: 80px; background: var(--primary-lt); border: 2px solid var(--primary); }
-    .ds-radius-label { font-family: var(--font-mono); font-size: 12px; color: var(--muted); text-align: center; }
+    .ds-radius-label { font-family: var(--font-mono); font-size: 12px; color: var(--placeholder); text-align: center; }
 
     .ds-shadow-grid { display: flex; flex-direction: row; gap: 24px; flex-wrap: wrap; }
     .ds-shadow-item { display: flex; flex-direction: column; gap: 12px; flex: 1; min-width: 180px; }
@@ -238,178 +182,287 @@
     .ds-spacing-row  { display: flex; flex-direction: row; align-items: center; gap: 12px; }
     .ds-spacing-bar  { height: 8px; background: var(--primary-lt); border: 1.5px solid var(--primary); border-radius: 2px; flex-shrink: 0; }
 
+    .ds-size-grid { display: flex; flex-direction: column; gap: 8px; }
+    .ds-size-row  { display: flex; flex-direction: row; align-items: center; gap: 14px; }
+    .ds-size-box  { background: var(--primary-lt); border: 1.5px solid var(--primary); border-radius: var(--r-btn); flex-shrink: 0; }
+
     /* ── Preview Canvas ── */
     .ds-preview { background: var(--ds-surface-2); border-radius: var(--r-card); padding: 28px 24px; display: flex; flex-direction: row; flex-wrap: wrap; gap: 12px; align-items: flex-start; }
     .ds-preview.col    { flex-direction: column; align-items: stretch; }
     .ds-preview.center { justify-content: center; align-items: center; }
-
-    .ds-chip { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--text-sec); background: var(--ds-code-bg); padding: 3px 8px; border-radius: 6px; width: fit-content; }
-
+    .ds-chip { display: inline-flex; align-items: center; font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--text-sub); background: var(--ds-code-bg); padding: 3px 8px; border-radius: 6px; width: fit-content; }
     .ds-comp-item { display: flex; flex-direction: column; gap: 10px; }
     .ds-comp-meta { display: flex; flex-direction: row; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .ds-comp-desc { font-size: 13px; color: var(--text-sec); }
+    .ds-comp-desc { font-size: 13px; color: var(--text-sub); }
 
-    /* ══ APP COMPONENTS ══════════════════════════════════════════
-       以下元件全部使用 CSS 變數，填入上方 [FILL] 區塊後自動更新
-    ══════════════════════════════════════════════════════════════ */
+    /* ══ APP COMPONENTS — 與 src/index.css 同名同值 ══════════════ */
 
     /* Buttons */
-    .btn-primary {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: var(--primary); color: #fff;
-      border: none; border-radius: var(--r-btn);
-      height: 52px; padding: 0 24px;
-      font-family: var(--font-body); font-size: 15px; font-weight: 700;
-      cursor: pointer; white-space: nowrap;
-      transition: background .15s, transform .1s;
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--sp-sm);
+      min-height: var(--size-touch); padding: 0 var(--sp-md);
+      font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 700;
+      border-radius: var(--r-btn); border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease;
     }
-    .btn-primary:hover   { background: var(--primary-hv); }
-    .btn-primary:focus   { outline: 2px solid var(--primary); outline-offset: 2px; }
-    .btn-primary:active  { background: var(--primary-act); transform: scale(.98); }
-    .btn-primary.sm      { height: 40px; padding: 0 16px; font-size: 14px; }
-    .btn-primary.lg      { height: 60px; padding: 0 32px; font-size: 17px; }
-    .btn-primary:disabled, .btn-primary.disabled { background: var(--subtle); color: var(--muted); cursor: not-allowed; pointer-events: none; }
-    .btn-primary.loading { pointer-events: none; }
+    .btn-primary { background: var(--primary-hover); color: #fff; }
+    .btn-primary:hover { background: var(--primary-active); }
+    .btn-primary:active { background: var(--primary-active); transform: scale(0.98); }
+    .btn-primary:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .btn-secondary { background: transparent; color: var(--primary); border: 1.5px solid var(--primary); }
+    .btn-secondary:hover { background: var(--primary-lt); }
+    .btn-secondary:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .btn-ghost { background: transparent; color: var(--text-sub); border-color: transparent; font-weight: 500; }
+    .btn-ghost:hover { background: var(--bg); color: var(--text); }
+    .btn-ghost:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .btn-block { width: 100%; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .btn-secondary {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: transparent; color: var(--primary);
-      border: 1.5px solid var(--primary); border-radius: var(--r-btn);
-      height: 52px; padding: 0 24px;
-      font-family: var(--font-body); font-size: 15px; font-weight: 700;
-      cursor: pointer; transition: all .15s, transform .1s;
+    /* Shuffle（清單工具列小鈕） */
+    .btn-shuffle {
+      display: inline-flex; align-items: center; gap: var(--sp-xs);
+      padding: var(--sp-xs) var(--sp-sm);
+      font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700; color: var(--primary);
+      background: var(--primary-lt); border: 1px solid transparent; border-radius: var(--r-btn);
+      cursor: pointer; transition: all 0.15s ease;
     }
-    .btn-secondary:hover   { background: var(--primary-lt); }
-    .btn-secondary:focus   { outline: 2px solid var(--primary); outline-offset: 2px; }
-    .btn-secondary:active  { transform: scale(.98); }
-    .btn-secondary.sm      { height: 40px; padding: 0 16px; font-size: 14px; }
-    .btn-secondary:disabled { color: var(--muted); border-color: var(--border); cursor: not-allowed; }
+    .btn-shuffle:hover { border-color: var(--primary); }
 
-    .btn-ghost {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: transparent; color: var(--text-sec);
-      border: none; border-radius: var(--r-btn);
-      height: 52px; padding: 0 24px;
-      font-family: var(--font-body); font-size: 15px;
-      cursor: pointer; transition: all .15s;
+    /* Ingredient chip（冰箱食材勾選） */
+    .chip {
+      display: inline-flex; align-items: center; gap: var(--sp-xs);
+      min-height: 48px; padding: 0 var(--sp-md);
+      font-family: var(--font-body); font-size: var(--fs-btn); font-weight: 500; color: var(--text);
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-pill);
+      cursor: pointer; transition: all 0.15s ease;
     }
-    .btn-ghost:hover  { background: var(--subtle); color: var(--text); }
-    .btn-ghost:disabled { color: var(--muted); cursor: not-allowed; }
-
-    .btn-danger {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: var(--error); color: #fff;
-      border: none; border-radius: var(--r-btn);
-      height: 52px; padding: 0 24px;
-      font-family: var(--font-body); font-size: 15px; font-weight: 700;
-      cursor: pointer; transition: all .15s, transform .1s;
-    }
-    .btn-danger:hover  { background: #b91c1c; }
-    .btn-danger:active { transform: scale(.98); }
-    .btn-danger:disabled { background: var(--subtle); color: var(--muted); cursor: not-allowed; }
-
-    /* Spinner */
-    .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; flex-shrink: 0; }
-    .spinner.on-light { border-color: rgba(0,0,0,.1); border-top-color: var(--primary); }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Input */
-    .input-group    { display: flex; flex-direction: column; gap: 6px; }
-    .input-label    { font-size: 13px; font-weight: 500; color: var(--text); }
-    .input-required { color: var(--error); }
-
-    .input-field {
-      background: var(--surface); border: 1px solid var(--border-str);
-      border-radius: var(--r-btn); padding: 0 var(--sp-md);
-      height: 52px; font-family: var(--font-body); font-size: 16px; color: var(--text);
-      outline: none; width: 100%;
-      transition: border-color .15s, box-shadow .15s;
-    }
-    .input-field::placeholder { color: var(--muted); }
-    .input-field:focus    { border-color: var(--primary); border-width: 2px; box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent); }
-    .input-field.is-error { border-color: var(--error); border-width: 2px; background: var(--error-lt); }
-    .input-field:disabled { background: var(--subtle); color: var(--muted); border-color: var(--border); cursor: not-allowed; }
-    .input-field.is-readonly { background: var(--ds-surface-2); border-style: dashed; }
-
-    .input-helper    { font-size: 12px; color: var(--muted); }
-    .input-error-msg { display: none; font-size: 12px; color: var(--error); }
-    .input-error-msg.is-visible { display: flex; align-items: center; gap: 4px; }
-
-    /* Cards */
-    .card-flat        { display: flex; flex-direction: column; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--r-card); padding: var(--sp-lg); }
-    .card-elevated    { display: flex; flex-direction: column; background: var(--surface); border-radius: var(--r-card); padding: var(--sp-lg); box-shadow: var(--sh-lg); }
-    .card-interactive { display: flex; flex-direction: column; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--r-card); padding: 20px var(--sp-lg); cursor: pointer; transition: border-color .15s, transform .12s, box-shadow .15s; }
-    .card-interactive:hover  { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--sh-lg); }
-    .card-interactive:active { transform: translateY(0); }
+    .chip:hover { border-color: var(--primary); }
+    .chip:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .chip:active { transform: scale(0.97); }
+    .chip i { font-size: var(--fs-caption); color: var(--placeholder); }
+    .chip.is-selected { background: var(--primary-lt); border-color: var(--primary); color: var(--primary-active); font-weight: 700; }
+    .chip.is-selected i { color: var(--primary); }
 
     /* Badges */
-    .badge     { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: var(--r-badge); font-size: 12px; font-weight: 600; white-space: nowrap; }
-    .badge-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-    .badge-primary { background: var(--primary-lt); color: var(--primary-act); }
-    .badge-primary .badge-dot { background: var(--primary); }
-    .badge-success { background: var(--success-lt); color: #15803d; }
-    .badge-success .badge-dot { background: var(--success); }
-    .badge-warning { background: var(--warning-lt); color: #a16207; }
-    .badge-warning .badge-dot { background: var(--warning); }
-    .badge-error   { background: var(--error-lt);   color: #b91c1c; }
-    .badge-error .badge-dot   { background: var(--error); }
-    .badge-neutral { background: var(--subtle); color: var(--text-sec); }
-    .badge-neutral .badge-dot { background: var(--muted); }
+    .badge { display: inline-flex; align-items: center; gap: var(--sp-xs); padding: var(--sp-xs) var(--sp-md); font-size: var(--fs-caption); font-weight: 700; border-radius: var(--r-pill); }
+    .badge-info { background: var(--primary-lt); color: var(--primary-active); }
+    .badge-method { background: var(--secondary-lt); color: var(--subbed-text); }
+    .badge-ing { background: var(--bg); color: var(--text-sub); border: 1px solid var(--border); font-weight: 500; }
 
-    /* Bottom Nav */
-    .bottom-nav { display: flex; flex-direction: row; background: var(--surface); border-top: 1.5px solid var(--border); padding: 8px 0 20px; box-shadow: 0 -2px 16px rgba(0,0,0,.05); }
-    .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1; padding: 6px 0; cursor: pointer; border: none; background: none; font-family: var(--font-body); color: var(--muted); transition: color .15s; }
-    .bottom-nav-item.active { color: var(--primary); }
-    .bottom-nav-icon  { font-size: 22px; line-height: 1; }
-    .bottom-nav-label { font-size: 11px; font-weight: 500; }
-    .bottom-nav-icon-wrap { position: relative; display: inline-flex; }
-    .bottom-nav-badge-dot { position: absolute; top: -1px; right: -3px; width: 8px; height: 8px; background: var(--primary); border: 2px solid var(--surface); border-radius: 50%; }
+    /* 燈號對照 match-chip（核心：依食材選 → 有/缺/可替代） */
+    .match-row { display: flex; flex-wrap: wrap; gap: var(--sp-xs); }
+    .match-chip {
+      display: inline-flex; align-items: center; gap: var(--sp-xs);
+      padding: var(--sp-xxs) var(--sp-sm); font-size: var(--fs-caption); font-weight: 500;
+      border-radius: var(--r-pill); border: 1px solid var(--border); color: var(--placeholder); background: var(--bg);
+    }
+    .match-chip .dot { width: 8px; height: 8px; border-radius: var(--r-circle); background: var(--gray-light); }
+    .match-chip.on { color: var(--primary-active); border-color: var(--primary); background: var(--primary-lt); }
+    .match-chip.on .dot { background: var(--success); }
+    .match-chip.sub { color: var(--subbed-text); border-color: var(--warning); background: var(--secondary-lt); }
+    .match-chip.sub .dot { background: var(--warning); }
 
-    /* Stepper */
-    .stepper { display: flex; flex-direction: row; align-items: center; }
-    .stepper-step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
-    .stepper-node-row { display: flex; flex-direction: row; align-items: center; width: 100%; }
-    .stepper-line { flex: 1; height: 2px; background: var(--border); transition: background .3s; }
-    .stepper-line.done { background: var(--primary); }
-    .stepper-node { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; transition: all .2s; }
-    .stepper-node.default { background: var(--subtle); color: var(--muted); border: 2px solid var(--border); }
-    .stepper-node.active  { background: var(--primary); color: #fff; border: 2px solid var(--primary); box-shadow: 0 0 0 3px var(--primary-lt); }
-    .stepper-node.done    { background: var(--primary); color: #fff; border: 2px solid var(--primary); font-size: 0; }
-    .stepper-node.done::after { content: '✓'; font-size: 13px; }
-    .stepper-label { font-size: 11px; font-weight: 500; color: var(--muted); text-align: center; }
-    .stepper-step.active .stepper-label { color: var(--primary); font-weight: 700; }
-    .stepper-step.done   .stepper-label { color: var(--text-sec); }
+    /* Recipe card */
+    .recipe-card {
+      display: flex; flex-direction: column;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-card); box-shadow: var(--shadow-card);
+      overflow: hidden; cursor: pointer; transition: all 0.18s ease;
+      text-align: left; font-family: var(--font-body); width: 100%;
+    }
+    .recipe-card:hover { box-shadow: var(--shadow-lg); border-color: var(--primary); transform: translateY(-2px); }
+    .recipe-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+    .recipe-card.is-ready { box-shadow: var(--shadow-glow); border-color: var(--primary); }
+    .card-cover { height: 140px; display: flex; align-items: center; justify-content: center; background: var(--primary-lt); color: var(--primary); }
+    .card-cover i { font-size: 52px; opacity: 0.85; }
+    .card-body { display: flex; flex-direction: column; gap: var(--sp-sm); padding: var(--sp-md); }
+    .card-titlebar { display: flex; align-items: center; gap: var(--sp-sm); }
+    .card-title { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; flex: 1; min-width: 0; }
+    .card-servings { flex-shrink: 0; align-self: flex-start; white-space: nowrap; }
+    .ready-flag { font-size: var(--fs-caption); font-weight: 700; color: var(--primary); display: inline-flex; align-items: center; gap: var(--sp-xs); }
+    .card-methods { display: flex; flex-wrap: wrap; gap: var(--sp-xs); }
+    .ing-row-chips { display: flex; flex-wrap: wrap; gap: var(--sp-xs); padding-top: var(--sp-xs); border-top: 1px dashed var(--border); }
 
-    /* Toast */
-    .toast { display: flex; flex-direction: row; align-items: center; gap: 12px; padding: 14px 16px; border-radius: var(--r-card); }
-    .toast-icon  { font-size: 18px; flex-shrink: 0; }
-    .toast-text  { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
-    .toast-title { font-size: 14px; font-weight: 600; }
-    .toast-sub   { font-size: 12px; opacity: .8; }
-    .toast-success { background: var(--success-lt); color: #15803d; border: 1px solid #bbf7d0; }
-    .toast-error   { background: var(--error-lt);   color: #b91c1c; border: 1px solid #fecaca; }
-    .toast-warning { background: var(--warning-lt); color: #a16207; border: 1px solid #fef08a; }
-    .toast-info    { background: var(--info-lt);    color: #1d4ed8; border: 1px solid #bfdbfe; }
+    /* Multiselect（情境／方法篩選） */
+    .multiselect { position: relative; display: flex; flex-direction: column; gap: var(--sp-sm); flex: 1; min-width: 160px; }
+    .multiselect-label { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; color: var(--text); }
+    .multiselect-trigger {
+      min-height: var(--size-touch); padding: 0 var(--sp-md);
+      display: inline-flex; align-items: center; gap: var(--sp-sm);
+      font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub);
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-pill);
+      cursor: pointer; transition: all 0.15s ease;
+    }
+    .multiselect-trigger:hover { border-color: var(--primary); color: var(--primary); }
+    .multiselect-trigger.is-open { border-color: var(--primary); color: var(--primary-active); }
+    .multiselect-trigger .chevron { margin-left: auto; transition: transform 0.2s ease; }
+    .multiselect-trigger.is-open .chevron { transform: rotate(180deg); color: var(--primary); }
 
-    /* Skeleton */
-    .skeleton { background: linear-gradient(90deg, var(--subtle) 0%, var(--border) 50%, var(--subtle) 100%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; border-radius: 6px; }
-    @keyframes shimmer { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
+    /* Input（備餐選菜搜尋框 plan-search） */
+    .plan-search {
+      display: flex; align-items: center; gap: var(--sp-sm);
+      padding: 0 var(--sp-md); background: var(--bg);
+      border: 1px solid var(--border); border-radius: var(--r-pill);
+    }
+    .plan-search:focus-within { border-color: var(--primary); }
+    .plan-search > i { color: var(--placeholder); font-size: var(--fs-caption); flex-shrink: 0; }
+    .plan-search input { flex: 1; min-width: 0; border: none; background: transparent; padding: var(--sp-sm) 0; font-family: inherit; font-size: var(--fs-body); color: var(--text); }
+    .plan-search input::placeholder { color: var(--placeholder); }
 
-    /* Animations */
-    .anim-slide-up  { animation: slideUp .35s ease forwards; }
-    .anim-pop-in    { animation: popIn .45s cubic-bezier(.34,1.56,.64,1) forwards; }
-    .anim-blink     { animation: blink 1.3s ease infinite; }
-    .anim-pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
-    @keyframes slideUp  { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
-    @keyframes popIn    { from { opacity:0; transform:scale(.85); } to { opacity:1; transform:scale(1); } }
-    @keyframes blink    { 0%,100%{opacity:1;} 50%{opacity:.25;} }
-    @keyframes pulseDot { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.4;transform:scale(.75);} }
+    /* Step + Timer */
+    .step { display: flex; gap: var(--sp-md); padding: var(--sp-lg); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); }
+    .step-no {
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      width: var(--size-step-no); height: var(--size-step-no); font-family: var(--font-mono); font-weight: 700; font-size: var(--fs-btn);
+      color: var(--primary); background: var(--primary-lt); border-radius: var(--r-circle);
+    }
+    .step-body { display: flex; flex-direction: column; gap: var(--sp-md); flex: 1; min-width: 0; }
+    .step-text { font-size: var(--fs-body); line-height: 1.6; }
+    .timer { display: flex; align-items: center; gap: var(--sp-lg); }
+    .timer-display { font-family: var(--font-mono); font-size: var(--fs-mono-lg); font-weight: 700; color: var(--text); letter-spacing: 1px; }
+    .timer.is-done .timer-display { color: var(--secondary); }
+    .timer-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: var(--size-timer-btn); height: var(--size-timer-btn); font-size: 12px; border-radius: var(--r-circle);
+      border: 1px solid var(--border); background: var(--surface); color: var(--primary); cursor: pointer; transition: all 0.15s ease;
+    }
+    .timer-btn:hover { border-color: var(--primary); background: var(--primary-lt); }
 
-    .anim-demo-grid { display: flex; flex-direction: row; gap: 16px; flex-wrap: wrap; }
-    .anim-demo-card { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 130px; align-items: center; }
-    .anim-demo-box  { width: 72px; height: 72px; background: var(--primary-lt); border: 2px solid var(--primary); border-radius: var(--r-btn); display: flex; align-items: center; justify-content: center; font-size: 26px; }
-    .anim-play-btn  { font-size: 12px; color: var(--muted); padding: 5px 12px; border: 1px solid var(--border); border-radius: 100px; font-family: var(--font-body); transition: all .15s; }
-    .anim-play-btn:hover { border-color: var(--primary); color: var(--primary); }
+    /* 採買食材列 ing-check（要買橘勾 / 已有灰勾） */
+    .ing-check {
+      width: var(--size-check); height: var(--size-check); flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border); border-radius: var(--r-check); background: var(--surface);
+      cursor: pointer; color: transparent; transition: all 0.15s ease;
+    }
+    .ing-check:hover { border-color: var(--primary); }
+    .ing-check.buy { background: var(--secondary); border-color: var(--secondary); color: #fff; }
+    .ing-check.have { background: var(--gray-light); border-color: var(--gray-light); color: #fff; }
+
+    /* 進度條（備餐計畫） */
+    .plan-progress { height: 6px; background: var(--border); border-radius: var(--r-pill); overflow: hidden; }
+    .plan-progress-fill { display: block; height: 100%; background: var(--primary); border-radius: var(--r-pill); transition: width 0.3s ease; }
+
+    /* Pager */
+    .pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: var(--sp-sm); }
+    .page-btn {
+      min-width: var(--size-page-btn); min-height: var(--size-page-btn); padding: 0 var(--sp-sm);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub);
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-btn);
+      cursor: pointer; transition: all 0.15s ease;
+    }
+    .page-btn:hover:not(:disabled) { border-color: var(--primary); color: var(--primary); }
+    .page-btn.is-active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Bottom nav（依菜單挑 / 依食材選 / 備餐計畫） */
+    .bottom-nav { display: flex; align-items: stretch; background: var(--surface); border-top: 1px solid var(--border); box-shadow: 0 -6px 20px rgba(33, 32, 30, 0.06); }
+    .bottom-nav-btn {
+      flex: 1; min-height: var(--size-bottom-nav);
+      display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-xs);
+      font-family: var(--font-body); font-size: var(--fs-caption); font-weight: 700;
+      color: var(--text-sub); background: transparent; border: none; cursor: pointer; transition: color 0.15s ease;
+    }
+    .bottom-nav-btn > i { font-size: var(--fs-h4); }
+    .bottom-nav-btn:hover { color: var(--primary); }
+    .bottom-nav-btn.is-active { color: var(--primary); }
+
+    /* Scroll-top FAB */
+    .scroll-top {
+      width: var(--size-fab); height: var(--size-fab); border-radius: var(--r-circle);
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--fab-bg); color: var(--surface); border: none;
+      font-size: var(--fs-h4); cursor: pointer; box-shadow: var(--shadow-lg); backdrop-filter: blur(4px);
+      transition: background 0.15s ease;
+    }
+    .scroll-top:hover { background: var(--fab-bg-hover); }
+
+    /* Toast（底部 pill） */
+    .toast {
+      display: inline-flex; align-items: center; gap: var(--sp-sm);
+      padding: var(--sp-sm) var(--sp-lg); border-radius: var(--r-pill);
+      background: var(--primary-active); color: #fff; font-size: var(--fs-caption); font-weight: 700;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* 詳情頁食材列 ing-row（含 buy-toggle / tag-mini / 可替換 sub-chip） */
+    .ing-block { display: flex; flex-direction: column; gap: var(--sp-sm); background: var(--primary-lt); padding: var(--sp-sm); border-radius: var(--r-card); }
+    .ing-sub-label { font-size: var(--fs-label); font-weight: 700; color: var(--text); display: flex; align-items: center; gap: var(--sp-xs); }
+    .ing-sub-label > i { color: var(--primary); }
+    .ing-row { display: flex; flex-direction: column; gap: var(--sp-sm); padding: var(--sp-sm) var(--sp-md); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-btn); }
+    .ing-main { display: flex; align-items: center; gap: var(--sp-sm); }
+    .name-block { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+    .name-block .name { font-weight: 500; }
+    .name-block .opt-flag { font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub); display: inline-flex; align-items: center; gap: var(--sp-xs); }
+    .ing-row .qty { font-family: var(--font-mono); font-size: var(--fs-caption); color: var(--text-sub); flex-shrink: 0; }
+    .ing-row .tag-mini { font-size: var(--fs-caption); font-weight: 700; padding: 1px var(--sp-sm); border-radius: var(--r-pill); flex-shrink: 0; }
+    .tag-mini--opt { color: var(--text-sub); }
+    .ing-row.have { border-color: var(--primary); }
+    .ing-row.have .tag-mini { color: var(--success); }
+    .ing-row.subbed { background: var(--secondary-lt); border-color: var(--warning); }
+    .ing-row.subbed .tag-mini { color: var(--subbed-text); }
+    /* 採買狀態切換鈕（要買橘 / 已有灰） */
+    .buy-toggle {
+      display: inline-flex; align-items: center; gap: var(--sp-xs); flex-shrink: 0;
+      padding: var(--sp-xxs) var(--sp-xs); font-size: var(--fs-caption); font-weight: 700;
+      color: var(--secondary); background: transparent; border: none; border-radius: var(--r-pill);
+      cursor: pointer; transition: all 0.15s ease;
+    }
+    .buy-toggle:hover { background: var(--secondary-lt); }
+    .buy-toggle.have { color: var(--text-sub); }
+    .buy-toggle.have:hover { background: var(--border); }
+    /* 可替換次選 chip */
+    .ing-subs { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-xs); padding-left: calc(var(--size-check) + var(--sp-sm)); }
+    .subs-label { font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub); }
+    .sub-chip {
+      display: inline-flex; align-items: center; gap: var(--sp-xs);
+      min-height: 32px; padding: 0 var(--sp-sm);
+      font-size: var(--fs-caption); font-weight: 500; color: var(--text-sub);
+      background: var(--bg); border: 1px solid var(--border); border-radius: var(--r-pill);
+    }
+    .sub-chip.on { background: var(--primary-lt); border-color: var(--primary); color: var(--primary-active); font-weight: 700; }
+    .sub-chip.skip { font-style: italic; }
+
+    /* 備餐元件卡 prep-card */
+    .prep-card {
+      display: flex; flex-direction: column; gap: var(--sp-sm);
+      padding: var(--sp-md); border-radius: var(--r-card);
+      background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-card);
+    }
+    .prep-card.is-done { opacity: 0.5; }
+    .prep-card.is-done .prep-name { text-decoration: line-through; text-decoration-color: var(--placeholder); }
+    .prep-card-head { display: flex; align-items: center; gap: var(--sp-sm); flex-wrap: wrap; }
+    .prep-check { display: inline-flex; flex-shrink: 0; cursor: pointer; }
+    .prep-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .prep-check-box {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: var(--size-check); height: var(--size-check); border-radius: var(--r-check);
+      border: 1px solid var(--border); background: var(--surface); color: transparent; transition: all 0.15s ease;
+    }
+    .prep-check-box > i { font-size: var(--fs-caption); }
+    .prep-check input:checked + .prep-check-box { background: var(--gray-light); border-color: var(--gray-light); color: #fff; }
+    .prep-name { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 600; color: var(--text); }
+    .prep-meta { display: flex; flex-wrap: wrap; gap: var(--sp-xs) var(--sp-md); }
+    .prep-meta-item { display: inline-flex; align-items: center; gap: var(--sp-xs); font-size: var(--fs-caption); color: var(--text-sub); }
+    .prep-meta-item > i { color: var(--primary); }
+    .prep-steps { display: flex; flex-direction: column; gap: var(--sp-xs); padding-left: var(--sp-md); }
+    .prep-steps li { font-size: var(--fs-body); line-height: 1.6; color: var(--text); list-style: decimal; }
+    .prep-uses-block { display: flex; flex-direction: column; gap: var(--sp-xs); padding-top: var(--sp-sm); border-top: 1px dashed var(--border); }
+    .prep-uses-label { font-size: var(--fs-caption); font-weight: 700; color: var(--text-sub); }
+    .prep-uses { display: flex; flex-wrap: wrap; gap: var(--sp-xs); }
+    .prep-use-chip {
+      display: inline-flex; align-items: center; gap: var(--sp-xs);
+      padding: var(--sp-xs) var(--sp-md); font-size: var(--fs-caption); font-weight: 500;
+      color: var(--text-sub); background: var(--bg); border: 1px solid var(--border);
+      border-radius: var(--r-pill); cursor: pointer; transition: all 0.15s ease;
+    }
+    .prep-use-chip:hover { color: var(--primary); border-color: var(--primary); }
+    .prep-use-chip > i { color: var(--primary); }
+
+    /* Empty state */
+    .empty { display: flex; flex-direction: column; align-items: center; gap: var(--sp-md); min-height: 240px; justify-content: center; text-align: center; color: var(--text-sub); }
+    .empty i { font-size: 48px; color: var(--border); }
+    .empty h3 { font-family: var(--font-display); font-size: var(--fs-h4); color: var(--text); }
 
     @media (max-width: 720px) {
       .ds-sidebar { display: none; }
@@ -423,6 +476,7 @@
   <div class="ds-sidebar-header">
     <span class="ds-sidebar-app">Quick<span class="ds-sidebar-app-accent">Cook</span></span>
     <span class="ds-sidebar-badge">Design System</span>
+    <span class="ds-sidebar-date">更新：2026-06-10</span>
   </div>
   <nav class="ds-nav">
     <div class="ds-nav-group">Tokens</div>
@@ -430,18 +484,24 @@
     <a class="ds-nav-link" href="#typography"><span class="ds-nav-icon"><i class="fa-solid fa-font"></i></span> 字體</a>
     <a class="ds-nav-link" href="#spacing"><span class="ds-nav-icon"><i class="fa-solid fa-left-right"></i></span> Spacing</a>
     <a class="ds-nav-link" href="#radius"><span class="ds-nav-icon"><i class="fa-solid fa-border-all"></i></span> 圓角</a>
+    <a class="ds-nav-link" href="#sizes"><span class="ds-nav-icon"><i class="fa-solid fa-ruler-combined"></i></span> 尺寸</a>
     <a class="ds-nav-link" href="#shadows"><span class="ds-nav-icon"><i class="fa-solid fa-clone"></i></span> 陰影</a>
     <div class="ds-nav-group">Components</div>
     <a class="ds-nav-link" href="#buttons"><span class="ds-nav-icon"><i class="fa-solid fa-hand-pointer"></i></span> 按鈕</a>
-    <a class="ds-nav-link" href="#inputs"><span class="ds-nav-icon"><i class="fa-solid fa-pen"></i></span> 輸入框</a>
-    <a class="ds-nav-link" href="#cards"><span class="ds-nav-icon"><i class="fa-solid fa-id-card"></i></span> 卡片</a>
+    <a class="ds-nav-link" href="#chips"><span class="ds-nav-icon"><i class="fa-solid fa-carrot"></i></span> 食材 Chip</a>
+    <a class="ds-nav-link" href="#match"><span class="ds-nav-icon"><i class="fa-solid fa-traffic-light"></i></span> 燈號對照</a>
     <a class="ds-nav-link" href="#badges"><span class="ds-nav-icon"><i class="fa-solid fa-tag"></i></span> Badge</a>
-    <a class="ds-nav-link" href="#bottom-nav"><span class="ds-nav-icon"><i class="fa-solid fa-bars"></i></span> 底部導航</a>
-    <a class="ds-nav-link" href="#stepper"><span class="ds-nav-icon"><i class="fa-solid fa-list-ol"></i></span> Stepper</a>
-    <a class="ds-nav-link" href="#feedback"><span class="ds-nav-icon"><i class="fa-solid fa-comment-dots"></i></span> Toast</a>
-    <a class="ds-nav-link" href="#states"><span class="ds-nav-icon"><i class="fa-solid fa-spinner"></i></span> 特殊狀態</a>
-    <div class="ds-nav-group">Motion</div>
-    <a class="ds-nav-link" href="#animations"><span class="ds-nav-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span> 動畫</a>
+    <a class="ds-nav-link" href="#filters"><span class="ds-nav-icon"><i class="fa-solid fa-sliders"></i></span> 篩選下拉</a>
+    <a class="ds-nav-link" href="#inputs"><span class="ds-nav-icon"><i class="fa-solid fa-magnifying-glass"></i></span> 搜尋框</a>
+    <a class="ds-nav-link" href="#card"><span class="ds-nav-icon"><i class="fa-solid fa-id-card"></i></span> 食譜卡</a>
+    <a class="ds-nav-link" href="#step"><span class="ds-nav-icon"><i class="fa-solid fa-list-ol"></i></span> 步驟 + 計時</a>
+    <a class="ds-nav-link" href="#buy"><span class="ds-nav-icon"><i class="fa-solid fa-cart-shopping"></i></span> 採買勾選</a>
+    <a class="ds-nav-link" href="#ing-row"><span class="ds-nav-icon"><i class="fa-solid fa-list-check"></i></span> 詳情食材列</a>
+    <a class="ds-nav-link" href="#prep"><span class="ds-nav-icon"><i class="fa-solid fa-box-open"></i></span> 備餐元件卡</a>
+    <a class="ds-nav-link" href="#progress"><span class="ds-nav-icon"><i class="fa-solid fa-bars-progress"></i></span> 備餐進度</a>
+    <a class="ds-nav-link" href="#pager"><span class="ds-nav-icon"><i class="fa-solid fa-ellipsis"></i></span> 分頁</a>
+    <a class="ds-nav-link" href="#nav"><span class="ds-nav-icon"><i class="fa-solid fa-bars"></i></span> 底部導航</a>
+    <a class="ds-nav-link" href="#misc"><span class="ds-nav-icon"><i class="fa-solid fa-comment-dots"></i></span> Toast · FAB · Empty</a>
   </nav>
 </aside>
 
@@ -449,7 +509,10 @@
 
   <div class="ds-page-header">
     <h1 class="ds-page-title">Quick<span class="ds-page-title-accent">Cook</span> DS</h1>
-    <p class="ds-page-desc">Recipe QuickCook 設計基準：無彩留白為底、橄欖綠與暖黃點綴的居家料理工具。所有 token 集中於此，原型須對齊，禁止 hardcode 數值。</p>
+    <p class="ds-page-desc">Recipe QuickCook 設計基準。Token 與元件 class 直接鏡射 <code>src/index.css</code>，為單一來源；原型須對齊，禁止 hardcode 數值。</p>
+    <a class="ds-page-link" href="https://recipe-quickcook.vercel.app/" target="_blank" rel="noopener">
+      <i class="fa-solid fa-arrow-up-right-from-square"></i> recipe-quickcook.vercel.app
+    </a>
   </div>
 
   <!-- ══ COLORS ══ -->
@@ -458,38 +521,43 @@
       <h2 class="ds-section-title">顏色</h2>
       <p class="ds-section-desc">暖調無彩灰為主體（60–90%），橄欖綠主色僅作強調，暖黃點綴。綠／黃同時擔任食譜燈號。</p>
     </div>
-
     <div class="ds-subsection">
       <div class="ds-subsection-title">Primary</div>
       <div class="ds-token-grid">
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-lt);"></div><div class="ds-swatch-name">primary.50</div><div class="ds-swatch-hex">#F4F7F1 · --primary-lt</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary);"></div><div class="ds-swatch-name">primary.500</div><div class="ds-swatch-hex">#688943 · --primary</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-hv);"></div><div class="ds-swatch-name">primary.600</div><div class="ds-swatch-hex">#557235 · --primary-hv</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-act);"></div><div class="ds-swatch-name">primary.700</div><div class="ds-swatch-hex">#425928 · --primary-act</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-lt);"></div><div class="ds-swatch-name">primary-lt</div><div class="ds-swatch-hex">#F4F7F1</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary);"></div><div class="ds-swatch-name">primary</div><div class="ds-swatch-hex">#688943</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-hover);"></div><div class="ds-swatch-name">primary-hover</div><div class="ds-swatch-hex">#557235</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--primary-active);"></div><div class="ds-swatch-name">primary-active</div><div class="ds-swatch-hex">#425928</div></div>
       </div>
     </div>
-
+    <div class="ds-subsection">
+      <div class="ds-subsection-title">Secondary（暖黃點綴）</div>
+      <div class="ds-token-grid">
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--secondary-lt);"></div><div class="ds-swatch-name">secondary-lt</div><div class="ds-swatch-hex">#FBF1DF</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--secondary);"></div><div class="ds-swatch-name">secondary</div><div class="ds-swatch-hex">#E0A23C</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--subbed-text);"></div><div class="ds-swatch-name">subbed-text</div><div class="ds-swatch-hex">#8A5E16</div></div>
+      </div>
+    </div>
     <div class="ds-subsection">
       <div class="ds-subsection-title">Neutral</div>
       <div class="ds-token-grid">
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--bg);"></div><div class="ds-swatch-name">neutral.50</div><div class="ds-swatch-hex">#FAFAF9 · --bg</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--surface); border-color:var(--border);"></div><div class="ds-swatch-name">neutral.0</div><div class="ds-swatch-hex">#FFFFFF · --surface</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--border);"></div><div class="ds-swatch-name">neutral.200</div><div class="ds-swatch-hex">#E4E3E0 · --border</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--muted);"></div><div class="ds-swatch-name">neutral.400</div><div class="ds-swatch-hex">#A8A6A1 · --muted</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--text-sec);"></div><div class="ds-swatch-name">neutral.600</div><div class="ds-swatch-hex">#5C5A56 · --text-sec</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--text);"></div><div class="ds-swatch-name">neutral.900</div><div class="ds-swatch-hex">#1A1918 · --text</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--bg);"></div><div class="ds-swatch-name">bg</div><div class="ds-swatch-hex">#FAFAF9</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--surface); border-color:var(--border);"></div><div class="ds-swatch-name">surface</div><div class="ds-swatch-hex">#FFFFFF</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--border);"></div><div class="ds-swatch-name">border</div><div class="ds-swatch-hex">#E4E3E0</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--gray-light);"></div><div class="ds-swatch-name">gray-light</div><div class="ds-swatch-hex">#C9C7C2</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--placeholder);"></div><div class="ds-swatch-name">placeholder</div><div class="ds-swatch-hex">#A8A6A1</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--text-sub);"></div><div class="ds-swatch-name">text-sub</div><div class="ds-swatch-hex">#5C5A56</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--text);"></div><div class="ds-swatch-name">text</div><div class="ds-swatch-hex">#1A1918</div></div>
       </div>
     </div>
-
     <div class="ds-subsection">
-      <div class="ds-subsection-title">Semantic</div>
+      <div class="ds-subsection-title">Semantic（燈號 + 食安）</div>
       <div class="ds-token-grid">
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--success-lt);"></div><div class="ds-swatch-name">success.light <i class="fa-solid fa-circle" style="color:var(--success);font-size:10px;"></i></div><div class="ds-swatch-hex">#E1EAD8</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--success);"></div><div class="ds-swatch-name">success.base 綠燈</div><div class="ds-swatch-hex">#688943</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--warning-lt);"></div><div class="ds-swatch-name">warning.light <i class="fa-solid fa-circle" style="color:var(--warning);font-size:10px;"></i></div><div class="ds-swatch-hex">#FBE8CC</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--warning);"></div><div class="ds-swatch-name">warning.base 黃燈</div><div class="ds-swatch-hex">#E0A23C</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--error-lt);"></div><div class="ds-swatch-name">error.light</div><div class="ds-swatch-hex">#FEE2E2</div></div>
-        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--error);"></div><div class="ds-swatch-name">error.base 食安</div><div class="ds-swatch-hex">#DC2626</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--success);"></div><div class="ds-swatch-name">success 綠燈</div><div class="ds-swatch-hex">#688943</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--warning);"></div><div class="ds-swatch-name">warning 黃燈</div><div class="ds-swatch-hex">#E0A23C</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--error-lt);"></div><div class="ds-swatch-name">error-lt</div><div class="ds-swatch-hex">#FEE2E2</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--error);"></div><div class="ds-swatch-name">error 食安</div><div class="ds-swatch-hex">#DC2626</div></div>
+        <div class="ds-color-swatch"><div class="ds-swatch-box" style="background:var(--error-strong);"></div><div class="ds-swatch-name">error-strong</div><div class="ds-swatch-hex">#B91C1C</div></div>
       </div>
     </div>
   </section>
@@ -498,31 +566,35 @@
   <section class="ds-section" id="typography">
     <div class="ds-section-header">
       <h2 class="ds-section-title">字體</h2>
-      <p class="ds-section-desc">標題用 Playfair Display 襯線製造生活感；內文 Noto Sans TC；計時與份量數字用 JetBrains Mono。</p>
+      <p class="ds-section-desc">標題 Playfair Display 襯線；內文 Noto Sans TC；計時與份量數字用 JetBrains Mono。type scale 全偶數，對齊 Figma Text Styles。</p>
     </div>
     <div class="ds-type-row">
-      <div class="ds-type-meta"><span class="ds-type-label">Display</span><span class="ds-type-value">--font-display · 48px</span></div>
-      <div style="font-family:var(--font-display); font-size:48px; line-height:1; letter-spacing:-0.02em;">Quick<span style="color:var(--primary);">Cook</span></div>
+      <div class="ds-type-meta"><span class="ds-type-label">Display / App Title</span><span class="ds-type-value">--fs-h1 · 28px / display 700</span></div>
+      <div style="font-family:var(--font-display); font-size:var(--fs-h1); font-weight:700;">Quick<span style="color:var(--primary);">Cook</span></div>
     </div>
     <div class="ds-type-row">
-      <div class="ds-type-meta"><span class="ds-type-label">H1 / Title</span><span class="ds-type-value">28px / 700</span></div>
-      <div style="font-size:28px; font-weight:700;">今天能煮什麼？</div>
+      <div class="ds-type-meta"><span class="ds-type-label">H2 / Detail Head</span><span class="ds-type-value">--fs-h2 · 26px / 700</span></div>
+      <div style="font-family:var(--font-display); font-size:var(--fs-h2); font-weight:700;">消防車紅蘿蔔肉末飯糰</div>
     </div>
     <div class="ds-type-row">
-      <div class="ds-type-meta"><span class="ds-type-label">H2</span><span class="ds-type-value">22px / 700</span></div>
-      <div style="font-size:22px; font-weight:700;">消防車紅蘿蔔肉末飯糰</div>
+      <div class="ds-type-meta"><span class="ds-type-label">H3 / Section Title</span><span class="ds-type-value">--fs-h3 · 20px / display 600</span></div>
+      <div style="font-family:var(--font-display); font-size:var(--fs-h3); font-weight:600;">料理步驟</div>
     </div>
     <div class="ds-type-row">
-      <div class="ds-type-meta"><span class="ds-type-label">Body Regular</span><span class="ds-type-value">16px / 400</span></div>
-      <div style="font-size:16px; color:var(--text-sec);">勾選冰箱現有食材，立即看出哪些料理能做、哪些差一樣。</div>
+      <div class="ds-type-meta"><span class="ds-type-label">H4 / Card Title</span><span class="ds-type-value">--fs-h4 · 18px / display 600</span></div>
+      <div style="font-family:var(--font-display); font-size:var(--fs-h4); font-weight:600;">今天能煮什麼？</div>
     </div>
     <div class="ds-type-row">
-      <div class="ds-type-meta"><span class="ds-type-label">Caption</span><span class="ds-type-value">14px / 400</span></div>
-      <div style="font-size:14px; color:var(--muted);">約 10 分鐘 · 1 兒童份 · 可冷凍</div>
+      <div class="ds-type-meta"><span class="ds-type-label">Body / Button / Label</span><span class="ds-type-value">--fs-body · 16px / 400</span></div>
+      <div style="font-size:var(--fs-body); color:var(--text-sub);">勾選冰箱現有食材，立即看出哪些料理能做、哪些差一樣。</div>
     </div>
     <div class="ds-type-row">
-      <div class="ds-type-meta"><span class="ds-type-label">Mono</span><span class="ds-type-value">--font-mono · 計時</span></div>
-      <div style="font-family:var(--font-mono); font-size:18px; font-weight:500; color:var(--primary);">01:00</div>
+      <div class="ds-type-meta"><span class="ds-type-label">Caption</span><span class="ds-type-value">--fs-caption · 14px / 400</span></div>
+      <div style="font-size:var(--fs-caption); color:var(--placeholder);">約 10 分鐘 · 1 兒童份 · 可冷凍</div>
+    </div>
+    <div class="ds-type-row">
+      <div class="ds-type-meta"><span class="ds-type-label">Mono-LG / Timer</span><span class="ds-type-value">--fs-mono-lg · 24px / mono 700</span></div>
+      <div style="font-family:var(--font-mono); font-size:var(--fs-mono-lg); font-weight:700; color:var(--text); letter-spacing:1px;">01:00</div>
     </div>
   </section>
 
@@ -530,16 +602,16 @@
   <section class="ds-section" id="spacing">
     <div class="ds-section-header">
       <h2 class="ds-section-title">Spacing</h2>
-      <p class="ds-section-desc">4px base，7 個固定尺寸。全部以 CSS 變數引用，禁止 hardcode px 值。</p>
+      <p class="ds-section-desc">4px base，含 2px 微距（--sp-xxs）。全部以 CSS 變數引用，禁止 hardcode px 值。</p>
     </div>
     <div class="ds-spacing-grid">
+      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:2px; min-width:2px;"></div><span class="ds-chip">--sp-xxs · 2px</span></div>
       <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:4px; min-width:4px;"></div><span class="ds-chip">--sp-xs · 4px</span></div>
       <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:8px; min-width:8px;"></div><span class="ds-chip">--sp-sm · 8px</span></div>
       <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:16px; min-width:16px;"></div><span class="ds-chip">--sp-md · 16px</span></div>
       <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:24px; min-width:24px;"></div><span class="ds-chip">--sp-lg · 24px</span></div>
       <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:32px; min-width:32px;"></div><span class="ds-chip">--sp-xl · 32px</span></div>
       <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:48px; min-width:48px;"></div><span class="ds-chip">--sp-2xl · 48px</span></div>
-      <div class="ds-spacing-row"><div class="ds-spacing-bar" style="width:64px; min-width:64px;"></div><span class="ds-chip">--sp-3xl · 64px</span></div>
     </div>
   </section>
 
@@ -547,13 +619,30 @@
   <section class="ds-section" id="radius">
     <div class="ds-section-header">
       <h2 class="ds-section-title">圓角</h2>
-      <p class="ds-section-desc">柔和調性：按鈕 8px、卡片 16px、標籤膠囊。傳達生活感而不失俐落。</p>
+      <p class="ds-section-desc">按鈕 8px、卡片 16px、chip/badge 膠囊、checkbox 6px、圓形 50%。</p>
     </div>
     <div class="ds-radius-grid">
-      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-btn);"></div><div class="ds-radius-label"><strong>--r-btn</strong><br>8px<br>Button · Input</div></div>
-      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-card);"></div><div class="ds-radius-label"><strong>--r-card</strong><br>16px<br>Card · Panel</div></div>
-      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-badge);"></div><div class="ds-radius-label"><strong>--r-badge</strong><br>膠囊<br>Badge · Tag</div></div>
-      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:50%; width:80px; height:80px;"></div><div class="ds-radius-label"><strong>50%</strong><br>circle<br>Avatar</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-btn);"></div><div class="ds-radius-label"><strong>--r-btn</strong><br>8px<br>Button</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-card);"></div><div class="ds-radius-label"><strong>--r-card</strong><br>16px<br>Card</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-pill);"></div><div class="ds-radius-label"><strong>--r-pill</strong><br>膠囊<br>Chip · Badge</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-check); width:48px; height:48px;"></div><div class="ds-radius-label"><strong>--r-check</strong><br>6px<br>Checkbox</div></div>
+      <div class="ds-radius-item"><div class="ds-radius-box" style="border-radius:var(--r-circle); width:48px; height:48px;"></div><div class="ds-radius-label"><strong>--r-circle</strong><br>50%<br>Avatar · FAB</div></div>
+    </div>
+  </section>
+
+  <!-- ══ SIZES ══ -->
+  <section class="ds-section" id="sizes">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">尺寸（觸控 / 元件）</h2>
+      <p class="ds-section-desc">固定尺寸 token，確保濕手廚房情境的觸控精準度（最小觸控 44px，WCAG AA）。</p>
+    </div>
+    <div class="ds-size-grid">
+      <div class="ds-size-row"><div class="ds-size-box" style="width:24px; height:24px;"></div><span class="ds-chip">--size-check · 24px</span><span class="ds-comp-desc">checkbox</span></div>
+      <div class="ds-size-row"><div class="ds-size-box" style="width:32px; height:32px;"></div><span class="ds-chip">--size-step-no / --size-timer-btn · 32px</span><span class="ds-comp-desc">步驟編號 · 計時鈕</span></div>
+      <div class="ds-size-row"><div class="ds-size-box" style="width:40px; height:40px;"></div><span class="ds-chip">--size-page-btn · 40px</span><span class="ds-comp-desc">分頁鈕</span></div>
+      <div class="ds-size-row"><div class="ds-size-box" style="width:44px; height:44px;"></div><span class="ds-chip">--size-touch · 44px</span><span class="ds-comp-desc">最小觸控（btn / 下拉 / group-head）</span></div>
+      <div class="ds-size-row"><div class="ds-size-box" style="width:48px; height:48px;"></div><span class="ds-chip">--size-fab · 48px</span><span class="ds-comp-desc">回頂鍵 · 食材 chip 高</span></div>
+      <div class="ds-size-row"><div class="ds-size-box" style="width:64px; height:64px;"></div><span class="ds-chip">--size-bottom-nav · 64px</span><span class="ds-comp-desc">底部導航高</span></div>
     </div>
   </section>
 
@@ -561,12 +650,12 @@
   <section class="ds-section" id="shadows">
     <div class="ds-section-header">
       <h2 class="ds-section-title">陰影</h2>
-      <p class="ds-section-desc">以 neutral.900 的 RGB 值為底，避免冰冷的純黑。填入品牌色後 --sh-primary 自動更新。</p>
+      <p class="ds-section-desc">以 neutral 暖黑為底；--shadow-glow 用 primary 製造「可做」食譜卡的光暈。</p>
     </div>
     <div class="ds-shadow-grid">
-      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--sh);"></div><div class="ds-swatch-name">--sh</div><div class="ds-swatch-hex" style="font-size:12px;">Cards 預設</div></div>
-      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--sh-lg);"></div><div class="ds-swatch-name">--sh-lg</div><div class="ds-swatch-hex" style="font-size:12px;">Hover · Modal</div></div>
-      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--sh-primary);"></div><div class="ds-swatch-name">--sh-primary</div><div class="ds-swatch-hex" style="font-size:12px;">Primary CTA glow</div></div>
+      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--shadow-card);"></div><div class="ds-swatch-name">--shadow-card</div><div class="ds-swatch-hex" style="font-size:12px;">卡片預設</div></div>
+      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--shadow-lg);"></div><div class="ds-swatch-name">--shadow-lg</div><div class="ds-swatch-hex" style="font-size:12px;">Hover · Toast · FAB</div></div>
+      <div class="ds-shadow-item"><div class="ds-shadow-box" style="box-shadow:var(--shadow-glow);"></div><div class="ds-swatch-name">--shadow-glow</div><div class="ds-swatch-hex" style="font-size:12px;">可做食譜卡光暈</div></div>
     </div>
   </section>
 
@@ -574,111 +663,64 @@
   <section class="ds-section" id="buttons">
     <div class="ds-section-header">
       <h2 class="ds-section-title">按鈕</h2>
-      <p class="ds-section-desc">四種語意變體。最小高度 48px，確保濕手廚房情境的觸控精準度。</p>
+      <p class="ds-section-desc">三種變體。最小高度 44px（--size-touch）。注意：Primary 預設底為 <code>--primary-hover</code>（較深），hover 再加深至 <code>--primary-active</code>，確保白字對比足夠。</p>
     </div>
     <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.btn-primary</span><span class="ds-comp-desc">主要 CTA</span></div>
+      <div class="ds-comp-meta"><span class="ds-chip">.btn.btn-primary</span><span class="ds-comp-desc">主要 CTA</span></div>
       <div class="ds-preview" style="flex-wrap:wrap;">
-        <button class="btn-primary">開始烹飪</button>
-        <button class="btn-primary sm">勾選</button>
-        <button class="btn-primary lg">一鍵複製清單</button>
-        <button class="btn-primary loading"><div class="spinner"></div><span>複製中⋯</span></button>
-        <button class="btn-primary" disabled>不可用</button>
+        <button class="btn btn-primary">開始烹飪</button>
+        <button class="btn btn-primary btn-block" style="max-width:240px;">一鍵複製採買清單</button>
+        <button class="btn btn-primary" disabled>不可用</button>
       </div>
     </div>
     <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.btn-secondary</span><span class="ds-comp-desc">次要操作</span></div>
+      <div class="ds-comp-meta"><span class="ds-chip">.btn.btn-secondary</span><span class="ds-comp-desc">次要操作（透明底 + primary 邊框）</span></div>
       <div class="ds-preview" style="flex-wrap:wrap;">
-        <button class="btn-secondary">查看食譜</button>
-        <button class="btn-secondary sm">取消</button>
-        <button class="btn-secondary" disabled>不可用</button>
+        <button class="btn btn-secondary">查看食譜</button>
+        <button class="btn btn-secondary" disabled>不可用</button>
       </div>
     </div>
     <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.btn-ghost</span><span class="ds-comp-desc">輔助低重量</span></div>
-      <div class="ds-preview">
-        <button class="btn-ghost">略過</button>
-        <button class="btn-ghost" disabled>不可用</button>
-      </div>
+      <div class="ds-comp-meta"><span class="ds-chip">.btn.btn-ghost</span><span class="ds-comp-desc">輔助低重量</span></div>
+      <div class="ds-preview"><button class="btn btn-ghost">清空</button><button class="btn btn-ghost" disabled>不可用</button></div>
     </div>
     <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.btn-danger</span><span class="ds-comp-desc">危險操作</span></div>
-      <div class="ds-preview">
-        <button class="btn-danger">清空採買清單</button>
-        <button class="btn-danger" disabled>不可用</button>
-      </div>
+      <div class="ds-comp-meta"><span class="ds-chip">.btn-shuffle</span><span class="ds-comp-desc">清單工具列：隨機排序</span></div>
+      <div class="ds-preview"><button class="btn-shuffle"><i class="fa-solid fa-shuffle"></i> 換一批</button></div>
     </div>
   </section>
 
-  <!-- ══ INPUTS ══ -->
-  <section class="ds-section" id="inputs">
+  <!-- ══ CHIPS ══ -->
+  <section class="ds-section" id="chips">
     <div class="ds-section-header">
-      <h2 class="ds-section-title">輸入框</h2>
-      <p class="ds-section-desc">五種狀態。高度 52px 符合 48dp 觸控規範（食材搜尋／份量輸入用）。</p>
+      <h2 class="ds-section-title">食材 Chip</h2>
+      <p class="ds-section-desc">冰箱食材勾選（依食材選模式）。高度 48px 利於濕手點選；選取後填淺綠底。</p>
     </div>
-    <div class="ds-preview col" style="max-width:400px; gap:20px;">
-      <div class="input-group">
-        <label class="input-label" for="t-default">搜尋食材</label>
-        <input class="input-field" id="t-default" type="text" placeholder="搜尋食材或菜名…">
-      </div>
-      <div class="input-group">
-        <label class="input-label">Focus（模擬）</label>
-        <input class="input-field" type="text" value="胡蘿蔔" style="border-color:var(--primary); border-width:2px; box-shadow:0 0 0 3px var(--primary-lt); outline:none;">
-      </div>
-      <div class="input-group">
-        <label class="input-label">Error <span class="input-required">*</span></label>
-        <input class="input-field is-error" type="text" value="蘿菠">
-        <div class="input-error-msg is-visible" role="alert"><i class="fa-solid fa-triangle-exclamation"></i> 找不到此食材，請從清單挑選（例：胡蘿蔔）</div>
-      </div>
-      <div class="input-group">
-        <label class="input-label">Disabled</label>
-        <input class="input-field" type="text" value="鹽（調味，預設恆有）" disabled>
-      </div>
-      <div class="input-group">
-        <label class="input-label">ReadOnly</label>
-        <input class="input-field is-readonly" type="text" value="2026-06-02（本週採買）" readonly>
-      </div>
+    <div class="ds-preview" style="flex-wrap:wrap; align-items:center;">
+      <button class="chip"><i class="fa-regular fa-circle"></i> 胡蘿蔔</button>
+      <button class="chip is-selected"><i class="fa-solid fa-circle-check"></i> 雞蛋</button>
+      <button class="chip is-selected"><i class="fa-solid fa-circle-check"></i> 嫩豆腐</button>
+      <button class="chip"><i class="fa-regular fa-circle"></i> 洋蔥</button>
     </div>
   </section>
 
-  <!-- ══ CARDS ══ -->
-  <section class="ds-section" id="cards">
+  <!-- ══ MATCH（燈號對照） ══ -->
+  <section class="ds-section" id="match">
     <div class="ds-section-header">
-      <h2 class="ds-section-title">卡片</h2>
-      <p class="ds-section-desc">三種基礎卡片。Phase 4 將衍生食譜燈號卡（result-card）。</p>
+      <h2 class="ds-section-title">燈號對照 match-chip</h2>
+      <p class="ds-section-desc">核心互動：依冰箱食材判定每道菜的核心食材狀態 — 綠（有/可選）、黃（可替代）、灰（缺）。</p>
     </div>
-    <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.card-flat</span><span class="ds-comp-desc">次要資訊</span></div>
-      <div class="ds-preview col" style="max-width:360px;">
-        <div class="card-flat" style="gap:8px;">
-          <div style="font-size:14px; font-weight:700;">備料提醒</div>
-          <div style="font-size:14px; color:var(--text-sec);">嫩豆腐隨用隨壓碎，絕對不可冷凍。</div>
-        </div>
+    <div class="ds-preview col" style="max-width:420px;">
+      <div class="match-row">
+        <span class="match-chip on"><span class="dot"></span>胡蘿蔔</span>
+        <span class="match-chip on"><span class="dot"></span>雞蛋</span>
+        <span class="match-chip sub"><span class="dot"></span>用嫩豆腐替代</span>
+        <span class="match-chip"><span class="dot"></span>蔥</span>
       </div>
-    </div>
-    <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.card-elevated</span><span class="ds-comp-desc">主要資訊</span></div>
-      <div class="ds-preview col" style="max-width:360px;">
-        <div class="card-elevated" style="gap:12px;">
-          <div style="display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
-            <div style="font-size:16px; font-weight:700;">今日推薦</div>
-            <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> 可做</span>
-          </div>
-          <div style="font-size:20px; font-weight:700; font-family:var(--font-mono); color:var(--primary);">01:00</div>
-          <div style="font-size:13px; color:var(--muted);">電風扇吹涼 1 分鐘</div>
-        </div>
-      </div>
-    </div>
-    <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.card-interactive</span><span class="ds-comp-desc">可點擊</span></div>
-      <div class="ds-preview col" style="max-width:360px;">
-        <div class="card-interactive" style="gap:8px;">
-          <div style="display:flex; flex-direction:row; justify-content:space-between; align-items:center;">
-            <div style="font-size:15px; font-weight:700;">消防車紅蘿蔔飯糰</div>
-            <span style="font-size:14px; color:var(--muted);">›</span>
-          </div>
-          <div style="font-size:13px; color:var(--text-sec);">點開看步驟與計時</div>
-        </div>
+      <div class="ds-comp-meta" style="gap:16px;">
+        <span class="ds-comp-desc"><span class="match-chip on" style="pointer-events:none;"><span class="dot"></span>on</span> 有 / 可選</span>
+        <span class="ds-comp-desc"><span class="match-chip sub" style="pointer-events:none;"><span class="dot"></span>sub</span> 可替代</span>
+        <span class="ds-comp-desc"><span class="match-chip" style="pointer-events:none;"><span class="dot"></span>缺</span> 未滿足</span>
       </div>
     </div>
   </section>
@@ -687,109 +729,331 @@
   <section class="ds-section" id="badges">
     <div class="ds-section-header">
       <h2 class="ds-section-title">Badge</h2>
-      <p class="ds-section-desc">5 種語意。對應食譜燈號與採買狀態。</p>
+      <p class="ds-section-desc">食譜卡用：份數（info）、料理方法（method）、核心食材（ing）。</p>
     </div>
     <div class="ds-preview" style="flex-wrap:wrap; gap:10px; align-items:center;">
-      <span class="badge badge-primary"><span class="badge-dot"></span>本次採買</span>
-      <span class="badge badge-success"><span class="badge-dot"></span>可做</span>
-      <span class="badge badge-warning"><span class="badge-dot"></span>差一樣</span>
-      <span class="badge badge-error"><span class="badge-dot"></span>食安注意</span>
-      <span class="badge badge-neutral"><span class="badge-dot"></span>未選</span>
+      <span class="badge badge-info">1 兒童份</span>
+      <span class="badge badge-method"><i class="fa-solid fa-utensils"></i> 電鍋</span>
+      <span class="badge badge-ing">胡蘿蔔</span>
+      <span class="badge badge-ing">雞蛋</span>
+    </div>
+  </section>
+
+  <!-- ══ FILTERS ══ -->
+  <section class="ds-section" id="filters">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">篩選下拉 multiselect</h2>
+      <p class="ds-section-desc">情境／方法複選下拉。膠囊觸發鈕，展開時 chevron 旋轉 180°、邊框轉 primary。</p>
+    </div>
+    <div class="ds-preview" style="max-width:420px; gap:16px;">
+      <div class="multiselect">
+        <span class="multiselect-label">情境</span>
+        <button class="multiselect-trigger">全部情境 <i class="fa-solid fa-chevron-down chevron"></i></button>
+      </div>
+      <div class="multiselect">
+        <span class="multiselect-label">方法</span>
+        <button class="multiselect-trigger is-open">已選 2 項 <i class="fa-solid fa-chevron-down chevron"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ INPUTS ══ -->
+  <section class="ds-section" id="inputs">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">搜尋框 plan-search</h2>
+      <p class="ds-section-desc">備餐計畫選菜搜尋。膠囊容器，focus-within 邊框轉 primary，附清除鈕。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:400px;">
+      <div class="plan-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="搜尋菜名加入計畫…">
+      </div>
+      <div class="plan-search" style="border-color:var(--primary);">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" value="紅蘿蔔">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ RECIPE CARD ══ -->
+  <section class="ds-section" id="card">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">食譜卡 recipe-card</h2>
+      <p class="ds-section-desc">封面 + 標題列（份數右上）+ 燈號對照／核心食材。<code>.is-ready</code> 全食材滿足時加 primary 光暈與「可做」旗標。</p>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.recipe-card.is-ready</span><span class="ds-comp-desc">可做（燈號對照）</span></div>
+      <div class="ds-preview col" style="max-width:360px;">
+        <div class="recipe-card is-ready">
+          <div class="card-cover"><i class="fa-solid fa-fire-burner"></i></div>
+          <div class="card-body">
+            <div class="card-titlebar">
+              <span class="card-title">消防車紅蘿蔔飯糰</span>
+              <span class="ready-flag"><i class="fa-solid fa-circle-check"></i> 可做</span>
+              <span class="badge badge-info card-servings">1 份</span>
+            </div>
+            <div class="card-methods"><span class="badge badge-method"><i class="fa-solid fa-utensils"></i> 電鍋</span></div>
+            <div class="match-row">
+              <span class="match-chip on"><span class="dot"></span>胡蘿蔔</span>
+              <span class="match-chip on"><span class="dot"></span>雞蛋</span>
+              <span class="match-chip sub"><span class="dot"></span>用嫩豆腐替代</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.recipe-card</span><span class="ds-comp-desc">預設（依菜單挑模式，核心食材 chip）</span></div>
+      <div class="ds-preview col" style="max-width:360px;">
+        <div class="recipe-card">
+          <div class="card-cover"><i class="fa-solid fa-fire-burner"></i></div>
+          <div class="card-body">
+            <div class="card-titlebar">
+              <span class="card-title">蔥花蒸蛋</span>
+              <span class="badge badge-info card-servings">2 份</span>
+            </div>
+            <div class="ing-row-chips">
+              <span class="badge badge-ing">雞蛋</span>
+              <span class="badge badge-ing">蔥</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ STEP + TIMER ══ -->
+  <section class="ds-section" id="step">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">步驟 + 計時器</h2>
+      <p class="ds-section-desc">編號圓徽 + 步驟文字 + 內嵌計時器。倒數結束 <code>.is-done</code> 時數字轉暖黃並切換成鈴鐺圖示。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:440px;">
+      <div class="step">
+        <div class="step-no">1</div>
+        <div class="step-body">
+          <div class="step-text">紅蘿蔔刨絲，與肉末、蛋液拌勻，放入電鍋。</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">2</div>
+        <div class="step-body">
+          <div class="step-text">外鍋一杯水，蒸至開關跳起後燜 10 分鐘。</div>
+          <div class="timer">
+            <button class="timer-btn" aria-label="開始計時"><i class="fa-solid fa-play"></i></button>
+            <span class="timer-display">10:00</span>
+            <button class="timer-btn" aria-label="重置計時"><i class="fa-solid fa-rotate-left"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-no">3</div>
+        <div class="step-body">
+          <div class="step-text">電風扇吹涼 1 分鐘（計時結束狀態）。</div>
+          <div class="timer is-done">
+            <button class="timer-btn" aria-label="開始計時"><i class="fa-solid fa-bell"></i></button>
+            <span class="timer-display">00:00</span>
+            <button class="timer-btn" aria-label="重置計時"><i class="fa-solid fa-rotate-left"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ BUY CHECK ══ -->
+  <section class="ds-section" id="buy">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">採買勾選 ing-check</h2>
+      <p class="ds-section-desc">採買清單食材狀態：<strong>要買</strong>＝暖黃橘勾、<strong>已有</strong>＝灰勾（看似 disabled、不加刪除線）。</p>
+    </div>
+    <div class="ds-preview" style="gap:24px; align-items:center;">
+      <div style="display:flex; align-items:center; gap:8px;"><span class="ing-check"></span><span class="ds-comp-desc">未勾</span></div>
+      <div style="display:flex; align-items:center; gap:8px;"><span class="ing-check buy"><i class="fa-solid fa-check"></i></span><span class="ds-comp-desc">要買（橘）</span></div>
+      <div style="display:flex; align-items:center; gap:8px;"><span class="ing-check have"><i class="fa-solid fa-check"></i></span><span class="ds-comp-desc">已有（灰）</span></div>
+    </div>
+  </section>
+
+  <!-- ══ ING ROW ══ -->
+  <section class="ds-section" id="ing-row">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">詳情頁食材列 ing-row</h2>
+      <p class="ds-section-desc">食譜詳情的食材清單列。整合採買勾 <code>.ing-check</code> + 名稱 + 份量(mono) + 狀態標 <code>.tag-mini</code> + 採買切換鈕 <code>.buy-toggle</code>，並可展開可替換次選 <code>.sub-chip</code>。注意 <code>.sub-chip</code>（替代食材）與燈號 <code>.match-chip</code> 是兩種不同元件。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:420px;">
+      <div class="ing-block">
+        <div class="ing-sub-label"><i class="fa-solid fa-bowl-food"></i> 主食材</div>
+
+        <!-- 要買（橘勾 + 橘「要買」） -->
+        <div class="ing-row">
+          <div class="ing-main">
+            <button class="ing-check buy" aria-label="改為不買：胡蘿蔔" aria-pressed="true"><i class="fa-solid fa-check"></i></button>
+            <div class="name-block"><span class="name">胡蘿蔔</span></div>
+            <span class="qty">1 根</span>
+            <button class="buy-toggle" tabindex="-1">要買</button>
+          </div>
+        </div>
+
+        <!-- 已有不買（灰勾 + 灰「已有」，邊框轉綠） -->
+        <div class="ing-row have">
+          <div class="ing-main">
+            <button class="ing-check have" aria-label="加入採買：雞蛋" aria-pressed="false"><i class="fa-solid fa-check"></i></button>
+            <div class="name-block"><span class="name">雞蛋</span></div>
+            <span class="qty">2 顆</span>
+            <button class="buy-toggle have" tabindex="-1">已有</button>
+          </div>
+        </div>
+
+        <!-- 可替代（subbed：暖黃底 + tag-mini「用◯◯」） + 可替換 sub-chip 列 -->
+        <div class="ing-row subbed">
+          <div class="ing-main">
+            <button class="ing-check" aria-label="加入採買：板豆腐" aria-pressed="false"><i class="fa-solid fa-check"></i></button>
+            <div class="name-block"><span class="name">板豆腐</span></div>
+            <span class="qty">半盒</span>
+            <span class="tag-mini">用嫩豆腐</span>
+          </div>
+          <div class="ing-subs">
+            <span class="subs-label">可替換</span>
+            <span class="sub-chip on"><i class="fa-solid fa-check"></i> 嫩豆腐</span>
+            <span class="sub-chip">雞蛋豆腐</span>
+            <span class="sub-chip skip">可不加</span>
+          </div>
+        </div>
+
+        <div class="ing-sub-label"><i class="fa-solid fa-bottle-droplet"></i> 調味料</div>
+        <!-- 可省略（opt-flag） -->
+        <div class="ing-row">
+          <div class="ing-main">
+            <button class="ing-check" aria-label="加入採買：白胡椒" aria-pressed="false"><i class="fa-solid fa-check"></i></button>
+            <div class="name-block">
+              <span class="name">白胡椒</span>
+              <span class="opt-flag"><i class="fa-solid fa-circle-info"></i> 可省略</span>
+            </div>
+            <span class="qty">少許</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PREP CARD ══ -->
+  <section class="ds-section" id="prep">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">備餐元件卡 prep-card</h2>
+      <p class="ds-section-desc">備餐計畫的批次備料元件。已備 checkbox（灰勾 <code>.prep-check</code>）+ 名稱 + 用量/保存 meta + 備料步驟 + 「用在哪幾道菜」<code>.prep-use-chip</code>。<code>.is-done</code> 時整卡淡化、名稱加刪除線。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:440px;">
+      <!-- 未備 -->
+      <div class="prep-card">
+        <div class="prep-card-head">
+          <label class="prep-check">
+            <input type="checkbox">
+            <span class="prep-check-box" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+          </label>
+          <span class="prep-name">紅蘿蔔絲</span>
+          <span class="badge badge-method">本週 3 道菜用到</span>
+        </div>
+        <div class="prep-meta">
+          <span class="prep-meta-item"><i class="fa-solid fa-scale-balanced"></i> 約 2 碗</span>
+          <span class="prep-meta-item"><i class="fa-solid fa-snowflake"></i> 冷藏 3 天</span>
+        </div>
+        <ol class="prep-steps">
+          <li>紅蘿蔔去皮刨絲。</li>
+          <li>分裝保鮮盒冷藏。</li>
+        </ol>
+        <div class="prep-uses-block">
+          <div class="prep-uses-label">本週用在</div>
+          <div class="prep-uses">
+            <button class="prep-use-chip"><i class="fa-solid fa-arrow-right"></i> 消防車飯糰</button>
+            <button class="prep-use-chip"><i class="fa-solid fa-arrow-right"></i> 蔥花蒸蛋</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 已備（is-done：淡化 + 刪除線 + 灰勾） -->
+      <div class="prep-card is-done">
+        <div class="prep-card-head">
+          <label class="prep-check">
+            <input type="checkbox" checked>
+            <span class="prep-check-box" aria-hidden="true"><i class="fa-solid fa-check"></i></span>
+          </label>
+          <span class="prep-name">嫩豆腐（壓碎）</span>
+          <span class="badge badge-method">本週 1 道菜用到</span>
+        </div>
+        <div class="prep-meta">
+          <span class="prep-meta-item"><i class="fa-solid fa-snowflake"></i> 冷藏，不可冷凍</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROGRESS ══ -->
+  <section class="ds-section" id="progress">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">備餐進度條</h2>
+      <p class="ds-section-desc">備餐計畫已備元件占比。primary 填色，平滑過渡。</p>
+    </div>
+    <div class="ds-preview col" style="max-width:400px;">
+      <div class="plan-progress"><span class="plan-progress-fill" style="width:62%;"></span></div>
+      <div class="plan-progress"><span class="plan-progress-fill" style="width:100%;"></span></div>
+    </div>
+  </section>
+
+  <!-- ══ PAGER ══ -->
+  <section class="ds-section" id="pager">
+    <div class="ds-section-header">
+      <h2 class="ds-section-title">分頁 pager</h2>
+      <p class="ds-section-desc">食譜清單分頁。mono 字型數字，目前頁填 primary。</p>
+    </div>
+    <div class="ds-preview center">
+      <div class="pager">
+        <button class="page-btn" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="page-btn is-active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
     </div>
   </section>
 
   <!-- ══ BOTTOM NAV ══ -->
-  <section class="ds-section" id="bottom-nav">
+  <section class="ds-section" id="nav">
     <div class="ds-section-header">
       <h2 class="ds-section-title">底部導航</h2>
-      <p class="ds-section-desc">本案 3 個入口；採買頁帶未讀小點（已加入品項提示）。</p>
+      <p class="ds-section-desc">三入口：依菜單挑 / 依食材選 / 備餐計畫。高度 64px，吸底。</p>
     </div>
-    <div class="ds-preview col" style="max-width:390px; padding:0; overflow:hidden; border-radius:var(--r-card); border:1.5px solid var(--border);">
-      <div style="background:var(--bg); padding:24px 20px; text-align:center; font-size:13px; color:var(--muted);">（頁面內容區）</div>
+    <div class="ds-preview col" style="max-width:390px; padding:0; overflow:hidden; border-radius:var(--r-card); border:1px solid var(--border);">
+      <div style="background:var(--bg); padding:24px 20px; text-align:center; font-size:13px; color:var(--placeholder);">（頁面內容區）</div>
       <div class="bottom-nav">
-        <button class="bottom-nav-item active"><span class="bottom-nav-icon"><i class="fa-solid fa-utensils"></i></span><span class="bottom-nav-label">烹飪</span></button>
-        <button class="bottom-nav-item">
-          <span class="bottom-nav-icon-wrap"><span class="bottom-nav-icon"><i class="fa-solid fa-cart-shopping"></i></span><span class="bottom-nav-badge-dot"></span></span>
-          <span class="bottom-nav-label">採買</span>
-        </button>
-        <button class="bottom-nav-item"><span class="bottom-nav-icon"><i class="fa-solid fa-snowflake"></i></span><span class="bottom-nav-label">備料</span></button>
+        <button class="bottom-nav-btn is-active"><i class="fa-solid fa-book-open"></i><span class="bottom-nav-label">依菜單挑</span></button>
+        <button class="bottom-nav-btn"><i class="fa-solid fa-carrot"></i><span class="bottom-nav-label">依食材選</span></button>
+        <button class="bottom-nav-btn"><i class="fa-solid fa-calendar-week"></i><span class="bottom-nav-label">備餐計畫</span></button>
       </div>
     </div>
   </section>
 
-  <!-- ══ STEPPER ══ -->
-  <section class="ds-section" id="stepper">
+  <!-- ══ MISC ══ -->
+  <section class="ds-section" id="misc">
     <div class="ds-section-header">
-      <h2 class="ds-section-title">Stepper</h2>
-      <p class="ds-section-desc">線性步驟進度指示器（對應 Principle 5 進度清晰，用於烹飪引導）。</p>
-    </div>
-    <div class="ds-preview col" style="max-width:400px;">
-      <div class="stepper">
-        <div class="stepper-step done">
-          <div class="stepper-node-row"><div class="stepper-line" style="visibility:hidden;"></div><div class="stepper-node done"></div><div class="stepper-line done"></div></div>
-          <div class="stepper-label">選食材</div>
-        </div>
-        <div class="stepper-step active">
-          <div class="stepper-node-row"><div class="stepper-line done"></div><div class="stepper-node active"><span>2</span></div><div class="stepper-line"></div></div>
-          <div class="stepper-label">看燈號</div>
-        </div>
-        <div class="stepper-step">
-          <div class="stepper-node-row"><div class="stepper-line"></div><div class="stepper-node default"><span>3</span></div><div class="stepper-line" style="visibility:hidden;"></div></div>
-          <div class="stepper-label">開始煮</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ FEEDBACK ══ -->
-  <section class="ds-section" id="feedback">
-    <div class="ds-section-header">
-      <h2 class="ds-section-title">Toast 回饋</h2>
-      <p class="ds-section-desc">符合料理情境的回饋訊息（呼應 Principle 4 備料安心）。</p>
-    </div>
-    <div class="ds-preview col" style="max-width:400px;">
-      <div class="toast toast-success"><div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div><div class="toast-text"><div class="toast-title">已複製採買清單</div><div class="toast-sub">貼到手機備忘錄即可帶去超市</div></div></div>
-      <div class="toast toast-error"><div class="toast-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="toast-text"><div class="toast-title">找不到此食材</div><div class="toast-sub">請從食材清單挑選（例：胡蘿蔔）</div></div></div>
-      <div class="toast toast-warning"><div class="toast-icon"><i class="fa-solid fa-bell"></i></div><div class="toast-text"><div class="toast-title">嫩豆腐不可冷凍</div><div class="toast-sub">冷藏保存，隨用隨壓碎</div></div></div>
-      <div class="toast toast-info"><div class="toast-icon"><i class="fa-solid fa-circle-info"></i></div><div class="toast-text"><div class="toast-title">已加入採買計畫</div><div class="toast-sub">胡蘿蔔已與其他菜色合併去重</div></div></div>
-    </div>
-  </section>
-
-  <!-- ══ STATES ══ -->
-  <section class="ds-section" id="states">
-    <div class="ds-section-header">
-      <h2 class="ds-section-title">特殊狀態</h2>
-      <p class="ds-section-desc">Spinner 與 Skeleton Shimmer，適用於所有 loading 場景。</p>
+      <h2 class="ds-section-title">Toast · 回頂鍵 · Empty</h2>
+      <p class="ds-section-desc">輕量回饋（底部 pill toast）、全域回頂鍵（半透明 FAB）、空狀態。</p>
     </div>
     <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.spinner</span></div>
-      <div class="ds-preview center" style="gap:24px;">
-        <div class="spinner on-light" style="width:32px; height:32px; border-width:3px;"></div>
-      </div>
+      <div class="ds-comp-meta"><span class="ds-chip">.toast</span></div>
+      <div class="ds-preview center"><div class="toast"><i class="fa-solid fa-circle-check"></i> 已複製採買清單</div></div>
     </div>
     <div class="ds-comp-item">
-      <div class="ds-comp-meta"><span class="ds-chip">.skeleton</span><span class="ds-comp-desc">Shimmer 骨架屏</span></div>
-      <div class="ds-preview col" style="max-width:360px;">
-        <div style="display:flex; flex-direction:column; gap:10px; padding:20px; background:var(--surface); border-radius:var(--r-card); box-shadow:var(--sh);">
-          <div class="skeleton" style="height:16px; width:40%;"></div>
-          <div class="skeleton" style="height:28px; width:70%;"></div>
-          <div class="skeleton" style="height:13px; width:55%;"></div>
+      <div class="ds-comp-meta"><span class="ds-chip">.scroll-top</span></div>
+      <div class="ds-preview center"><button class="scroll-top"><i class="fa-solid fa-arrow-up"></i></button></div>
+    </div>
+    <div class="ds-comp-item">
+      <div class="ds-comp-meta"><span class="ds-chip">.empty</span></div>
+      <div class="ds-preview center">
+        <div class="empty">
+          <i class="fa-solid fa-utensils"></i>
+          <h3>沒有符合的料理</h3>
+          <p style="font-size:14px;">試著少勾一兩樣食材，或切換到「依菜單挑」。</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ══ ANIMATIONS ══ -->
-  <section class="ds-section" id="animations">
-    <div class="ds-section-header">
-      <h2 class="ds-section-title">動畫</h2>
-      <p class="ds-section-desc">四種 keyframe。點「重播」觸發動畫重新執行。</p>
-    </div>
-    <div class="anim-demo-grid">
-      <div class="anim-demo-card"><div class="anim-demo-box" id="anim-slide"><i class="fa-solid fa-file-lines"></i></div><div class="ds-swatch-name">slideUp</div><div class="ds-swatch-hex" style="font-size:12px;text-align:center;">進場 .35s</div><button class="anim-play-btn" onclick="replay('anim-slide','anim-slide-up')">重播</button></div>
-      <div class="anim-demo-card"><div class="anim-demo-box" id="anim-pop"><i class="fa-solid fa-star"></i></div><div class="ds-swatch-name">popIn</div><div class="ds-swatch-hex" style="font-size:12px;text-align:center;">彈入 .45s</div><button class="anim-play-btn" onclick="replay('anim-pop','anim-pop-in')">重播</button></div>
-      <div class="anim-demo-card"><div class="anim-demo-box anim-blink"><i class="fa-solid fa-bell"></i></div><div class="ds-swatch-name">blink</div><div class="ds-swatch-hex" style="font-size:12px;text-align:center;">閃爍 1.3s ∞</div><div style="font-size:11px;color:var(--muted);">持續中</div></div>
-      <div class="anim-demo-card"><div class="anim-demo-box"><div class="anim-pulse-dot" style="width:16px;height:16px;border-radius:50%;background:var(--primary);"></div></div><div class="ds-swatch-name">pulseDot</div><div class="ds-swatch-hex" style="font-size:12px;text-align:center;">脈動 2s ∞</div><div style="font-size:11px;color:var(--muted);">持續中</div></div>
     </div>
   </section>
 
@@ -810,13 +1074,6 @@
     }, { rootMargin: '-20% 0px -70% 0px' });
     sections.forEach(s => observer.observe(s));
   })();
-
-  function replay(id, cls) {
-    const el = document.getElementById(id);
-    el.classList.remove(cls);
-    void el.offsetWidth;
-    el.classList.add(cls);
-  }
 </script>
 </body>
 </html>
