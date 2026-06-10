@@ -2090,4 +2090,43 @@ export const RECIPES = [
       ],
     },
   },
+
+  {
+    id: "recipe_d61",
+    title: "鹽蔥醬豬五花肉飯",
+    sourceUrl: "https://www.instagram.com/reel/DZW6U3XKdYR/",
+    coverImage: "",
+    servings: "1-2 人份",
+    scenarios: ["dinner"],
+    tags: ["quick", "kid-friendly"],
+    ingredients: {
+      core: ["豬五花肉片", "蔥", "白飯"],
+      replaceable: [
+        { original: "豬五花肉片", substitutes: ["豬肉片", "梅花肉片"] },
+      ],
+      seasonings: [
+        { name: "胡椒鹽" },
+        { name: "味醂" },
+        { name: "烹大師", note: "柴魚風味調味粉，可用柴魚粉代替" },
+        { name: "香油" },
+        { name: "烏醋" },
+      ],
+    },
+    quantities: {
+      "豬五花肉片": "180g", "蔥": "1支（切蔥花）", "白飯": "200g",
+      "胡椒鹽": "1茶匙", "味醂": "2大匙", "烹大師": "2茶匙", "香油": "4大匙", "烏醋": "2大匙",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "蔥切成蔥花。", timerSec: null },
+        { text: "鹽蔥醬的所有材料（胡椒鹽、味醂、烹大師、香油、烏醋）與蔥花拌勻備用。", timerSec: null },
+      ],
+      cook: [
+        { text: "五花肉片入鍋，不加油，小火慢煎逼出油脂。", timerSec: null },
+        { text: "煎到上色、有脆脆口感後，加入鹽蔥醬。", timerSec: null },
+        { text: "拌炒均勻，蓋在白飯上即完成。", timerSec: null },
+      ],
+    },
+  },
 ];

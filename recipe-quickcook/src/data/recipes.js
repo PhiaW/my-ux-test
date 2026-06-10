@@ -10,7 +10,7 @@ export { SCENARIO_LABEL, TAG_VOCAB, METHOD_TAGS };
 const IMG_CAT_GROUPS = {
   onigiri: ["recipe_001", "recipe_002", "recipe_005", "recipe_b10", "recipe_b11", "recipe_b12", "recipe_b13"],
   "fried-rice": ["recipe_b14", "recipe_b15", "recipe_b16", "recipe_b17", "recipe_b18"],
-  donburi: ["recipe_0Ig6Nt4XmVk", "recipe_d32", "recipe_d54"],
+  donburi: ["recipe_0Ig6Nt4XmVk", "recipe_d32", "recipe_d54", "recipe_d61"],
   "claypot-rice": ["recipe_y0cbHNGGfd8", "recipe_QD8Hcjt1Yu8", "recipe_I7R8V8xfeFU", "recipe_b7w1yqR2HPU", "recipe_xJkUhM-paik", "recipe_d55", "recipe_d58", "recipe_d59"],
   congee: ["recipe_b08", "recipe_b09", "recipe_d42"],
   oatmeal: ["recipe_b01", "recipe_b02", "recipe_b03", "recipe_b04", "recipe_b05", "recipe_b06", "recipe_b07"],
