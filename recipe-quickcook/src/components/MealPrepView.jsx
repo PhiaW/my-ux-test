@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RECIPES, prepComponents, PREP_GUIDES, normalize, categoryOf, CATEGORY_LABELS } from "../data";
 
 // localStorage：本週菜單／已備元件／採買勾選覆寫（跨開啟保留週計畫）
@@ -36,6 +36,34 @@ export default function MealPrepView({ fridge = new Set(), onClearFridge, onOpen
   const [prepOpen, setPrepOpen] = useState(true); // 備料元件面板
   const [copied, setCopied] = useState(false);
   const [query, setQuery] = useState("");
+  const [prepQuery, setPrepQuery] = useState(""); // 食材備料搜尋
+
+  // 手動操作本週菜單後的「免收合鎖」時間戳（避免點開瞬間被 scroll 事件彈回去）
+  const collapseLock = useRef(0);
+  const togglePick = () => {
+    collapseLock.current = Date.now() + 800; // 0.8s 內不自動收合
+    setPickOpen((v) => !v);
+  };
+
+  // 向下滑動時自動收合本週菜單（只收合、不阻止手動點開）
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // 須超過鎖定時間、明確向下滑（位移 > 4px）且離頂 > 80px 才收合
+          if (Date.now() > collapseLock.current && y - lastY > 4 && y > 80) setPickOpen(false);
+          lastY = y;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => saveSet(PLAN_KEY, planIds), [planIds]);
   useEffect(() => saveSet(DONE_KEY, doneSet), [doneSet]);
@@ -82,9 +110,21 @@ export default function MealPrepView({ fridge = new Set(), onClearFridge, onOpen
   // 要買的＝目前勾起的食材
   const buyList = [...buyMap.keys()].filter(isBuying);
 
-  // 清空採買勾選：全部取消勾（不在冰箱的設為 skip、冰箱有的清掉 extra）
-  const clearBuy = () => {
+  // 重置：清掉橘勾（要買）→ 冰箱有的回灰勾(已有)、其餘回空白；不動冰箱連動
+  const resetBuy = () => {
     setSkipBuy(new Set([...buyMap.keys()].filter((n) => !fridge.has(n))));
+    setExtraBuy(new Set());
+  };
+  // 預設勾選：把所有空白選成橘勾(要買)；灰勾(冰箱已有)維持不動
+  const selectDefault = () => {
+    setSkipBuy(new Set());
+    // 不改 extraBuy → 冰箱項目維持灰勾已有
+  };
+
+  // 清除冰箱已有：清空全域冰箱 + 重置覆寫 → 全部變要買
+  const handleClearFridge = () => {
+    onClearFridge?.();
+    setSkipBuy(new Set());
     setExtraBuy(new Set());
   };
 
@@ -107,16 +147,20 @@ export default function MealPrepView({ fridge = new Set(), onClearFridge, onOpen
   const q = query.trim();
   const pickList = RECIPES.filter((r) => !q || r.title.includes(q));
 
+  // 食材備料：恆定顯示全部（與本週菜單脫鉤也能用），依搜尋過濾
+  const prepQ = prepQuery.trim();
+  const visibleComponents = components.filter((c) => !prepQ || c.name.includes(prepQ));
+
   return (
     <main className="view">
       <div className="prep-intro">
         <i className="fa-solid fa-box-open" />
-        <p>選好本週要做的幾道菜，下面會合併出「採買清單」與「可一次備好的元件」。</p>
+        <p>選好本週要做的幾道菜，下面會合併出「需購食材」與「可六日一口氣先備好的食材」。</p>
       </div>
 
-      {/* 本週菜單（輸入） */}
-      <div className={"picker" + (pickOpen ? " is-open" : "")}>
-        <button type="button" className="picker-head" aria-expanded={pickOpen} onClick={() => setPickOpen((v) => !v)}>
+      {/* 本週菜單（輸入）：吸頂、向下滑自動收合 */}
+      <div className={"picker picker-sticky" + (pickOpen ? " is-open" : "")}>
+        <button type="button" className="picker-head" aria-expanded={pickOpen} onClick={togglePick}>
           <i className="fa-solid fa-calendar-week" /> 本週菜單
           <span className="count">{planIds.size} 道</span>
           <i className="fa-solid fa-chevron-down chevron" />
@@ -168,121 +212,152 @@ export default function MealPrepView({ fridge = new Set(), onClearFridge, onOpen
         )}
       </div>
 
-      {!hasPlan ? (
-        <div className="empty">
-          <i className="fa-solid fa-utensils" />
-          <h3>還沒選菜</h3>
-          <p>在上方「本週菜單」挑幾道菜，這裡會合併出採買清單與備料元件</p>
-        </div>
-      ) : (
-        <>
-          {/* 摘要 + 進度 */}
-          <div className="plan-status">
-            <div className="plan-summary">
-              <span className="plan-stat"><strong>{planRecipes.length}</strong> 道菜</span>
-              <span className="plan-dot" aria-hidden="true">·</span>
-              <span className="plan-stat">要買 <strong>{buyList.length}</strong> 樣</span>
-              <span className="plan-dot" aria-hidden="true">·</span>
-              <span className="plan-stat">備料 <strong>{doneCount}/{components.length}</strong></span>
-            </div>
-            <div className="plan-progress" role="progressbar" aria-valuemin={0} aria-valuemax={components.length} aria-valuenow={doneCount}>
-              <span className="plan-progress-fill" style={{ width: pct + "%" }} />
-            </div>
+      {/* 摘要 + 進度（僅有計畫時） */}
+      {hasPlan && (
+        <div className="plan-status">
+          <div className="plan-summary">
+            <span className="plan-stat"><strong>{planRecipes.length}</strong> 道菜</span>
+            <span className="plan-dot" aria-hidden="true">·</span>
+            <span className="plan-stat">要買 <strong>{buyList.length}</strong> 樣</span>
+            <span className="plan-dot" aria-hidden="true">·</span>
+            <span className="plan-stat">備料 <strong>{doneCount}/{components.length}</strong></span>
           </div>
+          <div className="plan-progress" role="progressbar" aria-valuemin={0} aria-valuemax={components.length} aria-valuenow={doneCount}>
+            <span className="plan-progress-fill" style={{ width: pct + "%" }} />
+          </div>
+        </div>
+      )}
 
-          {/* 採買清單（可收合）：要買＝橘勾；冰箱有＝標「已有」可改勾 */}
-          <div className={"picker" + (shopOpen ? " is-open" : "")}>
-            <button type="button" className="picker-head" aria-expanded={shopOpen} onClick={() => setShopOpen((v) => !v)}>
-              <i className="fa-solid fa-cart-shopping" /> 採買清單
-              <span className="count">要買 {buyList.length} 樣</span>
-              <i className="fa-solid fa-chevron-down chevron" />
-            </button>
+      {/* 需購食材（可收合，僅有計畫時）：空框＝要買、灰勾＝已有，右側按鈕可切換 */}
+      {hasPlan && (
+        <div className={"picker" + (shopOpen ? " is-open" : "")}>
+          <button type="button" className="picker-head" aria-expanded={shopOpen} onClick={() => setShopOpen((v) => !v)}>
+            <i className="fa-solid fa-cart-shopping" /> 需購食材
+            <span className="count">要買 {buyList.length} 樣</span>
+            <i className="fa-solid fa-chevron-down chevron" />
+          </button>
 
-            {shopOpen && (
-              <div className="picker-body">
-                {shopGroups.map((g) => (
-                  <div className="shop-group" key={g.cat}>
-                    <div className="shop-group-label">{g.label}</div>
-                    <div className="shop-items">
-                      {g.items.map((it) => {
-                        const buying = isBuying(it.name);
-                        return (
-                          <div key={it.name} className={"ing-row" + (it.inFridge ? " have" : "")}>
-                            <div className="ing-main">
+          {shopOpen && (
+            <div className="picker-body">
+              {shopGroups.map((g) => (
+                <div className="shop-group" key={g.cat}>
+                  <div className="shop-group-label">{g.label}</div>
+                  <div className="shop-items">
+                    {g.items.map((it) => {
+                      const buying = isBuying(it.name);
+                      // 三態換皮：要買=橘勾／冰箱有不買=灰勾已有／其餘不買=空白
+                      const checkCls = buying ? " buy" : it.inFridge ? " have" : "";
+                      const label = buying ? "要買" : it.inFridge ? "已有" : "";
+                      return (
+                        <div key={it.name} className="ing-row">
+                          <div className="ing-main">
+                            <button
+                              type="button"
+                              className={"ing-check" + checkCls}
+                              aria-pressed={buying}
+                              aria-label={(buying ? "改為不買：" : "加入採買：") + it.name}
+                              onClick={() => toggleBuy(it.name)}
+                            >
+                              <i className="fa-solid fa-check" />
+                            </button>
+                            <div className="name-block">
+                              <span className="name">{it.name}</span>
+                            </div>
+                            {it.count > 1 && <span className="qty">{it.count} 道</span>}
+                            {label && (
                               <button
                                 type="button"
-                                className={"ing-check" + (buying ? " checked" : "")}
-                                aria-pressed={buying}
-                                aria-label={(buying ? "取消採買 " : "加入採買 ") + it.name}
+                                className={"buy-toggle" + (buying ? "" : " have")}
+                                aria-hidden="true"
+                                tabIndex={-1}
                                 onClick={() => toggleBuy(it.name)}
                               >
-                                <i className="fa-solid fa-check" />
+                                {label}
                               </button>
-                              <div className="name-block">
-                                <span className="name">{it.name}</span>
-                              </div>
-                              {it.count > 1 && <span className="qty">{it.count} 道</span>}
-                              <span className={"tag-mini" + (it.inFridge ? "" : " tag-mini--buy")}>
-                                {it.inFridge ? "已有" : "要買"}
-                              </span>
-                            </div>
+                            )}
                           </div>
-                        );
-                      })}
-                    </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                ))}
-
-                <div className="copy-bar">
-                  <button type="button" className="btn btn-secondary btn-clear" onClick={clearBuy} disabled={buyList.length === 0}>
-                    <i className="fa-solid fa-eraser" /> 清空
-                  </button>
-                  <button type="button" className="btn btn-primary btn-copy" onClick={copyShopping} disabled={buyList.length === 0}>
-                    <i className={"fa-solid " + (copied ? "fa-check" : "fa-copy")} /> {copied ? "已複製" : `複製要買的（${buyList.length}）`}
-                  </button>
                 </div>
+              ))}
 
-                {fridge.size > 0 && (
-                  <button type="button" className="btn btn-ghost btn-block" onClick={onClearFridge}>
-                    <i className="fa-solid fa-basket-shopping" /> 清除冰箱已有
+              <div className="copy-bar">
+                {buyList.length > 0 ? (
+                  <button type="button" className="btn btn-secondary btn-clear" onClick={resetBuy}>
+                    <i className="fa-solid fa-rotate-left" /> 重置
+                  </button>
+                ) : (
+                  <button type="button" className="btn btn-secondary btn-clear" onClick={selectDefault}>
+                    <i className="fa-solid fa-check-double" /> 預設勾選
                   </button>
                 )}
+                <button type="button" className="btn btn-primary btn-copy" onClick={copyShopping} disabled={buyList.length === 0}>
+                  <i className={"fa-solid " + (copied ? "fa-check" : "fa-copy")} /> {copied ? "已複製" : `複製需購食材（${buyList.length}）`}
+                </button>
               </div>
-            )}
-          </div>
 
-          {/* 備料元件（可收合） */}
-          <div className={"picker" + (prepOpen ? " is-open" : "")}>
-            <button type="button" className="picker-head" aria-expanded={prepOpen} onClick={() => setPrepOpen((v) => !v)}>
-              <i className="fa-solid fa-box-open" /> 備料元件
-              <span className="count">{components.length} 個</span>
-              <i className="fa-solid fa-chevron-down chevron" />
-            </button>
+              {fridge.size > 0 && (
+                <button type="button" className="btn btn-ghost btn-block" onClick={handleClearFridge}>
+                  <i className="fa-solid fa-basket-shopping" /> 清除冰箱已有
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
-            {prepOpen && (
-              <div className="picker-body">
-                {components.length === 0 ? (
-                  <p className="prep-note">本週這幾道菜不需特別備料，直接開煮即可。</p>
-                ) : (
-                  <div className="prep-list">
-                    {components.map((c) => {
-                      const guide = PREP_GUIDES[c.name];
-                      const done = doneSet.has(c.name);
-                      return (
-                        <section key={c.name} className={"prep-card" + (done ? " is-done" : "")}>
-                          <div className="prep-card-head">
-                            <label className="prep-check">
-                              <input type="checkbox" checked={done} onChange={() => toggleDone(c.name)} />
-                              <span className="prep-check-box" aria-hidden="true">
-                                <i className="fa-solid fa-check" />
-                              </span>
-                              <span className="sr-only">標記「{c.name}」已備好</span>
-                            </label>
-                            <span className="prep-name">{c.name}</span>
-                            <span className="badge badge-method">本週 {c.recipes.length} 道菜用到</span>
-                          </div>
+      {/* 食材備料（恆定顯示全部，與本週菜單脫鉤也能用） */}
+      <div className={"picker" + (prepOpen ? " is-open" : "")}>
+        <button type="button" className="picker-head" aria-expanded={prepOpen} onClick={() => setPrepOpen((v) => !v)}>
+          <i className="fa-solid fa-box-open" /> 食材備料
+          <span className="count">{components.length} 個</span>
+          <i className="fa-solid fa-chevron-down chevron" />
+        </button>
 
-                          {guide ? (
+        {prepOpen && (
+          <div className="picker-body">
+            <div className="plan-search">
+              <i className="fa-solid fa-magnifying-glass" />
+              <input
+                type="text"
+                aria-label="搜尋食材備料"
+                placeholder="搜尋備料項目…"
+                value={prepQuery}
+                onChange={(e) => setPrepQuery(e.target.value)}
+              />
+              {prepQuery && (
+                <button type="button" className="plan-search-clear" aria-label="清除搜尋" onClick={() => setPrepQuery("")}>
+                  <i className="fa-solid fa-xmark" />
+                </button>
+              )}
+            </div>
+
+            {components.length === 0 ? (
+              <p className="prep-note">目前沒有可預先備好的食材。</p>
+            ) : visibleComponents.length === 0 ? (
+              <p className="prep-note">找不到「{prepQ}」相關備料</p>
+            ) : (
+              <div className="prep-list">
+                {visibleComponents.map((c) => {
+                  const guide = PREP_GUIDES[c.name];
+                  const done = doneSet.has(c.name);
+                  return (
+                    <section key={c.name} className={"prep-card" + (done ? " is-done" : "")}>
+                      <div className="prep-card-head">
+                        <label className="prep-check">
+                          <input type="checkbox" checked={done} onChange={() => toggleDone(c.name)} />
+                          <span className="prep-check-box" aria-hidden="true">
+                            <i className="fa-solid fa-check" />
+                          </span>
+                          <span className="sr-only">標記「{c.name}」已備好</span>
+                        </label>
+                        <span className="prep-name">{c.name}</span>
+                        <span className="badge badge-method">{hasPlan ? "本週 " : ""}{c.recipes.length} 道菜用到</span>
+                      </div>
+
+                      {guide ? (
                             <>
                               <div className="prep-meta">
                                 {guide.yield && (
@@ -316,7 +391,7 @@ export default function MealPrepView({ fridge = new Set(), onClearFridge, onOpen
                           )}
 
                           <div className="prep-uses-block">
-                            <div className="prep-uses-label">本週用在</div>
+                            <div className="prep-uses-label">{hasPlan ? "本週用在" : "用在"}</div>
                             <div className="prep-uses">
                               {c.recipes.map((r) => (
                                 <button key={r.id} type="button" className="prep-use-chip" onClick={() => onOpenRecipe(r)}>
@@ -333,8 +408,7 @@ export default function MealPrepView({ fridge = new Set(), onClearFridge, onOpen
               </div>
             )}
           </div>
-        </>
-      )}
     </main>
   );
 }
+

@@ -62,6 +62,7 @@ export default function App() {
 
   const changeMode = (m) => {
     setMode(m);
+    setSelected(null); // 從詳情頁點 bottom nav 也回到對應列表
     setPage(1);
     window.scrollTo(0, 0); // 切換模式回頁首，讓使用者看出已換頁
   };
@@ -149,8 +150,8 @@ export default function App() {
         />
       )}
 
-      {/* 詳情頁時隱藏底部導覽，避免干擾閱讀 */}
-      {!selected && <ModeSwitch mode={mode} onChange={changeMode} />}
+      {/* 底部導覽：所有頁面（含詳情頁）皆顯示 */}
+      <ModeSwitch mode={mode} onChange={changeMode} />
 
       <Toast message={toastMsg} />
       <ScrollTopButton />
