@@ -18,7 +18,7 @@ const IMG_CAT_GROUPS = {
   pancake: ["recipe_003", "recipe_b21", "recipe_b24"],
   sandwich: ["recipe_b25", "recipe_b26", "recipe_b27", "recipe_b28"],
   chicken: ["recipe_ZqopAN3nLVc", "recipe_Av76_xiangchang", "recipe_d31", "recipe_d33", "recipe_d34", "recipe_d35"],
-  fish: ["recipe_rlTbwV3cj9g", "recipe_d37", "recipe_d38", "recipe_d39", "recipe_d40"],
+  fish: ["recipe_rlTbwV3cj9g", "recipe_d37", "recipe_d38", "recipe_d39", "recipe_d40", "recipe_d62"],
   "meat-tofu": ["recipe_KJx4LpGhZYI", "recipe_d43", "recipe_d44", "recipe_d45", "recipe_d46", "recipe_d48", "recipe_d49", "recipe_d53"],
   soup: ["recipe_6zMjBjugWSk", "recipe_d36", "recipe_d41", "recipe_d52", "recipe_d56", "recipe_d60", "recipe_XZy8HR5QlJE"],
   noodles: ["recipe_QttPBfho4_Q", "recipe_d47", "recipe_d57"],

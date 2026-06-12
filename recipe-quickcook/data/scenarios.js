@@ -32,8 +32,9 @@ export const TAG_VOCAB = {
   "quick": "快速（<10 分）",
   "one-pot": "一鍋到底",
   "電鍋": "電鍋",
+  "氣炸": "氣炸",
   "kid-friendly": "兒童友善",
 };
 
 // 「方法」次篩選只用這些 tag（依此順序顯示）
-export const METHOD_TAGS = ["one-pot", "電鍋"];
+export const METHOD_TAGS = ["one-pot", "電鍋", "氣炸"];

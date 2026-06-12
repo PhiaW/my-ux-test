@@ -2129,4 +2129,48 @@ export const RECIPES = [
       ],
     },
   },
+
+  {
+    id: "recipe_d62",
+    title: "氣炸蒜香紅椒馬鈴薯蝦",
+    sourceUrl: "",
+    coverImage: "",
+    servings: "1-2 人份",
+    scenarios: ["dinner"],
+    tags: ["氣炸", "kid-friendly"],
+    ingredients: {
+      core: ["馬鈴薯", "蝦", "蘑菇"],
+      replaceable: [
+        { original: "蝦", substitutes: ["蝦仁"] },
+      ],
+      seasonings: [
+        { name: "蒜頭" },
+        { name: "大蒜粉" },
+        { name: "紅椒粉" },
+        { name: "橄欖油" },
+        { name: "鹽" },
+        { name: "胡椒" },
+        { name: "辣椒", optional: true, note: "辣椒碎或辣椒粉，怕辣可省略" },
+      ],
+    },
+    quantities: {
+      "馬鈴薯": "50g", "蝦": "10 隻", "蘑菇": "約 5 顆（50g）",
+      "蒜頭": "1 大匙（蒜末）", "大蒜粉": "1 茶匙", "紅椒粉": "1/2 茶匙", "橄欖油": "1 大匙",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [
+        { text: "馬鈴薯洗淨去皮，切細絲或薄片（切細一點較易熟、與蝦熟度同步）。", timerSec: null },
+        { text: "蘑菇表面擦淨，切片。", timerSec: null },
+        { text: "蝦去頭、剝殼、挑除腸泥（偷懶可用市售蝦仁；冷凍蝦仁不用退冰直接準備）。", timerSec: null },
+        { text: "蒜頭切細末約 1 大匙。", timerSec: null },
+        { text: "大碗放入馬鈴薯、蘑菇、蝦，加入蒜末、大蒜粉、紅椒粉、橄欖油、鹽、胡椒（可加辣椒），徹底抓拌均勻，讓食材都沾裹上油脂與香料。", timerSec: null },
+      ],
+      cook: [
+        { text: "氣炸鍋炸籃鋪一張烘焙紙，倒入拌好的食材平鋪；蝦子盡量不交疊，受熱才均勻。", timerSec: null },
+        { text: "180 度氣炸，約第 8~10 分鐘拉開炸籃，翻動馬鈴薯絲與蘑菇，上色更均勻。", timerSec: 540 },
+        { text: "翻動後繼續氣炸至蝦熟透、馬鈴薯邊緣微焦（總時約 15~20 分鐘），起鍋裝盤。", timerSec: 600 },
+      ],
+    },
+  },
 ];
