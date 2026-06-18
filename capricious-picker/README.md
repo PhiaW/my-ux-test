@@ -1,4 +1,4 @@
-# CLAUDE.md — 任性選擇器（capricious-picker）
+# 任性選擇器（capricious-picker）
 
 > 此檔只記錄本專案情境與流程。全域規則見 `my-ux-test/CLAUDE.md`。  
 > **Token / 色彩 / 字級 / 間距完整表** → `design-token.md`（SSoT，勿在本檔重複）。

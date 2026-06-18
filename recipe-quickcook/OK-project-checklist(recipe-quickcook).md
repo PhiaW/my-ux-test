@@ -1,4 +1,5 @@
 # New Project Checklist
+2026.6.12 檢視已跑完phase1~phase6，這份檔案可做為備份不更新。
 
 新案子開工時照這份走。每個步驟完成後打勾。
 完整 token 結構在 `tokens/`；AI 指令書在 `design-system.md`。
