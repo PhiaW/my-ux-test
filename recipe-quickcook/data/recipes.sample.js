@@ -2173,4 +2173,376 @@ export const RECIPES = [
       ],
     },
   },
+
+  {
+    id: "recipe_d63",
+    title: "煙燻鮭魚抹醬燉飯",
+    sourceUrl: "", coverImage: "", servings: "約 2 人份",
+    scenarios: ["dinner"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["白飯", "煙燻鮭魚抹醬", "蝦仁", "青江菜"],
+      replaceable: [{ original: "蝦仁", substitutes: ["蝦"] }],
+      seasonings: [{ name: "牛奶" }, { name: "乳酪絲" }, { name: "蒜頭" }, { name: "橄欖油" }],
+    },
+    quantities: {
+      "白飯": "約 2 碗（隔夜飯）", "煙燻鮭魚抹醬": "約 150g", "蝦仁": "約 6-8 隻",
+      "青江菜": "1 株", "蒜頭": "2 瓣", "牛奶": "約 150ml",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "蒜頭切末。", timerSec: null }],
+      cook: [
+        { text: "熱鍋倒入橄欖油，爆香蒜末。", timerSec: null },
+        { text: "加入蝦仁，炒至變色。", timerSec: null },
+        { text: "加入煙燻鮭魚抹醬，倒入牛奶，蓋上鍋蓋小火煮至稠醬融化。", timerSec: null },
+        { text: "加入青江菜，拌炒至稍微軟化。", timerSec: null },
+        { text: "加入隔夜白飯，用鍋鏟拌勻，讓米飯吸附醬汁。", timerSec: null },
+        { text: "撒上乳酪絲，蓋上鍋蓋燜至乳酪融化，拌勻即可上桌。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d64",
+    title: "蘿蔔牛肉湯泡飯",
+    sourceUrl: "", coverImage: "", servings: "4-6 人份",
+    scenarios: ["dinner"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["牛絞肉", "雞蛋", "白蘿蔔", "胡蘿蔔", "小白菜", "白飯"],
+      replaceable: [],
+      seasonings: [{ name: "鹽" }, { name: "雞粉" }, { name: "胡椒粉" }, { name: "香油", optional: true, note: "可省略" }],
+    },
+    quantities: {
+      "牛絞肉": "300g", "雞蛋": "2 顆", "白蘿蔔": "1/2~1 條", "胡蘿蔔": "1/2 根",
+      "小白菜": "2-3 株", "白飯": "3-4 碗",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "白蘿蔔、胡蘿蔔切塊，小白菜切段。", timerSec: null }],
+      cook: [
+        { text: "鍋中倒油，打入雞蛋炒至半熟。", timerSec: null },
+        { text: "直接下牛絞肉，炒至變色、炒香。", timerSec: null },
+        { text: "加入白蘿蔔、胡蘿蔔塊與約 1500ml 水，煮到蘿蔔變軟透明。", timerSec: 1080 },
+        { text: "加入小白菜煮熟。", timerSec: null },
+        { text: "以鹽、雞粉、胡椒粉調味，最後加入白飯拌勻即可享用。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d65",
+    title: "鱸魚蛤蠣湯泡飯",
+    sourceUrl: "", coverImage: "", servings: "約 2 人份",
+    scenarios: ["dinner"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["鱸魚片", "蛤蠣", "白飯", "青菜"],
+      replaceable: [{ original: "鱸魚片", substitutes: ["鯛魚片"] }],
+      seasonings: [{ name: "薑片" }, { name: "蔥花" }, { name: "鹽" }, { name: "雞粉" }, { name: "白胡椒粉", optional: true, note: "可省略" }],
+    },
+    quantities: {
+      "鱸魚片": "約 200g", "蛤蠣": "約 200g", "白飯": "2 碗", "薑片": "3-4 片",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [],
+      cook: [
+        { text: "鍋中加入約 1000ml 水，放入薑片煮開。", timerSec: null },
+        { text: "放入鱸魚片，煮至魚片變白熟透。", timerSec: null },
+        { text: "放入蛤蠣，煮至微微開殼。", timerSec: null },
+        { text: "加入鹽和雞粉調味，拌勻。", timerSec: null },
+        { text: "放入青菜，煮至軟熟。", timerSec: null },
+        { text: "加入白飯，輕輕攪拌均勻。", timerSec: null },
+        { text: "撒上蔥花，可加少許白胡椒粉提味，熱騰騰上桌。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d66",
+    title: "電鍋版奶香鮭魚燉飯",
+    sourceUrl: "", coverImage: "", servings: "約 2-3 人份",
+    scenarios: ["dinner"], tags: ["電鍋", "kid-friendly"],
+    ingredients: {
+      core: ["白米", "鮭魚", "高麗菜", "洋蔥", "玉米粒"],
+      replaceable: [],
+      seasonings: [{ name: "奶油" }, { name: "牛奶" }, { name: "乳酪絲" }],
+    },
+    quantities: {
+      "白米": "1 杯", "鮭魚": "1 片（約 150-200g）", "高麗菜": "約 100g",
+      "洋蔥": "1/4 顆", "玉米粒": "1/4 杯", "奶油": "約 10g", "牛奶": "約 300-400ml",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "高麗菜、洋蔥切丁。", timerSec: null }],
+      cook: [
+        { text: "白米、高麗菜、洋蔥、玉米粒全部放入電鍋內鍋。", timerSec: null },
+        { text: "放上鮭魚與奶油，倒入牛奶（需蓋過食材）。", timerSec: null },
+        { text: "外鍋 1 杯水，按下開關蒸煮。", timerSec: null },
+        { text: "跳起後拌勻（順便把鮭魚拌散），撒上乳酪絲完成。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d67",
+    title: "日式炒烏龍",
+    sourceUrl: "", coverImage: "", servings: "約 2 人份",
+    scenarios: ["dinner"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["烏龍麵", "牛肉片", "花椰菜", "洋蔥", "蘑菇", "木耳"],
+      replaceable: [],
+      seasonings: [{ name: "鰹魚醬油" }],
+    },
+    quantities: {
+      "烏龍麵": "2 把（約 400g）", "牛肉片": "約 150g", "花椰菜": "1/2 顆",
+      "洋蔥": "1/2 顆", "蘑菇": "約 100g", "木耳": "約 50g",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "烏龍麵先燙熟備用。", timerSec: null }],
+      cook: [
+        { text: "洋蔥下鍋炒香。", timerSec: null },
+        { text: "加入蘑菇、木耳炒一炒。", timerSec: null },
+        { text: "加入牛肉片和花椰菜，炒至食材熟透。", timerSec: null },
+        { text: "加入煮熟的烏龍麵，倒入鰹魚醬油拌炒均勻，收汁至入味即可上桌。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d68",
+    title: "日式豚肉丼飯",
+    sourceUrl: "", coverImage: "", servings: "約 2 人份",
+    scenarios: ["dinner"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["豬肉片", "洋蔥", "雞蛋", "白飯"],
+      replaceable: [{ original: "豬肉片", substitutes: ["梅花肉片", "五花肉片"] }],
+      seasonings: [{ name: "鰹魚醬油" }, { name: "白芝麻" }, { name: "蔥花" }],
+    },
+    quantities: {
+      "豬肉片": "約 250g（梅花或五花）", "洋蔥": "1 顆（中型）", "雞蛋": "2 顆",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "洋蔥切絲。", timerSec: null }],
+      cook: [
+        { text: "洋蔥炒至軟化。", timerSec: null },
+        { text: "下豬肉片炒至半熟。", timerSec: null },
+        { text: "加入鰹魚醬油和水（1:1），蓋上蓋子煮至入味。", timerSec: null },
+        { text: "淋上蛋液，再蓋上蓋子悶至蛋熟。", timerSec: null },
+        { text: "撒上白芝麻、蔥花，蓋在白飯上完成。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d69",
+    title: "幼兒版三杯雞",
+    sourceUrl: "", coverImage: "", servings: "約 2-3 人份",
+    scenarios: ["dinner"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["雞腿肉", "九層塔"],
+      replaceable: [],
+      seasonings: [{ name: "蒜頭" }, { name: "薑片" }, { name: "麻油" }, { name: "醬油" }, { name: "糖" }],
+    },
+    quantities: {
+      "雞腿肉": "400g（去骨）", "九層塔": "適量", "蒜頭": "4-5 瓣（切片）",
+      "薑片": "5-6 片", "麻油": "1/3 碗", "醬油": "1/3 碗", "糖": "1 小匙",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "蒜頭切片，雞腿肉切塊。", timerSec: null }],
+      cook: [
+        { text: "油熱後下薑片、蒜片爆香，先盛起備用。", timerSec: null },
+        { text: "放入雞肉拌炒至半熟，炒出香氣。", timerSec: null },
+        { text: "加入麻油、醬油和糖，拌勻。", timerSec: null },
+        { text: "蓋上鍋蓋小火悶煮約 10 分鐘。", timerSec: 600 },
+        { text: "開蓋後轉中火收汁，讓醬汁更濃郁。", timerSec: null },
+        { text: "收汁後再加入九層塔，快速拌炒均勻完成。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d70",
+    title: "三鮮湯麵",
+    sourceUrl: "", coverImage: "", servings: "約 2-3 人份",
+    scenarios: ["dinner"], tags: ["kid-friendly"],
+    ingredients: {
+      core: ["麵條", "雞蛋", "嫩豆腐", "魚片", "青江菜", "鴻喜菇"],
+      replaceable: [{ original: "魚片", substitutes: ["鱸魚片", "鯛魚片"] }],
+      seasonings: [{ name: "枸杞", optional: true, note: "可省略" }, { name: "鹽" }, { name: "白胡椒" }, { name: "香油", optional: true, note: "可省略" }],
+    },
+    quantities: {
+      "麵條": "2 份", "雞蛋": "2 顆", "嫩豆腐": "1 盒",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [],
+      cook: [
+        { text: "雞蛋先下鍋煎（兩面微焦更香）。", timerSec: null },
+        { text: "加入熱水煮成湯底（湯會變白）。", timerSec: null },
+        { text: "放入菇類一起煮。", timerSec: null },
+        { text: "加入魚片（不要煮太久才會嫩）。", timerSec: null },
+        { text: "放入嫩豆腐。", timerSec: null },
+        { text: "加入青江菜、枸杞。", timerSec: null },
+        { text: "另一鍋煮麵條，撈起放入湯裡即完成。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d71",
+    title: "蘿蔔燉肉",
+    sourceUrl: "", coverImage: "", servings: "約 2-3 人份",
+    scenarios: ["dinner"], tags: ["one-pot"],
+    ingredients: {
+      core: ["腱子肉", "白蘿蔔", "胡蘿蔔"],
+      replaceable: [],
+      seasonings: [{ name: "薑片" }, { name: "醬油" }, { name: "冰糖" }],
+    },
+    quantities: {
+      "腱子肉": "600g", "白蘿蔔": "1 條", "胡蘿蔔": "1 條", "薑片": "5 片", "冰糖": "1 大匙",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "白蘿蔔、胡蘿蔔切塊。", timerSec: null }],
+      cook: [
+        { text: "腱子肉下鍋炒至表面微焦。", timerSec: null },
+        { text: "加入冰糖拌炒至融化，炒出糖色。", timerSec: null },
+        { text: "加入醬油和水（醬油:水 約 1:4）、放入薑片，燉煮 20 分鐘。", timerSec: 1200 },
+        { text: "放入蘿蔔和胡蘿蔔，再蓋蓋燉煮 25 分鐘。", timerSec: 1500 },
+        { text: "待蘿蔔軟透、肉入味即可完成。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d72",
+    title: "氣炸蜜汁雞翅腿",
+    sourceUrl: "", coverImage: "", servings: "約 2-3 人份",
+    scenarios: ["dinner"], tags: ["氣炸", "kid-friendly"],
+    ingredients: {
+      core: ["雞翅腿"],
+      replaceable: [],
+      seasonings: [{ name: "蜂蜜" }, { name: "鰹魚醬油" }, { name: "白胡椒" }, { name: "白芝麻" }],
+    },
+    quantities: {
+      "雞翅腿": "8-10 支", "蜂蜜": "2 大匙", "鰹魚醬油": "2 大匙",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "雞翅腿加入蜂蜜、鰹魚醬油、白胡椒抓醃約 1 小時。", timerSec: null }],
+      cook: [
+        { text: "放入氣炸鍋，180 度氣炸 10 分鐘。", timerSec: 600 },
+        { text: "翻面後 180 度再氣炸 8 分鐘。", timerSec: 480 },
+        { text: "出爐撒上白芝麻即可上桌。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d73",
+    title: "香蒜蛤蠣菇菇湯",
+    sourceUrl: "", coverImage: "", servings: "約 2-3 人份",
+    scenarios: ["dinner"], tags: ["one-pot"],
+    ingredients: {
+      core: ["蛤蠣", "杏鮑菇"],
+      replaceable: [],
+      seasonings: [{ name: "蒜頭" }, { name: "鹽" }, { name: "胡椒粉" }, { name: "蔥花" }],
+    },
+    quantities: {
+      "蛤蠣": "1 斤", "杏鮑菇": "2 支", "蒜頭": "8-10 瓣",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "蒜頭切末，杏鮑菇切丁。", timerSec: null }],
+      cook: [
+        { text: "蒜末下鍋爆香，香氣出來後加入杏鮑菇丁拌炒。", timerSec: null },
+        { text: "加入鹽、胡椒粉調味，將杏鮑菇炒軟、炒出香氣。", timerSec: null },
+        { text: "倒入約 800ml 水，蓋上鍋蓋煮約 5 分鐘。", timerSec: 300 },
+        { text: "放入蛤蠣，蓋上鍋蓋煮至全部開殼。", timerSec: null },
+        { text: "最後撒上蔥花，拌勻即可完成。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d74",
+    title: "冬瓜肉燥飯",
+    sourceUrl: "", coverImage: "", servings: "約 3-4 人份",
+    scenarios: ["dinner"], tags: ["one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["豬絞肉", "冬瓜", "胡蘿蔔", "青菜"],
+      replaceable: [],
+      seasonings: [{ name: "蒜頭" }, { name: "醬油" }, { name: "蠔油" }, { name: "糖" }],
+    },
+    quantities: {
+      "豬絞肉": "300g", "冬瓜": "約 300-400g（切小塊）", "胡蘿蔔": "適量（切絲）",
+      "蒜頭": "3-5 瓣（切末）", "醬油": "2 湯匙", "蠔油": "1 湯匙",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "冬瓜切小塊，蒜頭切末，胡蘿蔔切絲。", timerSec: null }],
+      cook: [
+        { text: "下油鍋爆香蒜末。", timerSec: null },
+        { text: "加入豬絞肉炒至變色。", timerSec: null },
+        { text: "加入醬油、蠔油拌炒。", timerSec: null },
+        { text: "放入冬瓜一起炒，加水（稍微有湯汁即可）。", timerSec: null },
+        { text: "蓋鍋煮約 5-8 分鐘（冬瓜變透明即可）。", timerSec: 360 },
+        { text: "加上胡蘿蔔絲和青菜，收汁、試味道（可加一點糖），蓋在白飯上完成。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d75",
+    title: "櫛瓜炒蛋",
+    sourceUrl: "", coverImage: "", servings: "約 2-3 人份",
+    scenarios: ["dinner"], tags: ["quick", "one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["櫛瓜", "雞蛋"],
+      replaceable: [],
+      seasonings: [{ name: "胡椒鹽" }, { name: "黑胡椒" }, { name: "鰹魚醬油" }],
+    },
+    quantities: {
+      "櫛瓜": "2 條", "雞蛋": "3 顆", "鰹魚醬油": "1 大匙",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "櫛瓜切片，雞蛋打散成蛋液。", timerSec: null }],
+      cook: [
+        { text: "下櫛瓜拌炒，炒至微微軟化。", timerSec: null },
+        { text: "加入黑胡椒和胡椒鹽調味。", timerSec: null },
+        { text: "倒入蛋液快速拌炒。", timerSec: null },
+        { text: "加入鰹魚醬油翻炒均勻即可。", timerSec: null },
+      ],
+    },
+  },
+
+  {
+    id: "recipe_d76",
+    title: "電鍋蘋果咖哩飯",
+    sourceUrl: "", coverImage: "", servings: "4-6 人份",
+    scenarios: ["dinner"], tags: ["電鍋", "one-pot", "kid-friendly"],
+    ingredients: {
+      core: ["豬肉片", "洋蔥", "胡蘿蔔", "蘋果", "白米"],
+      replaceable: [{ original: "豬肉片", substitutes: ["雞肉片"] }],
+      seasonings: [{ name: "咖哩塊" }, { name: "奶油" }],
+    },
+    quantities: {
+      "豬肉片": "300g", "洋蔥": "1 顆", "胡蘿蔔": "1 條", "蘋果": "1 顆（去皮）",
+      "咖哩塊": "2 塊", "奶油": "1 塊", "白米": "2 杯",
+    },
+    prepGuideRef: [],
+    steps: {
+      prep: [{ text: "洋蔥切丁、胡蘿蔔切塊、蘋果去皮切塊，白米洗淨，豬肉片備用。", timerSec: null }],
+      cook: [
+        { text: "白米與所有食材放入電鍋內鍋。", timerSec: null },
+        { text: "加水（蓋過食材），放上咖哩塊與奶油。", timerSec: null },
+        { text: "外鍋 2 杯水，按下開關煮飯。", timerSec: null },
+        { text: "跳起後攪拌均勻即可享用（建議配燙青菜，如高麗菜、扁豆）。", timerSec: null },
+      ],
+    },
+  },
 ];
